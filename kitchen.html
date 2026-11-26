@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126064608"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126065308"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -34,6 +34,8 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 <p id="gateErr" role="alert"></p><button type="submit" id="loginBtn" hidden>로그인</button></form></div>
 <script src="config.js"></script>
 <script>
+// 새로고침용으로 붙은 ?_=숫자 는 주소창에서 바로 지웁니다.
+try{const u=new URL(location.href);if(u.searchParams.has('_')){u.searchParams.delete('_');history.replaceState(null,'',u.pathname+u.search+u.hash);}}catch{}
 const el=id=>document.getElementById(id);
 const cfg=window.STBY_CONFIG||{};
 // 인쇄 기능은 주소 끝에 ?print=1 을 붙였을 때만 보입니다. (프린터가 연결된 컴퓨터용)
