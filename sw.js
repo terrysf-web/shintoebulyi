@@ -1,5 +1,5 @@
 // 온라인이면 항상 최신 파일을 받고, 오프라인이면 저장해 둔 파일로 엽니다.
-const CACHE = 'stby-pos-v7';
+const CACHE = 'stby-pos-v8';
 const PRECACHE = ['./', 'index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 const OPTIONAL = ['config.js', 'sync.bundle.js', 'kitchen.html', 'order.webmanifest'];
 
@@ -25,6 +25,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET' || new URL(request.url).origin !== location.origin) return;
+  if (new URL(request.url).pathname.endsWith('/version.json')) return;
   event.respondWith(
     fetch(request, { cache: 'no-cache' })
       .then(response => {

@@ -38,3 +38,7 @@
 - 주소 뒤에 `?mode=order`를 붙여 엽니다: `https://terrysf-web.github.io/shintoebulyi/?mode=order`
 - 결제, 팁 입력, 설정, 마감이 숨겨지고 **테이블 선택 → 메뉴 담기 → 🍳 주방 전송**만 보입니다. 결제는 카운터의 아이패드(일반 주소)에서 합니다.
 - 홈 화면에 추가할 때는 이 주소를 연 상태에서 추가해야 "신토불이 주문" 아이콘이 주문 화면으로 열립니다.
+
+## 새 버전 알림 (배포 담당용)
+배포 전에 `python3 stamp.py`를 실행하면 `index.html`, `kitchen.html`의 build 값과 `version.json`이 같은 새 값으로 바뀝니다.
+앱은 열려 있는 동안 `version.json`을 확인하고, 자기 build 값과 다르면 화면 위에 "새 버전이 있습니다" 줄을 띄웁니다.
