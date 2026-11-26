@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126072705"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126072915"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -40,7 +40,8 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 <div id="printArea"></div>
 <div id="gate" class="gate"><form id="loginForm"><h2>신토불이 주방</h2><p id="gateMsg">로그인 확인 중…</p>
 <label id="pwRow" hidden>가게 비밀번호<input id="pw" type="password" autocomplete="current-password"></label>
-<p id="gateErr" role="alert"></p><button type="submit" id="loginBtn" hidden>로그인</button></form></div>
+<p id="gateErr" role="alert"></p>
+<p id="gateTools" hidden><button type="button" id="gateRetry">다시 시도</button> <button type="button" id="gateReload">앱 새로고침</button></p><button type="submit" id="loginBtn" hidden>로그인</button></form></div>
 <script src="config.js"></script>
 <script>
 // 새로고침용으로 붙은 ?_=숫자 는 주소창에서 바로 지웁니다.
@@ -212,9 +213,30 @@ function showGate(show,msg,login){
  el('gate').hidden=!show;if(msg!==undefined)el('gateMsg').textContent=msg;
  el('pwRow').hidden=!login;el('loginBtn').hidden=!login;
 }
-function loadAdapter(){
- if(window.StbyFirebase)return Promise.resolve();
- return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='sync.bundle.js';s.onload=resolve;s.onerror=()=>reject(new Error('load'));document.head.append(s);});
+function loadScriptTag(src){
+ return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=()=>reject(new Error('network'));document.head.append(s);});
+}
+async function loadAdapter(){
+ if(window.StbyFirebase)return;
+ const v=(document.querySelector('meta[name=build]')||{}).content||'';
+ const viaFetch=async()=>{
+  const r=await fetch('sync.bundle.js?r='+Date.now(),{cache:'reload'});
+  if(!r.ok)throw new Error('http '+r.status);
+  const text=await r.text();
+  await loadScriptTag(URL.createObjectURL(new Blob([text],{type:'text/javascript'})));
+ };
+ const attempts=[()=>loadScriptTag('sync.bundle.js?v='+v),viaFetch,()=>loadScriptTag('sync.bundle.js?v='+v+'&t='+Date.now())];
+ let lastError=null;
+ for(const attempt of attempts){
+  try{await attempt();if(window.StbyFirebase)return;lastError=new Error('empty');}
+  catch(error){lastError=error;}
+  await new Promise(r=>setTimeout(r,1200));
+ }
+ throw lastError||new Error('load');
+}
+function freshReload(){
+ try{sessionStorage.setItem('stby-upd',String(Date.now()));}catch{}
+ const u=new URL(location.href);u.searchParams.set('_',Date.now());location.replace(u.toString());
 }
 let subscribed=false;
 function resubscribe(){
@@ -239,7 +261,10 @@ async function pollTickets(){
 setInterval(pollTickets,8000);
 async function start(){
  if(!(cfg.firebase&&cfg.firebase.apiKey)){showGate(true,'동기화 설정이 없습니다. config.js를 확인하세요.',false);return;}
- try{await loadAdapter();}catch{showGate(true,'모듈을 불러오지 못했습니다. 인터넷에 연결한 뒤 새로고침하세요.',false);return;}
+ if(adapter)return;
+ el('gateTools').hidden=true;
+ showGate(true,'로그인 확인 중…',false);
+ try{await loadAdapter();}catch{showGate(true,'모듈을 불러오지 못했습니다. ('+(navigator.onLine?'서버에서 받지 못함':'인터넷 연결 없음')+') 아래 버튼을 눌러 다시 시도하세요.',false);el('gateTools').hidden=false;return;}
  adapter=window.StbyFirebase.create(cfg.firebase,{memory:true});
  adapter.onAuth(user=>{
   if(user){
@@ -257,6 +282,8 @@ el('loginForm').onsubmit=async event=>{
  catch(e){const c=e&&e.code||'';el('gateErr').textContent=c==='auth/network-request-failed'?'인터넷에 연결되어 있어야 로그인할 수 있습니다.':/invalid|wrong|user-not-found/.test(c)?'비밀번호가 맞지 않습니다.':'로그인 오류: '+(c||e.message);}
  finally{el('loginBtn').disabled=false;}
 };
+el('gateRetry').onclick=()=>start();
+el('gateReload').onclick=()=>freshReload();
 el('logout').onclick=()=>{if(adapter)adapter.signOut();};
 (function(){
  // 주방 화면은 새 버전이 나오면 알림 없이 스스로 새로고침합니다. (주문서는 서버에 있으므로 사라지지 않습니다.)

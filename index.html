@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126072705"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126072915"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -85,6 +85,7 @@ aside>*{flex:none}
 <label id="loginNameRow" hidden>주문받는 사람 이름 <input id="loginName" maxlength="12" autocomplete="off"></label>
 <label id="loginRow" hidden>가게 비밀번호 <input id="loginPw" type="password" autocomplete="current-password"></label>
 <p id="loginError" role="alert"></p>
+<p id="gateTools" hidden><button type="button" id="gateRetry">다시 시도</button> <button type="button" id="gateReload">앱 새로고침</button></p>
 <button type="submit" id="loginBtn" hidden>로그인</button></form></div>
 <dialog id="pinDlg" class="option" aria-labelledby="pinTitle"><form id="pinForm"><h2 id="pinTitle"></h2><p id="pinHint" class="hint"></p>
 <label>비밀번호 <input id="pinInput" type="password" inputmode="numeric" autocomplete="off"></label>
@@ -803,10 +804,13 @@ el('priceSave').onclick=()=>{
  if(!saveOrders()){settings=previous;el('priceError').textContent='브라우저에 저장할 수 없습니다.';return;}
  el('priceDlg').close();renderMenu();renderCart();
 };
+function freshReload(){
+ try{sessionStorage.setItem('stby-upd',String(Date.now()));}catch{}
+ const u=new URL(location.href);u.searchParams.set('_',Date.now());location.replace(u.toString());
+}
 el('reloadApp').onclick=()=>{
- const reload=()=>location.reload();
- if('serviceWorker' in navigator)navigator.serviceWorker.getRegistration().then(reg=>reg?reg.update():null).catch(()=>{}).then(reload);
- else reload();
+ if('serviceWorker' in navigator)navigator.serviceWorker.getRegistration().then(reg=>reg?reg.update():null).catch(()=>{}).then(freshReload);
+ else freshReload();
 };
 // ---------- 결제 후 팁 입력 ----------
 function renderTipList(focusId){
@@ -1182,20 +1186,39 @@ const Sync=(()=>{
   unsubscribe=null;user=null;clearTimeout(timer);timer=null;
   for(const key of Object.keys(ready))ready[key]=false;
  }
- function loadAdapter(){
-  if(window.StbyFirebase)return Promise.resolve();
+ function loadScriptTag(src){
   return new Promise((resolve,reject)=>{
    const script=document.createElement('script');
-   script.src='sync.bundle.js';script.onload=resolve;script.onerror=()=>reject(new Error('load'));
+   script.src=src;script.onload=resolve;script.onerror=()=>reject(new Error('network'));
    document.head.append(script);
   });
  }
+ // 동기화 모듈을 3번까지 다시 시도합니다. (일반 → 직접 받아서 실행 → 일반)
+ async function loadAdapter(){
+  if(window.StbyFirebase)return;
+  const v=(document.querySelector('meta[name=build]')||{}).content||'';
+  const viaFetch=async()=>{
+   const r=await fetch('sync.bundle.js?r='+Date.now(),{cache:'reload'});
+   if(!r.ok)throw new Error('http '+r.status);
+   const text=await r.text();
+   await loadScriptTag(URL.createObjectURL(new Blob([text],{type:'text/javascript'})));
+  };
+  const attempts=[()=>loadScriptTag('sync.bundle.js?v='+v),viaFetch,()=>loadScriptTag('sync.bundle.js?v='+v+'&t='+Date.now())];
+  let lastError=null;
+  for(const attempt of attempts){
+   try{await attempt();if(window.StbyFirebase)return;lastError=new Error('empty');}
+   catch(error){lastError=error;}
+   await new Promise(r=>setTimeout(r,1200));
+  }
+  throw lastError||new Error('load');
+ }
  async function start(){
-  if(!enabled)return;
-  gate(true,'로그인 확인 중…');
+  if(!enabled||adapter)return;
+  gate(true,'로그인 확인 중…');el('gateTools').hidden=true;
   try{await loadAdapter();}
-  catch{
-   gate(true,'동기화 모듈을 불러오지 못했습니다. 인터넷에 연결한 뒤 새로고침하세요.');
+  catch(error){
+   gate(true,'동기화 모듈을 불러오지 못했습니다. ('+(navigator.onLine?'서버에서 받지 못함':'인터넷 연결 없음')+') 아래 버튼을 눌러 다시 시도하세요.');
+   el('gateTools').hidden=false;
    status('동기화 불가',true);return;
   }
   adapter=window.StbyFirebase.create(cfg.firebase);
@@ -1227,6 +1250,8 @@ const Sync=(()=>{
    el('loginError').textContent=code==='auth/network-request-failed'?'인터넷에 연결되어 있어야 로그인할 수 있습니다.':/invalid|wrong|user-not-found/.test(code)?'비밀번호가 맞지 않습니다.':'로그인 오류: '+(code||error.message);
   }finally{el('loginBtn').disabled=false;}
  };
+ el('gateRetry').onclick=()=>start();
+ el('gateReload').onclick=()=>freshReload();
  el('logoutRow').hidden=!enabled;
  el('logoutBtn').onclick=()=>askConfirm('이 기기에서 로그아웃할까요? 다시 쓰려면 가게 비밀번호가 필요합니다.',()=>{el('settingsDlg').close();if(adapter)adapter.signOut();});
  addEventListener('offline',()=>{if(enabled&&user)status('오프라인 · 연결되면 자동 저장',true);});
