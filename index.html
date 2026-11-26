@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126161002"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126161433"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -116,6 +116,8 @@ aside>*{flex:none}
 <h2 id="paymentTitle"></h2>
 <p id="paymentSubtotal"></p>
 <p class="hint" id="payHint">Royal에서 결제를 받은 뒤 실제 받은 총액(세금·팁 포함)을 입력하세요.</p>
+<label>영업일 (주문한 날) <input id="payBizDate" type="date" required></label>
+<p id="bizHint" class="hint"></p>
 <label>결제수단 <select id="method" required><option value="">선택</option><option>현금</option><option>카드</option></select></label>
 <label><span id="paidLabel">실제 결제액 ($)</span> <input id="paidAmount" inputmode="decimal" type="number" min="0.01" max="999999.99" step="0.01" required></label>
 <label id="receivedRow" hidden>받은 금액 ($) <input id="cashReceived" inputmode="decimal" type="number" min="0.01" max="999999.99" step="0.01"></label>
@@ -416,6 +418,11 @@ el('pay').onclick=()=>{
  buildTipButtons();
  updatePaymentUi();
  el('paymentTitle').textContent=(activeTable+1)+'번 테이블 결제 완료';
+ {
+  const startedAt=opened[activeTable];
+  el('payBizDate').value=bizDay(startedAt||new Date().toISOString());
+  el('bizHint').textContent=startedAt?'이 테이블은 '+new Date(startedAt).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'})+'에 주문을 받았습니다. 매출은 이 날짜로 기록됩니다.':'주문 받은 시각이 기록되지 않은 테이블입니다. 어제 이전에 받은 주문이면 날짜를 바꿔 주세요.';
+ }
  el('paymentSubtotal').textContent='메뉴 합계 '+money(sub)+(gratuity?' + 자동 팁 '+money(gratuity):'')+' + 세금 '+money(tax)+' = '+money(total);
  el('payError').textContent='';
  el('payment').showModal();
@@ -489,7 +496,9 @@ el('paymentForm').onsubmit=event=>{
  el('payError').textContent='';
  const {sub,gratuity,tax}=totals(activeTable);
  const party=parties[activeTable],server=servers[activeTable],openedAt=opened[activeTable];
- const record={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:activeTable+1,time:new Date().toISOString(),method,amount,subtotal:sub,gratuity,tax,tip,party,bizDate:bizDay(openedAt||new Date().toISOString()),openedAt,voided:false,items:[...order]};
+ const typedDay=el('payBizDate').value;
+ const bizDate=/^\d{4}-\d{2}-\d{2}$/.test(typedDay)?typedDay:bizDay(openedAt||new Date().toISOString());
+ const record={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:activeTable+1,time:new Date().toISOString(),method,amount,subtotal:sub,gratuity,tax,tip,party,bizDate,openedAt,voided:false,items:[...order]};
  if(method==='현금'){record.received=received;record.change=change;}
  paidOrders.push(record);
  orders[activeTable]=new Map();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';
@@ -716,7 +725,7 @@ function renderHistory(){
    const row=document.createElement('p');row.className='hint';
    row.append('영업일 '+(rd!==bizDay(record.time)?'(결제일과 다름) ':''));
    const di=document.createElement('input');di.type='date';di.value=rd;di.style.width='auto';di.style.padding='6px';
-   row.append(di,button('영업일 변경',()=>{if(!di.value)return;record.bizDate=di.value;saveOrders();renderHistory();}));
+   row.append(di,button('영업일 변경',()=>{if(!di.value)return;record.bizDate=di.value;saveOrders();renderHistory();}),button('전날로 옮기기',()=>{record.bizDate=shiftDay(rd,-1);saveOrders();renderHistory();}));
    entry.append(row);
   }
   for(const [key,line] of record.items){
