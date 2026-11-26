@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126071002"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126071705"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -6,6 +6,11 @@ header strong{font-size:20px}.hbtns{display:flex;gap:8px;align-items:center;flex
 button{font:inherit;cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:#fff;color:inherit;min-height:44px;padding:8px 14px}
 header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header label{display:flex;gap:6px;align-items:center;font-size:14px}
 #sound.soundoff{background:#ffb300;color:#202922;border-color:#ffb300;font-weight:700;animation:blink 1.2s ease infinite}@keyframes blink{50%{opacity:.55}}
+main{display:block}.lane{border-top:6px solid;padding-top:6px;margin-top:20px}.lane:first-child{margin-top:4px}
+.lane-pending{border-color:#b3261e}.lane-done{border-color:#9aa79d}
+.lane h2{margin:6px 0 10px}.lane-hint{font-size:13px;font-weight:400;color:#4e6559;margin-left:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{min-height:54px;padding:6px 16px;border:1px solid #b8c2b8;border-left:6px solid #9aa79d;border-radius:10px;background:#fff;font-weight:700;touch-action:manipulation;user-select:none;-webkit-user-select:none;text-align:left}.chip small{display:block;font-weight:400;color:#4e6559;font-size:12px}
+dialog#doneDlg{border:0;border-radius:14px;padding:16px;max-width:92vw;width:min(420px,92vw)}dialog#doneDlg::backdrop{background:#14271e88}
 #status{font-size:13px;color:#d8e7dd}#status.warn{color:#ffd9a8}
 main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
@@ -27,8 +32,11 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 <button type="button" id="resync">↻ 다시 연결</button>
 <button type="button" id="sound" class="soundoff">🔕 소리 꺼짐 · 화면을 눌러 켜기</button>
 <button type="button" id="logout">로그아웃</button></div></header>
-<main><h2>조리 중 <span id="pendingCount"></span></h2><div id="pending" class="grid"></div>
-<h2>완료 (최근 20개)</h2><div id="done" class="grid"></div></main>
+<main>
+<section class="lane lane-pending"><h2>조리 중 <span id="pendingCount"></span> <span class="lane-hint">새 주문이 왼쪽에 들어옵니다</span></h2><div id="pending" class="grid"></div></section>
+<section class="lane lane-done"><h2>완료 <span class="lane-hint">테이블을 두 번 누르면 내용을 봅니다</span></h2><div id="done" class="chips"></div></section>
+</main>
+<dialog id="doneDlg"><div class="card done" id="doneBody"></div><div class="actions" style="display:flex;gap:8px;margin-top:12px"><button type="button" id="doneUndo">되돌리기</button><button type="button" id="doneClose" class="ok">닫기</button></div></dialog>
 <div id="printArea"></div>
 <div id="gate" class="gate"><form id="loginForm"><h2>신토불이 주방</h2><p id="gateMsg">로그인 확인 중…</p>
 <label id="pwRow" hidden>가게 비밀번호<input id="pw" type="password" autocomplete="current-password"></label>
@@ -153,14 +161,32 @@ function card(ticket,fresh){
  actions.append(doneBtn);if(PRINT_UI)actions.append(printBtn);node.append(body,actions);return node;
 }
 let freshIds=new Set();
+let doneTicket=null;
+function showDone(ticket){
+ if(el('doneDlg').open)return;
+ doneTicket=ticket;fill(el('doneBody'),ticket);el('doneDlg').showModal();
+}
+el('doneClose').onclick=()=>el('doneDlg').close();
+el('doneUndo').onclick=()=>{if(doneTicket)setDone(doneTicket,false);el('doneDlg').close();};
+function chip(ticket){
+ const b=document.createElement('button');b.type='button';b.className='chip';
+ b.textContent=ticket.table+'번';
+ const small=document.createElement('small');
+ small.textContent=new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'});
+ b.append(small);
+ let last=0;
+ b.onclick=()=>{const now=Date.now();if(now-last<450){last=0;showDone(ticket);}else last=now;};
+ return b;
+}
 function render(){
  const now=Date.now();
  const list=[...tickets.values()].filter(t=>now-new Date(t.time).getTime()<DAY);
- const pending=list.filter(t=>!t.done).sort((a,b)=>a.time<b.time?-1:1);
- const done=list.filter(t=>t.done).sort((a,b)=>a.time<b.time?1:-1).slice(0,20);
+ // 새 주문이 왼쪽, 오래된 주문일수록 오른쪽
+ const pending=list.filter(t=>!t.done).sort((a,b)=>a.time<b.time?1:a.time>b.time?-1:0);
+ const done=list.filter(t=>t.done).sort((a,b)=>(a.doneAt||a.time)<(b.doneAt||b.time)?1:-1).slice(0,40);
  el('pendingCount').textContent=pending.length?'('+pending.length+')':'';
  el('pending').replaceChildren(...(pending.length?pending.map(t=>card(t,freshIds.has(t.id))):[Object.assign(document.createElement('p'),{className:'empty',textContent:'조리할 주문이 없습니다.'})]));
- el('done').replaceChildren(...(done.length?done.map(t=>card(t,false)):[Object.assign(document.createElement('p'),{className:'empty',textContent:'완료한 주문이 없습니다.'})]));
+ el('done').replaceChildren(...(done.length?done.map(chip):[Object.assign(document.createElement('p'),{className:'empty',textContent:'완료한 주문이 없습니다.'})]));
 }
 function onTickets(map){
  const first=seen===null;
