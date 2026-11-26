@@ -23,6 +23,7 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 </style>
 <header><strong>주방 주문</strong><div class="hbtns"><span id="status">연결 중…</span>
 <label><input type="checkbox" id="auto"> 새 주문 자동 인쇄</label>
+<button type="button" id="resync">↻ 다시 연결</button>
 <button type="button" id="sound">🔔 소리 켜기</button>
 <button type="button" id="logout">로그아웃</button></div></header>
 <main><h2>조리 중 <span id="pendingCount"></span></h2><div id="pending" class="grid"></div>
@@ -39,6 +40,13 @@ const DAY=24*60*60*1000;
 let adapter=null,unsub=null,tickets=new Map(),seen=null,soundOn=false,audio=null,printing=Promise.resolve();
 try{el('auto').checked=localStorage.getItem('stby-kitchen-auto')==='1';}catch{}
 el('auto').onchange=()=>{try{localStorage.setItem('stby-kitchen-auto',el('auto').checked?'1':'0');}catch{}};
+let lastRecv=null;
+let wake=null;
+async function keepAwake(){
+ try{if('wakeLock' in navigator&&document.visibilityState==='visible')wake=await navigator.wakeLock.request('screen');}catch{}
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){keepAwake();if(adapter&&subscribed)resubscribe();}});
+keepAwake();
 function status(text,warn){el('status').textContent=text;el('status').className=warn?'warn':'';}
 function fill(container,ticket){
  container.replaceChildren();
@@ -119,7 +127,8 @@ function onTickets(map){
   if(el('auto').checked)incoming.sort((a,b)=>a.time<b.time?-1:1).forEach(printTicket);
   setTimeout(()=>{freshIds=new Set();},3000);
  }
- status(navigator.onLine?'연결됨':'오프라인 · 연결되면 자동 갱신',!navigator.onLine);
+ lastRecv=new Date();
+ status(navigator.onLine?'연결됨 · 마지막 수신 '+lastRecv.toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit',second:'2-digit'}):'오프라인 · 연결되면 자동 갱신',!navigator.onLine);
 }
 function showGate(show,msg,login){
  el('gate').hidden=!show;if(msg!==undefined)el('gateMsg').textContent=msg;
@@ -129,20 +138,26 @@ function loadAdapter(){
  if(window.StbyFirebase)return Promise.resolve();
  return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='sync.bundle.js';s.onload=resolve;s.onerror=()=>reject(new Error('load'));document.head.append(s);});
 }
+let subscribed=false;
+function resubscribe(){
+ if(unsub){unsub();unsub=null;}
+ status('불러오는 중…');
+ unsub=adapter.subscribe({
+  tables:()=>{},payments:()=>{},settings:()=>{},tickets:onTickets,
+  error:e=>status('연결 오류 ('+(e.code||e.message)+')',true)
+ });
+}
+el('resync').onclick=resubscribe;
 async function start(){
  if(!(cfg.firebase&&cfg.firebase.apiKey)){showGate(true,'동기화 설정이 없습니다. config.js를 확인하세요.',false);return;}
  try{await loadAdapter();}catch{showGate(true,'모듈을 불러오지 못했습니다. 인터넷에 연결한 뒤 새로고침하세요.',false);return;}
  adapter=window.StbyFirebase.create(cfg.firebase);
  adapter.onAuth(user=>{
   if(user){
-   showGate(false);status('불러오는 중…');
-   seen=null;
-   unsub=adapter.subscribe({
-    tables:()=>{},payments:()=>{},settings:()=>{},tickets:onTickets,
-    error:e=>status('연결 오류 ('+(e.code||e.message)+')',true)
-   });
+   showGate(false);subscribed=true;seen=null;resubscribe();
   }else{
    if(unsub){unsub();unsub=null;}
+   subscribed=false;
    showGate(true,'가게 비밀번호를 입력하세요.',true);
   }
  });
