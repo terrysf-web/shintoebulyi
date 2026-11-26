@@ -33,3 +33,8 @@
 - **새 주문 자동 인쇄**: 프린터가 연결된 컴퓨터의 Chrome을 `--kiosk-printing` 옵션으로 실행하면 인쇄 창 없이 바로 출력됩니다.
   - Windows 예: `chrome.exe --kiosk-printing https://terrysf-web.github.io/shintoebulyi/kitchen.html`
   - 프린터를 컴퓨터의 **기본 프린터**로 지정해 두어야 합니다.
+
+## 주문 전용 화면 (전화기·작은 패드)
+- 주소 뒤에 `?mode=order`를 붙여 엽니다: `https://terrysf-web.github.io/shintoebulyi/?mode=order`
+- 결제, 팁 입력, 설정, 마감이 숨겨지고 **테이블 선택 → 메뉴 담기 → 🍳 주방 전송**만 보입니다. 결제는 카운터의 아이패드(일반 주소)에서 합니다.
+- 홈 화면에 추가할 때는 이 주소를 연 상태에서 추가해야 "신토불이 주문" 아이콘이 주문 화면으로 열립니다.

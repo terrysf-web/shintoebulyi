@@ -30,6 +30,22 @@ aside>*{flex:none}
 #orderBody{flex:1 1 0;min-height:90px;overflow:auto}#summaryBox{flex:none}
 }
 @media(min-width:641px) and (max-height:700px){.closing{display:none}.party{margin:6px 0}}
+.order-mode #pay,.order-mode #payNotice,.order-mode #tipLaterRow,.order-mode .closing,.order-mode #openSettings,.order-mode #viewHistory,.order-mode #openTips,.order-mode #gratRow,.order-mode #taxRow,.order-mode .total{display:none!important}
+.order-mode body{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+.order-mode #sendKitchen{position:fixed;left:12px;right:12px;width:auto;bottom:calc(12px + env(safe-area-inset-bottom));z-index:50;min-height:58px;font-size:19px;margin:0;box-shadow:0 4px 14px #0004}
+.order-mode #kitchenNotice:not(:empty){position:fixed;left:12px;right:12px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:50;background:#193b30;color:#fff;border-radius:10px;padding:10px 12px;margin:0;text-align:center}
+@media(max-width:640px){
+.order-mode header{padding:10px 12px}.order-mode header strong{font-size:17px}
+.order-mode .hbtns button{padding:6px 10px;min-height:40px;white-space:nowrap}
+.order-mode .table-picker{padding:8px 12px 0}
+.order-mode .table-picker #tables{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.order-mode .table-zone,.order-mode .table-row{display:contents}
+.order-mode .table-zone h3{display:none}
+.order-mode .table-key{min-height:54px;margin:0!important}
+.order-mode main{padding:8px 12px}
+.order-mode #orderBody{max-height:30vh;overflow:auto}
+.order-mode aside{padding:12px}
+}
 </style>
 <header><strong>Shin Toe Bul Yi</strong><div class="hbtns"><span id="syncStatus" hidden></span><button type="button" id="openTips">💵 팁 입력</button><button type="button" id="reloadApp" aria-label="새로고침">↻ 새로고침</button><button type="button" id="openSettings">⚙ 설정</button><button type="button" id="viewHistory">결제 기록 · 마감</button></div></header>
 <section class="table-picker" aria-labelledby="tableHeading"><h2 id="tableHeading">테이블 선택</h2><nav id="tables" aria-label="테이블 1번부터 9번까지"></nav><p id="storageWarning" class="hint" role="status" hidden>이 브라우저는 파일의 주문 저장을 허용하지 않습니다. 화면을 닫으면 주문이 사라질 수 있습니다.</p></section><main><section aria-label="메뉴"><input id="search" type="search" placeholder="메뉴 이름(한/영) 또는 번호로 검색" aria-label="메뉴 검색"><nav id="tabs" aria-label="메뉴 분류"></nav><div id="menu"></div></section>
@@ -103,6 +119,14 @@ aside>*{flex:none}
 <form method="dialog"><button>닫기</button></form></dialog>
 <script src="config.js"></script>
 <script>
+const ORDER_MODE=new URLSearchParams(location.search).get('mode')==='order';
+if(ORDER_MODE){
+ document.documentElement.classList.add('order-mode');
+ const manifest=document.querySelector('link[rel=manifest]');if(manifest)manifest.href='order.webmanifest';
+ const title=document.querySelector('meta[name=apple-mobile-web-app-title]');if(title)title.content='신토불이 주문';
+ document.title='Shin Toe Bul Yi 주문';
+ document.addEventListener('DOMContentLoaded',()=>{const h=document.querySelector('header strong');if(h)h.textContent='Shin Toe Bul Yi · 주문';});
+}
 const m=(n,ko,en,price,f={})=>({id:n?String(n):ko,n,ko,en,price,...f});
 const S={s:1},R={r:1},SR={s:1,r:1};
 const TABLE_SIDE='테이블에서 조리(캐서롤)';
@@ -348,7 +372,7 @@ el('clear').onclick=()=>askConfirm((activeTable+1)+'번 테이블 주문을 모�
  renderCart();
 });
 el('pay').onclick=()=>{
- if(!orders[activeTable].size)return;
+ if(ORDER_MODE||!orders[activeTable].size)return;
  const {sub,gratuity,tax,total}=totals(activeTable);
  el('paymentForm').reset();
  paymentDue=total;paymentSub=sub;
@@ -821,6 +845,13 @@ function printTicket(ticket){
  renderTicket(el('printArea'),ticket);
  window.print();
 }
+let noticeTimer=null;
+function flashNotice(text){
+ const node=el('kitchenNotice');
+ node.textContent=text;
+ clearTimeout(noticeTimer);
+ noticeTimer=setTimeout(()=>{node.textContent='';},5000);
+}
 el('ticketPrint').onclick=()=>{if(lastTicket)printTicket(lastTicket);};
 el('ticketClose').onclick=()=>el('ticketDlg').close();
 let lastTicket=null;
@@ -842,16 +873,15 @@ el('sendKitchen').onclick=()=>{
  saveOrders();renderCart();
  lastTicket=ticket;
  const count=items.reduce((sum,item)=>sum+item.qty,0);
- const note=el('kitchenNotice');
  if(Sync.enabled){
-  note.textContent=ticket.table+'번 테이블 '+count+'개를 주방에 보냈습니다.';
+  flashNotice(ticket.table+'번 테이블 '+count+'개를 주방에 보냈습니다.');
   Sync.sendTicket(ticket).catch(()=>{
    for(const [key,value] of prevSent){const line=orders[tableIndex].get(key);if(line)line.sent=Math.min(value,line.quantity);}
    saveOrders();renderCart();
-   note.textContent='주방 전송에 실패했습니다. 다시 눌러 주세요.';
+   flashNotice('주방 전송에 실패했습니다. 다시 눌러 주세요.');
   });
  }else{
-  note.textContent='동기화가 꺼져 있어 주방 주문서를 화면에 표시합니다.';
+  flashNotice('동기화가 꺼져 있어 주방 주문서를 화면에 표시합니다.');
   renderTicket(el('ticketPreview'),ticket);
   el('ticketDlg').showModal();
  }
