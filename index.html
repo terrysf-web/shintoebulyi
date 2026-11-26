@@ -134,6 +134,7 @@ function normalizeSettings(raw){
 }
 let settings=normalizeSettings(null);
 let syncHook=null;
+for(const item of groups['음료 · 주류'])item.d=1;
 const GRATUITY_RATE=0.18,GRATUITY_MIN_PARTY=6;
 const el=id=>document.getElementById(id);
 const money=cents=>'$'+(cents/100).toFixed(2);
@@ -253,7 +254,7 @@ function addLine(item,option,price,note,delta){
  const cart=orders[activeTable];
  const prev=cart.get(key);
  const quantity=(prev?.quantity||0)+delta;
- if(quantity>0)cart.set(key,{ko:item.ko+(option?' · '+option:''),en:item.en+(option?' · '+option:''),price,quantity,memo:prev?.memo||'',note:note||prev?.note||'',r:item.r?1:0,s:item.s?1:0,sent:prev?.sent||0,t:item.t||0});
+ if(quantity>0)cart.set(key,{ko:item.ko+(option?' · '+option:''),en:item.en+(option?' · '+option:''),price,quantity,memo:prev?.memo||'',note:note||prev?.note||'',r:item.r?1:0,s:item.s?1:0,d:item.d?1:0,sent:prev?.sent||0,t:item.t||0});
  else cart.delete(key);
  saveOrders();renderCart();
 }
@@ -297,7 +298,7 @@ function renderCart(){
   const title=document.createElement('div');title.className='name';
   title.append(lineKo(key,line)+' · '+money(price*quantity));
   if(line.en){const en=document.createElement('small');en.textContent=line.en;title.append(en);}
-  const sentText=(line.sent||0)>=line.quantity?'✓ 주방 전송됨':(line.sent||0)>0?line.sent+'개 전송됨':'';
+  const sentText=line.d?'🥤 홀 준비':(line.sent||0)>=line.quantity?'✓ 주방 전송됨':(line.sent||0)>0?line.sent+'개 전송됨':'';
   const extras=[line.note,line.t?line.t+'분 소요':'',line.r?'밥 별도':'',sentText].filter(Boolean).join(' · ');
   if(extras){const x=document.createElement('small');x.textContent=extras;title.append(x);}
   if(line.memo){const memo=document.createElement('span');memo.className='memo';memo.textContent='📝 '+line.memo;title.append(memo);}
@@ -823,20 +824,21 @@ function printTicket(ticket){
 el('ticketPrint').onclick=()=>{if(lastTicket)printTicket(lastTicket);};
 el('ticketClose').onclick=()=>el('ticketDlg').close();
 let lastTicket=null;
-const pendingOf=line=>Math.max(0,line.quantity-(line.sent||0));
+const pendingOf=line=>line.d?0:Math.max(0,line.quantity-(line.sent||0));
 el('sendKitchen').onclick=()=>{
  const tableIndex=activeTable,cart=orders[tableIndex];
  const items=[],prevSent=new Map();
  let extra=false;
  for(const [key,line] of cart){
   prevSent.set(key,line.sent||0);
+  if(line.d)continue;
   if((line.sent||0)>0)extra=true;
   const qty=pendingOf(line);
   if(qty>0)items.push({ko:line.ko||key,en:line.en||'',qty,total:line.quantity,memo:line.memo||'',note:line.note||'',t:line.t||0,s:line.s?1:0});
  }
  if(!items.length)return;
  const ticket={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:tableIndex+1,time:new Date().toISOString(),party:parties[tableIndex],extra,items,done:false};
- for(const line of cart.values())line.sent=line.quantity;
+ for(const line of cart.values())if(!line.d)line.sent=line.quantity;
  saveOrders();renderCart();
  lastTicket=ticket;
  const count=items.reduce((sum,item)=>sum+item.qty,0);
