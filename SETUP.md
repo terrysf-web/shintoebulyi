@@ -25,3 +25,11 @@
 
 ## 코드 다시 만들기 (필요할 때만)
 `sync.bundle.js`는 `src/adapter.js`에서 만듭니다: `npm install && sh build.sh`
+
+## 주방 화면 / 주방 주문서 (kitchen.html)
+- 아이패드에서 `🍳 주방 전송`을 누르면 **아직 보내지 않은 메뉴만** 주문서(tickets)로 저장됩니다.
+- 주방의 컴퓨터나 아이패드에서 `https://terrysf-web.github.io/shintoebulyi/kitchen.html` 을 열고 가게 비밀번호로 로그인하면 새 주문이 실시간으로 뜹니다.
+- `✓ 완료`로 조리 끝을 표시하고, `🖨 인쇄`로 80mm 영수증 모양으로 인쇄합니다.
+- **새 주문 자동 인쇄**: 프린터가 연결된 컴퓨터의 Chrome을 `--kiosk-printing` 옵션으로 실행하면 인쇄 창 없이 바로 출력됩니다.
+  - Windows 예: `chrome.exe --kiosk-printing https://terrysf-web.github.io/shintoebulyi/kitchen.html`
+  - 프린터를 컴퓨터의 **기본 프린터**로 지정해 두어야 합니다.

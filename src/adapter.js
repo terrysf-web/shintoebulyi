@@ -30,16 +30,24 @@ function create(config) {
         snap.forEach(d => { out[d.id] = d.data().data; });
         handlers.payments(out);
       }, fail));
+      if (handlers.tickets) {
+        stops.push(onSnapshot(collection(db, 'tickets'), snap => {
+          const out = {};
+          snap.forEach(d => { out[d.id] = d.data().data; });
+          handlers.tickets(out);
+        }, fail));
+      }
       stops.push(onSnapshot(doc(db, 'config', 'settings'), snap => {
         handlers.settings(snap.exists() ? snap.data().data : null);
       }, fail));
       return () => stops.forEach(stop => stop());
     },
-    write({ tables = {}, payments = {}, settings = null }) {
+    write({ tables = {}, payments = {}, settings = null, tickets = {} }) {
       const batch = writeBatch(db);
       const now = Date.now();
       for (const [id, data] of Object.entries(tables)) batch.set(doc(db, 'tables', id), { data, updatedAt: now });
       for (const [id, data] of Object.entries(payments)) batch.set(doc(db, 'payments', id), { data, updatedAt: now });
+      for (const [id, data] of Object.entries(tickets)) batch.set(doc(db, 'tickets', id), { data, updatedAt: now });
       if (settings !== null) batch.set(doc(db, 'config', 'settings'), { data: settings, updatedAt: now });
       return batch.commit();
     },

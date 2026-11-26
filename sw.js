@@ -1,7 +1,7 @@
 // 온라인이면 항상 최신 파일을 받고, 오프라인이면 저장해 둔 파일로 엽니다.
-const CACHE = 'stby-pos-v2';
+const CACHE = 'stby-pos-v3';
 const PRECACHE = ['./', 'index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
-const OPTIONAL = ['config.js', 'sync.bundle.js'];
+const OPTIONAL = ['config.js', 'sync.bundle.js', 'kitchen.html'];
 
 self.addEventListener('install', event => {
   event.waitUntil(
