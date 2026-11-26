@@ -7,7 +7,7 @@
 .table-picker{max-width:1440px;margin:auto;padding:16px 20px 0}.table-picker nav{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));margin-bottom:0}.table-key{display:flex;flex-direction:column;justify-content:center;gap:4px;align-items:center;min-height:57px;padding:5px;font-weight:700}.table-key small{font-size:12px;font-weight:400}.table-key.has-order:not([aria-pressed=true]){background:#fbdcd8;border-color:#d4574c;color:#7a1810}.table-key.has-order[aria-pressed=true]{background:#b3261e;border-color:#b3261e;color:#fff}#storageWarning{padding-top:8px;color:#943e21}@media(max-width:640px){.table-picker{padding:12px 10px 0}.table-picker nav{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .table-picker #tables{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.table-zone{background:#fff;border:1px solid #d9ded5;border-radius:10px;padding:8px}.table-zone h3{margin:0 0 6px;font-size:14px}.table-zone .table-key{width:100%;margin-bottom:5px;min-height:48px}.table-zone .table-key:last-child{margin-bottom:0}
 .pay{background:#245543;color:white;width:100%;margin-bottom:10px}.pay:hover{background:#193b30}.pay:disabled{opacity:.5}.history{max-height:55vh;overflow:auto;min-width:min(520px,80vw)}.history p{padding:6px 0}.history details{padding:9px;border-bottom:1px solid #ddd}.history .void{text-decoration:line-through;color:#888}.option label{display:block;margin:12px 0}.option select{font:inherit;padding:6px}.option form p{margin:8px 0}.option [role=alert]{color:#943e21}
-#exportText{width:min(640px,80vw);font:13px ui-monospace,monospace;padding:8px;border:1px solid #aebbb0;border-radius:10px}#closeout{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:12px 0}#closeout .report-head{grid-column:1/-1;font-weight:700;font-size:17px}.rcard{background:#f1f5ef;border-radius:10px;padding:10px 14px}.rcard h3{margin:0 0 6px;font-size:13px;color:#4e6559;text-transform:none}.rcard table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.rcard th{text-align:left;font-weight:400;padding:5px 0}.rcard td{text-align:right;padding:5px 0}.rcard tr.grand th,.rcard tr.grand td{font-weight:700;border-top:1px solid #aebbb0;padding-top:7px}.rcard tr.diff th,.rcard tr.diff td{color:#943e21;font-size:14px}#historyList{display:block;margin:12px 0}#history{width:min(720px,94vw)}.htabs{margin:8px 0 0}.htabs button{min-height:44px;padding:8px 14px}.rcard.wide{grid-column:1/-1}.hours th{width:3.2em;white-space:nowrap}.hours .bar-cell{width:100%;padding:5px 8px}.hours td:last-child{white-space:nowrap}.hbar{display:block;height:10px;background:#245543;border-radius:5px}.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}.tools input{width:auto}.tools label{margin:0;display:flex;gap:6px;align-items:center}.items-sum{font-size:13px;color:#4e6559;margin-top:6px}
+#exportText{width:min(640px,80vw);font:13px ui-monospace,monospace;padding:8px;border:1px solid #aebbb0;border-radius:10px}#closeout{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:12px 0}#closeout .report-head{grid-column:1/-1;font-weight:700;font-size:17px}.rcard{background:#f1f5ef;border-radius:10px;padding:10px 14px}.rcard h3{margin:0 0 6px;font-size:13px;color:#4e6559;text-transform:none}.rcard table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.rcard th{text-align:left;font-weight:400;padding:5px 0}.rcard td{text-align:right;padding:5px 0}.rcard tr.grand th,.rcard tr.grand td{font-weight:700;border-top:1px solid #aebbb0;padding-top:7px}.rcard tr.diff th,.rcard tr.diff td{color:#943e21;font-size:14px}#historyList{display:block;margin:12px 0}.tipquick{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.tipquick button{min-height:40px;padding:6px 10px;font-size:14px}.staff-row{display:flex;align-items:center;gap:8px;margin:8px 0}.staff-row input{width:90px}.staff-result{font-size:20px;font-weight:700;margin-top:6px}#history{width:min(720px,94vw)}.htabs{margin:8px 0 0}.htabs button{min-height:44px;padding:8px 14px}.rcard.wide{grid-column:1/-1}.hours th{width:3.2em;white-space:nowrap}.hours .bar-cell{width:100%;padding:5px 8px}.hours td:last-child{white-space:nowrap}.hbar{display:block;height:10px;background:#245543;border-radius:5px}.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}.tools input{width:auto}.tools label{margin:0;display:flex;gap:6px;align-items:center}.items-sum{font-size:13px;color:#4e6559;margin-top:6px}
 [hidden]{display:none!important}.change{margin:10px 0;padding:10px 12px;border-radius:10px;text-align:center;font-size:28px;font-weight:700}.change.ok{background:#e4efe3;color:#193b30}.change.short{background:#fbdcd8;color:#7a1810}.change.wait{background:#f1f5ef;color:#4e6559;font-size:14px;font-weight:400}.option{max-height:90vh;overflow:auto}
 @media(min-width:641px){
 html,body{height:100%}
@@ -61,6 +61,9 @@ aside>*{flex:none}
 <label>결제수단 <select id="method" required><option value="">선택</option><option>현금</option><option>카드</option></select></label>
 <label><span id="paidLabel">실제 결제액 ($)</span> <input id="paidAmount" inputmode="decimal" type="number" min="0.01" max="999999.99" step="0.01" required></label>
 <label id="receivedRow" hidden>받은 금액 ($) <input id="cashReceived" inputmode="decimal" type="number" min="0.01" max="999999.99" step="0.01"></label>
+<label>팁 ($) <input id="tipAmount" inputmode="decimal" type="number" min="0" max="99999.99" step="0.01" placeholder="0.00"></label>
+<div id="tipQuick" class="tipquick" aria-label="팁 빠른 입력"></div>
+<p id="payTotalLine" class="hint"></p>
 <p id="changeBox" class="change wait" role="status" aria-live="polite" hidden></p>
 <p id="payError" role="alert"></p>
 <button type="submit" id="paySubmit">저장하고 테이블 비우기</button> <button id="cancelPayment" type="button">취소</button>
@@ -85,7 +88,7 @@ const groups={
 '음료 · 주류':[m(0,'탄산음료','Soda',['콜라','다이어트 콜라','스프라이트','선키스트'].map(name=>[name,300])),m(0,'맥주','Beer (Terra)',[['소',500],['대',900],['피처',1600]]),m(0,'소주','Soju',['오리지널','후레쉬','청포도','복숭아'].map(name=>[name,1400])),m(0,'사케','Hot Sake',[['소',500],['대',900]]),m(0,'막걸리','Makgeolli',1400)],
 '추가':[m(0,'파전 소스','Pancake Sauce',100),m(0,'고추장 소스','Gochujang Sauce',100),m(0,RICE_ID,'White Rice',300),m(0,'무절임','Pickled Daikon',200),m(0,'반찬 세트','Banchan Set',600),m(0,'반찬 단품','Single Banchan',300),m(0,'상추','Lettuce',200),m(0,'상추 리필 (족발)','Lettuce Refill',200),m(0,'쌈 세트','Ssam Set',600)]
 };
-const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true};
+const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0};
 let settings={...DEFAULT_SETTINGS};
 const GRATUITY_RATE=0.18,GRATUITY_MIN_PARTY=6;
 const el=id=>document.getElementById(id);
@@ -103,7 +106,7 @@ try {
   saved.orders.forEach((entries,index)=>{orders[index]=new Map(entries);});
   if(Number.isInteger(saved.activeTable)&&orders[saved.activeTable])activeTable=saved.activeTable;
  }
- if(saved?.settings&&Number.isFinite(saved.settings.taxRate)&&saved.settings.taxRate>=0&&saved.settings.taxRate<=25)settings={taxRate:saved.settings.taxRate,taxGratuity:saved.settings.taxGratuity!==false};
+ if(saved?.settings&&Number.isFinite(saved.settings.taxRate)&&saved.settings.taxRate>=0&&saved.settings.taxRate<=25)settings={taxRate:saved.settings.taxRate,taxGratuity:saved.settings.taxGratuity!==false,staffCount:Number.isInteger(saved.settings.staffCount)&&saved.settings.staffCount>=0&&saved.settings.staffCount<=99?saved.settings.staffCount:0};
  if(Array.isArray(saved?.parties)&&saved.parties.length===parties.length)saved.parties.forEach((n,i)=>{parties[i]=Number.isInteger(n)&&n>=0?n:0;});
 } catch {
  el('storageWarning').hidden=false;
@@ -287,38 +290,51 @@ el('pay').onclick=()=>{
  if(!orders[activeTable].size)return;
  const {sub,gratuity,tax,total}=totals(activeTable);
  el('paymentForm').reset();
- paymentDue=total;paidAutoFilled=false;
+ paymentDue=total;paymentSub=sub;
+ el('paidAmount').value=(total/100).toFixed(2);
+ buildTipButtons();
  updatePaymentUi();
  el('paymentTitle').textContent=(activeTable+1)+'번 테이블 결제 완료';
  el('paymentSubtotal').textContent='메뉴 합계 '+money(sub)+(gratuity?' + 봉사료 '+money(gratuity):'')+' + 세금 '+money(tax)+' = '+money(total);
  el('payError').textContent='';
  el('payment').showModal();
 };
-let paymentDue=0,paidAutoFilled=false;
+let paymentDue=0,paymentSub=0;
 const toCents=value=>value===''?NaN:Math.round(Number(value)*100);
+const tipOf=()=>{const t=toCents(el('tipAmount').value);return Number.isFinite(t)&&t>0?t:0;};
 function updateChange(){
- const box=el('changeBox');
- const charge=toCents(el('paidAmount').value),got=toCents(el('cashReceived').value);
+ const charge=toCents(el('paidAmount').value),tip=tipOf();
+ el('payTotalLine').textContent=charge>0?'손님 총 지불액 '+money(charge+tip)+(tip?' (결제 '+money(charge)+' + 팁 '+money(tip)+')':''):'';
+ const box=el('changeBox'),got=toCents(el('cashReceived').value);
  if(!(charge>0)||!(got>0)){box.textContent='받은 금액을 입력하면 거스름돈이 표시됩니다.';box.className='change wait';return;}
- const diff=got-charge;
+ const diff=got-charge-tip;
  if(diff<0){box.textContent='부족 '+money(-diff);box.className='change short';}
  else{box.textContent='거스름돈 '+money(diff);box.className='change ok';}
+}
+function setTip(cents){
+ el('tipAmount').value=cents>0?(cents/100).toFixed(2):'';
+ updateChange();
+}
+function buildTipButtons(){
+ el('tipQuick').replaceChildren(button('팁 없음',()=>setTip(0)),...[15,18,20,25].map(pct=>{
+  const cents=Math.round(paymentSub*pct/100);
+  return button(pct+'% '+money(cents),()=>setTip(cents));
+ }));
 }
 function updatePaymentUi(){
  const cash=el('method').value==='현금';
  el('receivedRow').hidden=!cash;el('changeBox').hidden=!cash;
  el('cashReceived').required=cash;
- el('paidLabel').textContent=cash?'청구 금액 ($)':'실제 결제액 ($)';
- el('payHint').textContent=cash?'청구 금액을 확인하고, 손님에게 받은 현금을 입력한 뒤 Enter를 누르세요.':'Royal에서 결제를 받은 뒤 실제 받은 총액(세금·팁 포함)을 입력하세요.';
- if(cash&&el('paidAmount').value==='')el('paidAmount').value=(paymentDue/100).toFixed(2),paidAutoFilled=true;
- if(!cash&&paidAutoFilled){el('paidAmount').value='';paidAutoFilled=false;}
+ el('paidLabel').textContent=(cash?'청구 금액':'결제 금액')+' · 팁 제외 ($)';
+ el('payHint').textContent=cash?'청구 금액과 팁을 확인하고, 받은 현금을 입력한 뒤 Enter를 누르세요.':'Royal에서 받은 금액(세금 포함, 팁 제외)을 확인하고 팁은 아래에 따로 입력하세요.';
  updateChange();
 }
 el('method').onchange=()=>{
  updatePaymentUi();
  if(el('method').value==='현금')el('cashReceived').focus();
 };
-el('paidAmount').oninput=()=>{paidAutoFilled=false;updateChange();};
+el('paidAmount').oninput=updateChange;
+el('tipAmount').oninput=updateChange;
 el('cashReceived').oninput=updateChange;
 el('paidAmount').onkeydown=event=>{
  if(event.key!=='Enter'||el('method').value!=='현금')return;
@@ -329,7 +345,7 @@ el('cashReceived').onkeydown=event=>{
  event.preventDefault();
  updateChange();
  const charge=toCents(el('paidAmount').value),got=toCents(el('cashReceived').value);
- if(charge>0&&got>=charge)el('paySubmit').focus();
+ if(charge>0&&got>=charge+tipOf())el('paySubmit').focus();
 };
 el('cancelPayment').onclick=()=>el('payment').close();
 el('paymentForm').onsubmit=event=>{
@@ -339,17 +355,20 @@ el('paymentForm').onsubmit=event=>{
  const method=el('method').value;
  const amount=Math.round(Number(el('paidAmount').value)*100);
  if(!['현금','카드'].includes(method)||!Number.isSafeInteger(amount)||amount<=0||amount>99999999)return;
+ const tip=tipOf();
+ if(tip>9999999){el('payError').textContent='팁 금액을 확인하세요.';return;}
  let received=0,change=0;
  if(method==='현금'){
   received=toCents(el('cashReceived').value);
   if(!Number.isSafeInteger(received)||received<=0){el('payError').textContent='받은 금액을 입력하세요.';el('cashReceived').focus();return;}
   if(received<amount){el('payError').textContent='받은 금액이 청구 금액보다 적습니다.';el('cashReceived').focus();return;}
-  change=received-amount;
+  if(received<amount+tip){el('payError').textContent='받은 금액이 청구 금액과 팁의 합보다 적습니다.';el('cashReceived').focus();return;}
+  change=received-amount-tip;
  }
  el('payError').textContent='';
  const {sub,gratuity,tax}=totals(activeTable);
  const party=parties[activeTable];
- const record={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:activeTable+1,time:new Date().toISOString(),method,amount,subtotal:sub,gratuity,tax,party,voided:false,items:[...order]};
+ const record={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:activeTable+1,time:new Date().toISOString(),method,amount,subtotal:sub,gratuity,tax,tip,party,voided:false,items:[...order]};
  if(method==='현금'){record.received=received;record.change=change;}
  paidOrders.push(record);
  orders[activeTable]=new Map();parties[activeTable]=0;
@@ -362,20 +381,21 @@ el('paymentForm').onsubmit=event=>{
  riceDismissed.delete(activeTable);
  el('payment').close();
  renderCart();
- el('payNotice').textContent=record.table+'번 테이블 결제 저장 완료.'+(method==='현금'?' 거스름돈 '+money(change)+'.':'')+' 새 주문을 받을 수 있습니다.';
+ el('payNotice').textContent=record.table+'번 테이블 결제 저장 완료.'+(tip?' 팁 '+money(tip)+'.':'')+(method==='현금'?' 거스름돈 '+money(change)+'.':'')+' 새 주문을 받을 수 있습니다.';
 };
 // ---------- 결제 기록 · 일일 마감 ----------
 const dayKey=iso=>new Date(iso).toLocaleDateString('en-CA');
 const recordSub=r=>Number.isFinite(r.subtotal)?r.subtotal:r.items.reduce((s,[,l])=>s+l.price*l.quantity,0);
 const recordGrat=r=>Number.isFinite(r.gratuity)?r.gratuity:0;
 const recordTax=r=>Number.isFinite(r.tax)?r.tax:0;
+const recordTip=r=>Number.isFinite(r.tip)?r.tip:0;
 function visibleRecords(){
  const all=el('historyAll').checked;
  const day=el('historyDate').value;
  return paidOrders.filter(r=>all||dayKey(r.time)===day);
 }
 let historyTab='summary';
-const HISTORY_TABS=[['summary','요약'],['hours','시간대별'],['tables','테이블별'],['items','판매 수량'],['list','결제 목록']];
+const HISTORY_TABS=[['summary','요약'],['tips','팁 분배'],['hours','시간대별'],['tables','테이블별'],['items','판매 수량'],['list','결제 목록']];
 function barCard(title,entries){
  const max=Math.max(...entries.map(e=>e.amount));
  const card=document.createElement('section');card.className='rcard wide';
@@ -397,6 +417,29 @@ function groupSales(valid,keyOf){
  const map=new Map();
  for(const rec of valid){const k=keyOf(rec);const e=map.get(k)||{amount:0,count:0};e.amount+=rec.amount;e.count++;map.set(k,e);}
  return map;
+}
+function staffCard(pool){
+ const card=document.createElement('section');card.className='rcard';
+ const h=document.createElement('h3');h.textContent='직원 분배 (균등)';
+ const label=document.createElement('label');label.className='staff-row';
+ label.append('직원 수 ');
+ const input=document.createElement('input');input.type='number';input.min='0';input.max='99';input.step='1';input.inputMode='numeric';input.id='staffCount';
+ input.value=settings.staffCount||'';input.placeholder='0';
+ label.append(input,' 명');
+ const result=document.createElement('p');result.className='staff-result';
+ const update=()=>{
+  const n=Number(input.value);
+  if(!Number.isInteger(n)||n<=0){result.textContent='직원 수를 입력하면 1인당 금액이 계산됩니다.';return;}
+  const each=Math.floor(pool/n);
+  result.textContent='1인당 '+money(each)+(pool-each*n?' · 남는 금액 '+money(pool-each*n):'');
+ };
+ input.oninput=()=>{
+  const n=Number(input.value);
+  settings={...settings,staffCount:Number.isInteger(n)&&n>0&&n<=99?n:0};
+  saveOrders();update();
+ };
+ update();
+ card.append(h,label,result);return card;
 }
 function reportCard(title,rows){
  const card=document.createElement('section');card.className='rcard';
@@ -423,10 +466,12 @@ function renderHistory(){
  const head=document.createElement('p');head.className='report-head';
  head.textContent=dateText+' · 결제 '+valid.length+'건'+(cancelled?' (취소 '+cancelled+'건 제외)':'');
  const calc=sub+grat+taxSum;
- const pages={summary:[],hours:[],tables:[],items:[]};
+ const tipOn=method=>valid.filter(rec=>rec.method===method).reduce((sum,rec)=>sum+recordTip(rec),0);
+ const tipCard=tipOn('카드'),tipCash=tipOn('현금'),tipSum=tipCard+tipCash;
+ const pages={summary:[],tips:[],hours:[],tables:[],items:[]};
  pages.summary.push(
   reportCard('매출 내역',[['메뉴 합계',money(sub)],['봉사료',money(grat)],['세금',money(taxSum)],['계산상 합계',money(calc),'grand']]),
-  reportCard('실제 입금',[['현금',money(byMethod('현금'))],['카드',money(byMethod('카드'))],['실제 결제액',money(paid),'grand'],['팁·할인 등 차이',money(paid-calc),'diff']])
+  reportCard('실제 입금',[['현금',money(byMethod('현금'))],['카드',money(byMethod('카드'))],['실제 결제액 (팁 제외)',money(paid),'grand'],['팁',money(tipSum)],['총 수령액 (팁 포함)',money(paid+tipSum),'grand'],['할인·반올림 등 차이',money(paid-calc),'diff']])
  );
  const byHour=groupSales(valid,rec=>new Date(rec.time).getHours());
  if(byHour.size){
@@ -440,6 +485,10 @@ function renderHistory(){
   const entries=Array.from({length:9},(_,i)=>({label:(i+1)+'번',...(byTable.get(i+1)||{amount:0,count:0})}));
   pages.tables.push(barCard('테이블별 매출 (실제 결제액)',entries));
  }
+ pages.tips.push(
+  reportCard('팁 내역',[['카드 팁',money(tipCard)],['현금 팁',money(tipCash)],['팁 합계',money(tipSum),'grand'],['의무 봉사료 (6인 이상)',money(grat)],['분배 대상 합계',money(tipSum+grat),'grand']]),
+  staffCard(tipSum+grat)
+ );
  const sold=[...counts].sort((a,b)=>b[1]-a[1]);
  if(sold.length)pages.items.push(reportCard('판매 수량',sold.map(([name,qty])=>[name,qty+'개'])));
  el('historyTabs').replaceChildren(...HISTORY_TABS.map(([id,label])=>{
@@ -460,7 +509,7 @@ function renderHistory(){
   summary.textContent=record.table+'번 · '+record.method+' '+money(record.amount)+(record.voided?' (취소됨)':'')+' · '+new Date(record.time).toLocaleString('ko-KR');
   entry.append(summary);
   const meta=document.createElement('p');meta.className='hint';
-  meta.textContent='메뉴 '+money(recordSub(record))+' · 봉사료 '+money(recordGrat(record))+' · 세금 '+money(recordTax(record))+(record.party?' · '+record.party+'명':'')+(record.received?' · 받은 '+money(record.received)+' · 거스름돈 '+money(record.change||0):'');
+  meta.textContent='메뉴 '+money(recordSub(record))+' · 봉사료 '+money(recordGrat(record))+' · 세금 '+money(recordTax(record))+(recordTip(record)?' · 팁 '+money(recordTip(record)):'')+(record.party?' · '+record.party+'명':'')+(record.received?' · 받은 '+money(record.received)+' · 거스름돈 '+money(record.change||0):'');
   entry.append(meta);
   for(const [key,line] of record.items){
    const p=document.createElement('p');
@@ -504,10 +553,10 @@ const csvCell=value=>{
  return '"'+text.replaceAll('"','""')+'"';
 };
 el('exportCsv').onclick=()=>{
- const rows=[['일시','테이블','인원','결제수단','메뉴합계','봉사료','세금','실제결제액','차이','받은금액','거스름돈','상태','품목']];
+ const rows=[['일시','테이블','인원','결제수단','메뉴합계','봉사료','세금','실제결제액','팁','차이','받은금액','거스름돈','상태','품목']];
  for(const r of visibleRecords()){
   const sub=recordSub(r),grat=recordGrat(r);
-  rows.push([new Date(r.time).toLocaleString('ko-KR'),r.table,r.party||'',r.method,(sub/100).toFixed(2),(grat/100).toFixed(2),(recordTax(r)/100).toFixed(2),(r.amount/100).toFixed(2),((r.amount-sub-grat-recordTax(r))/100).toFixed(2),r.received?(r.received/100).toFixed(2):'',r.received?((r.change||0)/100).toFixed(2):'',r.voided?'취소':'완료',r.items.map(([key,l])=>lineKo(key,l)+' x'+l.quantity+(l.memo?' ('+l.memo+')':'')).join('; ')]);
+  rows.push([new Date(r.time).toLocaleString('ko-KR'),r.table,r.party||'',r.method,(sub/100).toFixed(2),(grat/100).toFixed(2),(recordTax(r)/100).toFixed(2),(r.amount/100).toFixed(2),(recordTip(r)/100).toFixed(2),((r.amount-sub-grat-recordTax(r))/100).toFixed(2),r.received?(r.received/100).toFixed(2):'',r.received?((r.change||0)/100).toFixed(2):'',r.voided?'취소':'완료',r.items.map(([key,l])=>lineKo(key,l)+' x'+l.quantity+(l.memo?' ('+l.memo+')':'')).join('; ')]);
  }
  const name='shin-toe-bul-yi-'+(el('historyAll').checked?'all':el('historyDate').value)+'.csv';
  showExport('CSV 내보내기',name,'text/csv;charset=utf-8',rows.map(row=>row.map(csvCell).join(',')).join('\r\n'),'\ufeff');
@@ -534,7 +583,7 @@ el('settingsForm').onsubmit=event=>{
  const rate=Number(el('taxRate').value);
  if(!Number.isFinite(rate)||rate<0||rate>25){el('settingsError').textContent='세율은 0~25% 사이로 입력하세요.';return;}
  const previous=settings;
- settings={taxRate:rate,taxGratuity:el('taxGratuity').checked};
+ settings={...settings,taxRate:rate,taxGratuity:el('taxGratuity').checked};
  if(!saveOrders()){settings=previous;el('settingsError').textContent='브라우저에 저장할 수 없습니다.';return;}
  el('settingsDlg').close();renderCart();
 };
