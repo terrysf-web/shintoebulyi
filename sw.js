@@ -1,5 +1,5 @@
 // 온라인이면 항상 최신 파일을 받고, 오프라인이면 저장해 둔 파일로 엽니다.
-const CACHE = 'stby-pos-v8';
+const CACHE = 'stby-pos-v9';
 const PRECACHE = ['./', 'index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 const OPTIONAL = ['config.js', 'sync.bundle.js', 'kitchen.html', 'order.webmanifest'];
 

@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126062904"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126063206"><title>Shin Toe Bul Yi 주방</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -172,6 +172,7 @@ el('logout').onclick=()=>{if(adapter)adapter.signOut();};
 (function(){
  if(!/^https?:/.test(location.protocol))return;
  const BUILD=(document.querySelector('meta[name=build]')||{}).content||'';
+ const recentlyUpdated=()=>{try{return Date.now()-Number(sessionStorage.getItem('stby-upd')||0)<120000;}catch{return false;}};
  const bar=document.createElement('div');bar.hidden=true;
  bar.style.cssText='position:fixed;top:0;left:0;right:0;z-index:200;background:#b3261e;color:#fff;padding:10px 12px;display:flex;gap:12px;align-items:center;justify-content:center;font-size:16px';
  const label=document.createElement('span');label.textContent='새 버전이 있습니다.';
@@ -179,7 +180,7 @@ el('logout').onclick=()=>{if(adapter)adapter.signOut();};
  btn.style.cssText='min-height:40px;padding:6px 16px;background:#fff;color:#202922;border:0;border-radius:8px;font-weight:700';
  btn.onclick=()=>{
   btn.textContent='새로고침 중…';btn.disabled=true;
-  const go=()=>{const u=new URL(location.href);u.searchParams.set('_',Date.now());location.replace(u.toString());};
+  const go=()=>{try{sessionStorage.setItem('stby-upd',String(Date.now()));}catch{}const u=new URL(location.href);u.searchParams.set('_',Date.now());location.replace(u.toString());};
   if('serviceWorker' in navigator)navigator.serviceWorker.getRegistration().then(reg=>reg?reg.update():null).catch(()=>{}).then(go);else go();
  };
  bar.append(label,btn);document.body.append(bar);
@@ -187,7 +188,7 @@ el('logout').onclick=()=>{if(adapter)adapter.signOut();};
   try{
    const r=await fetch('version.json?'+Date.now(),{cache:'no-store'});
    const j=await r.json();
-   if(j&&j.build&&BUILD&&j.build!==BUILD)bar.hidden=false;
+   if(j&&j.build&&BUILD&&String(j.build)>BUILD&&!recentlyUpdated())bar.hidden=false;
   }catch{}
  };
  check();
