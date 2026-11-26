@@ -154,6 +154,20 @@ el('loginForm').onsubmit=async event=>{
  finally{el('loginBtn').disabled=false;}
 };
 el('logout').onclick=()=>{if(adapter)adapter.signOut();};
+(function(){
+ if(!/^https?:/.test(location.protocol))return;
+ let base=null;
+ const bar=document.createElement('div');bar.hidden=true;
+ bar.style.cssText='position:fixed;top:0;left:0;right:0;z-index:200;background:#b3261e;color:#fff;padding:8px 12px;display:flex;gap:10px;align-items:center;justify-content:center';
+ const label=document.createElement('span');label.textContent='새 버전이 있습니다.';
+ const btn=document.createElement('button');btn.textContent='새로고침';btn.style.minHeight='36px';btn.onclick=()=>location.reload();
+ bar.append(label,btn);document.body.append(bar);
+ const probe=async()=>{try{const r=await fetch(location.pathname,{method:'HEAD',cache:'no-store'});return r.headers.get('etag')||r.headers.get('last-modified');}catch{return null;}};
+ const check=async()=>{const v=await probe();if(!v)return;if(base===null){base=v;return;}if(v!==base)bar.hidden=false;};
+ check();
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')check();});
+ setInterval(check,10*60*1000);
+})();
 addEventListener('online',()=>status('연결됨'));
 addEventListener('offline',()=>status('오프라인 · 연결되면 자동 갱신',true));
 setInterval(render,60000);
