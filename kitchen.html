@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126063617"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126064549"><title>Shin Toe Bul Yi 주방</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -36,6 +36,9 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 <script>
 const el=id=>document.getElementById(id);
 const cfg=window.STBY_CONFIG||{};
+// 인쇄 기능은 주소 끝에 ?print=1 을 붙였을 때만 보입니다. (프린터가 연결된 컴퓨터용)
+const PRINT_UI=new URLSearchParams(location.search).get('print')==='1';
+el('auto').parentElement.hidden=!PRINT_UI;
 const DAY=24*60*60*1000;
 let adapter=null,unsub=null,tickets=new Map(),seen=null,soundOn=false,audio=null,printing=Promise.resolve();
 try{el('auto').checked=localStorage.getItem('stby-kitchen-auto')==='1';}catch{}
@@ -100,7 +103,7 @@ function card(ticket,fresh){
  doneBtn.onclick=()=>setDone(ticket,!ticket.done);
  const printBtn=document.createElement('button');printBtn.type='button';printBtn.textContent='🖨 인쇄';
  printBtn.onclick=()=>printTicket(ticket);
- actions.append(doneBtn,printBtn);node.append(body,actions);return node;
+ actions.append(doneBtn);if(PRINT_UI)actions.append(printBtn);node.append(body,actions);return node;
 }
 let freshIds=new Set();
 function render(){
@@ -126,7 +129,7 @@ function onTickets(map){
  render();
  if(incoming.length){
   beep();
-  if(el('auto').checked)incoming.sort((a,b)=>a.time<b.time?-1:1).forEach(printTicket);
+  if(PRINT_UI&&el('auto').checked)incoming.sort((a,b)=>a.time<b.time?-1:1).forEach(printTicket);
   setTimeout(()=>{freshIds=new Set();},3000);
  }
  lastRecv=new Date();
