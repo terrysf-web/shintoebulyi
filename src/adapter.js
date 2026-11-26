@@ -4,7 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 import {
   initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-  collection, doc, onSnapshot, writeBatch, waitForPendingWrites,
+  collection, doc, onSnapshot, writeBatch, waitForPendingWrites, disableNetwork, enableNetwork,
 } from 'firebase/firestore';
 
 function create(config) {
@@ -12,6 +12,8 @@ function create(config) {
   const auth = getAuth(app);
   const db = initializeFirestore(app, {
     localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+    // 식당 Wi-Fi나 Safari에서 실시간 연결이 지연되는 일을 막기 위해 롱폴링을 강제합니다.
+    experimentalForceLongPolling: true,
   });
   return {
     signIn: (email, password) => signInWithEmailAndPassword(auth, email, password),
@@ -52,6 +54,8 @@ function create(config) {
       return batch.commit();
     },
     pending: () => waitForPendingWrites(db),
+    // 연결을 끊었다가 다시 맺어 실시간 수신을 되살립니다.
+    reconnect: async () => { await disableNetwork(db); await enableNetwork(db); },
   };
 }
 
