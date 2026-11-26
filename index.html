@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126073952"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126161002"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -8,7 +8,7 @@
 .table-picker #tables{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.table-zone{background:#fff;border:1px solid #d9ded5;border-radius:10px;padding:8px}.table-zone h3{margin:0 0 6px;font-size:14px}.table-zone .table-key{width:100%;margin-bottom:5px;min-height:48px}.table-zone .table-key:last-child{margin-bottom:0}
 .pay{background:#245543;color:white;width:100%;margin-bottom:10px}.pay:hover{background:#193b30}.pay:disabled{opacity:.5}.history{max-height:55vh;overflow:auto;min-width:min(520px,80vw)}.history p{padding:6px 0}.history details{padding:9px;border-bottom:1px solid #ddd}.history .void{text-decoration:line-through;color:#888}.option label{display:block;margin:12px 0}.option select{font:inherit;padding:6px}.option form p{margin:8px 0}.option [role=alert]{color:#943e21}
 #exportText{width:min(640px,80vw);font:13px ui-monospace,monospace;padding:8px;border:1px solid #aebbb0;border-radius:10px}#closeout{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:12px 0}#closeout .report-head{grid-column:1/-1;font-weight:700;font-size:17px}.rcard{background:#f1f5ef;border-radius:10px;padding:10px 14px}.rcard h3{margin:0 0 6px;font-size:13px;color:#4e6559;text-transform:none}.rcard table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.rcard th{text-align:left;font-weight:400;padding:5px 0}.rcard td{text-align:right;padding:5px 0}.rcard tr.grand th,.rcard tr.grand td{font-weight:700;border-top:1px solid #aebbb0;padding-top:7px}.rcard tr.diff th,.rcard tr.diff td{color:#943e21;font-size:14px}#historyList{display:block;margin:12px 0}#tipList{display:block;max-height:55vh;overflow:auto;margin:10px 0;min-width:min(560px,80vw)}#tipTable{width:100%;border-collapse:collapse}#tipTable td{padding:6px 8px 6px 0;border-bottom:1px solid #e2e7de;vertical-align:middle}#tipTable tr.focus td{background:#fff3e0}#tipTable input{width:100px;padding:8px}#tipTable small{display:block;color:#6a7d72;font-size:12px}.tip-saved{color:#245543;font-size:13px}#priceList{display:block;max-height:50vh;overflow:auto;margin:10px 0;min-width:min(560px,80vw)}#priceTable{width:100%;border-collapse:collapse}#priceTable th{text-align:left;font-size:13px;color:#4e6559;padding:12px 0 4px}#priceTable td{padding:5px 6px 5px 0;border-bottom:1px solid #e2e7de;vertical-align:middle}#priceTable td.def{color:#6a7d72;font-size:13px;white-space:nowrap}#priceTable td small{display:block;color:#6a7d72;font-size:12px}#priceTable input{width:110px;padding:8px}#priceTable input.changed{background:#fff3e0;border-color:#e8c48f}.tipquick{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.tipquick button{min-height:40px;padding:6px 10px;font-size:14px}.staff-row{display:flex;align-items:center;gap:8px;margin:8px 0}.staff-row input{width:90px}.staff-result{font-size:20px;font-weight:700;margin-top:6px}#history{width:min(720px,94vw)}.htabs{margin:8px 0 0}.htabs button{min-height:44px;padding:8px 14px}.rcard.wide{grid-column:1/-1}.hours th{width:3.2em;white-space:nowrap}.hours .bar-cell{width:100%;padding:5px 8px}.hours td:last-child{white-space:nowrap}.hbar{display:block;height:10px;background:#245543;border-radius:5px}.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}.tools input{width:auto}.tools label{margin:0;display:flex;gap:6px;align-items:center}.items-sum{font-size:13px;color:#4e6559;margin-top:6px}
-[hidden]{display:none!important}.ok{background:#245543;color:#fff;border-color:#245543}.srv{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px!important}.party.need{outline:3px solid #b3261e;outline-offset:2px}.ticketwarn{position:fixed;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom));z-index:60;background:#b3261e;color:#fff;border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 4px 14px #0004}.ticketwarn button{min-height:38px;padding:4px 12px;color:#202922;white-space:nowrap}.updatebar{position:fixed;top:0;left:0;right:0;z-index:200;background:#b3261e;color:#fff;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));display:flex;gap:10px;align-items:center;justify-content:center}.updatebar button{min-height:36px;padding:4px 12px;color:#202922}.kitchen{width:100%;margin-bottom:6px;background:#b3261e;color:#fff;border-color:#b3261e;font-weight:700}.kitchen:hover{background:#8f1d17}.kitchen:disabled{opacity:.45}#kitchenNotice{min-height:1.2em;margin-bottom:8px}#printArea{display:none}.ticket p{margin:4px 0}.ticket .t-head{font-size:20px;font-weight:700}.ticket .t-item{font-size:20px;font-weight:700;margin-top:10px}.ticket .t-sub{font-size:13px;color:#555}.ticket .t-memo{font-size:16px;font-weight:700}.ticket .t-rule{border-top:2px dashed #000;margin:8px 0;height:0}#ticketPreview{display:block;font-family:ui-monospace,monospace;min-width:260px}@media print{@page{size:80mm auto;margin:3mm}body>*:not(#printArea){display:none!important}#printArea{display:block!important;color:#000;background:#fff}.ticket .t-sub{color:#000}}#syncStatus{align-self:center;font-size:13px;color:#d8e7dd}#syncStatus.warn{color:#ffd9a8}.gate{position:fixed;inset:0;background:#f6f4ee;z-index:100;display:flex;align-items:center;justify-content:center}.gate form{background:#fff;border:1px solid #d9ded5;border-radius:14px;padding:24px;width:min(380px,90vw)}.gate [role=alert]{color:#943e21}.change{margin:10px 0;padding:10px 12px;border-radius:10px;text-align:center;font-size:28px;font-weight:700}.change.ok{background:#e4efe3;color:#193b30}.change.short{background:#fbdcd8;color:#7a1810}.change.wait{background:#f1f5ef;color:#4e6559;font-size:14px;font-weight:400}.option{max-height:90vh;overflow:auto}
+[hidden]{display:none!important}.closebar{margin:6px 0}.closebar p{margin:0}.closed-ok{color:#245543;font-weight:700}.closed-warn{color:#943e21}.closed-no{color:#4e6559}.ok{background:#245543;color:#fff;border-color:#245543}.srv{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px!important}.party.need{outline:3px solid #b3261e;outline-offset:2px}.ticketwarn{position:fixed;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom));z-index:60;background:#b3261e;color:#fff;border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 4px 14px #0004}.ticketwarn button{min-height:38px;padding:4px 12px;color:#202922;white-space:nowrap}.updatebar{position:fixed;top:0;left:0;right:0;z-index:200;background:#b3261e;color:#fff;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));display:flex;gap:10px;align-items:center;justify-content:center}.updatebar button{min-height:36px;padding:4px 12px;color:#202922}.kitchen{width:100%;margin-bottom:6px;background:#b3261e;color:#fff;border-color:#b3261e;font-weight:700}.kitchen:hover{background:#8f1d17}.kitchen:disabled{opacity:.45}#kitchenNotice{min-height:1.2em;margin-bottom:8px}#printArea{display:none}.ticket p{margin:4px 0}.ticket .t-head{font-size:20px;font-weight:700}.ticket .t-item{font-size:20px;font-weight:700;margin-top:10px}.ticket .t-sub{font-size:13px;color:#555}.ticket .t-memo{font-size:16px;font-weight:700}.ticket .t-rule{border-top:2px dashed #000;margin:8px 0;height:0}#ticketPreview{display:block;font-family:ui-monospace,monospace;min-width:260px}@media print{@page{size:80mm auto;margin:3mm}body>*:not(#printArea){display:none!important}#printArea{display:block!important;color:#000;background:#fff}.ticket .t-sub{color:#000}}#syncStatus{align-self:center;font-size:13px;color:#d8e7dd}#syncStatus.warn{color:#ffd9a8}.gate{position:fixed;inset:0;background:#f6f4ee;z-index:100;display:flex;align-items:center;justify-content:center}.gate form{background:#fff;border:1px solid #d9ded5;border-radius:14px;padding:24px;width:min(380px,90vw)}.gate [role=alert]{color:#943e21}.change{margin:10px 0;padding:10px 12px;border-radius:10px;text-align:center;font-size:28px;font-weight:700}.change.ok{background:#e4efe3;color:#193b30}.change.short{background:#fbdcd8;color:#7a1810}.change.wait{background:#f1f5ef;color:#4e6559;font-size:14px;font-weight:400}.option{max-height:90vh;overflow:auto}
 @media(min-width:641px){
 html,body{height:100%}
 body{display:flex;flex-direction:column;overflow:hidden}
@@ -128,6 +128,7 @@ aside>*{flex:none}
 </form></dialog>
 <dialog id="history" class="option" aria-labelledby="historyTitle"><h2 id="historyTitle">결제 기록 · 일일 마감</h2>
 <div class="tools"><input type="date" id="historyDate" aria-label="날짜"><label><input type="checkbox" id="historyAll"> 전체 기간</label></div>
+<div id="closeBar" class="closebar"></div>
 <nav id="historyTabs" class="htabs" aria-label="리포트 보기"></nav>
 <div id="closeout" class="closeout"></div>
 <div id="historyList" class="history"></div>
@@ -162,9 +163,17 @@ function cleanPrices(value){
  if(value&&typeof value==='object')for(const [key,cents] of Object.entries(value))if(Number.isInteger(cents)&&cents>=0&&cents<=999999)out[key]=cents;
  return out;
 }
-const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:''};
+function cleanClosed(value){
+ const out={};
+ if(value&&typeof value==='object')for(const [day,snap] of Object.entries(value)){
+  if(/^\d{4}-\d{2}-\d{2}$/.test(day)&&snap&&typeof snap.at==='string'&&Number.isInteger(snap.n)&&Number.isFinite(snap.recv))
+   out[day]={at:snap.at,n:snap.n,paid:Number.isFinite(snap.paid)?snap.paid:0,recv:snap.recv};
+ }
+ return out;
+}
+const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',closedDays:{}};
 function normalizeSettings(raw){
- const out={...DEFAULT_SETTINGS,prices:{}};
+ const out={...DEFAULT_SETTINGS,prices:{},closedDays:{}};
  if(!raw||typeof raw!=='object')return out;
  if(Number.isFinite(raw.taxRate)&&raw.taxRate>=0&&raw.taxRate<=25)out.taxRate=raw.taxRate;
  out.taxGratuity=raw.taxGratuity!==false;
@@ -172,6 +181,7 @@ function normalizeSettings(raw){
  out.tipCut=Number.isFinite(raw.tipCut)&&raw.tipCut>=0&&raw.tipCut<=100?raw.tipCut:20;
  out.prices=cleanPrices(raw.prices);
  out.pinHash=typeof raw.pinHash==='string'&&raw.pinHash.length<=128?raw.pinHash:'';
+ out.closedDays=cleanClosed(raw.closedDays);
  return out;
 }
 let settings=normalizeSettings(null);
@@ -184,6 +194,8 @@ const storageKey='shin-toe-bul-yi.table-orders.v1';
 const orders=Array.from({length:9},()=>new Map());
 const parties=Array(9).fill(0);
 const servers=Array(9).fill('');
+const opened=Array(9).fill('');
+function touchOpened(i){if(!opened[i])opened[i]=new Date().toISOString();}
 function claimTable(i){if(staffName&&!servers[i])servers[i]=staffName;}
 const riceDismissed=new Set();
 let activeTable=0;
@@ -196,6 +208,7 @@ try {
   if(Number.isInteger(saved.activeTable)&&orders[saved.activeTable])activeTable=saved.activeTable;
  }
  if(saved?.settings)settings=normalizeSettings(saved.settings);
+ if(Array.isArray(saved?.opened)&&saved.opened.length===opened.length)saved.opened.forEach((v,i)=>{opened[i]=typeof v==='string'?v.slice(0,40):'';});
  if(Array.isArray(saved?.servers)&&saved.servers.length===servers.length)saved.servers.forEach((n,i)=>{servers[i]=typeof n==='string'?n.slice(0,12):'';});
  if(Array.isArray(saved?.parties)&&saved.parties.length===parties.length)saved.parties.forEach((n,i)=>{parties[i]=Number.isInteger(n)&&n>=0?n:0;});
 } catch {
@@ -208,7 +221,7 @@ function saveOrders(){
 }
 function persistLocal(){
  try {
-  localStorage.setItem(storageKey,JSON.stringify({activeTable,orders:orders.map(order=>[...order]),parties,servers,settings,paidOrders}));
+  localStorage.setItem(storageKey,JSON.stringify({activeTable,orders:orders.map(order=>[...order]),parties,servers,opened,settings,paidOrders}));
   el('storageWarning').hidden=true;
   return true;
  } catch {
@@ -302,7 +315,7 @@ function addLine(item,option,price,note,delta){
  const quantity=(prev?.quantity||0)+delta;
  if(quantity>0)cart.set(key,{ko:item.ko+(option?' · '+option:''),en:item.en+(option?' · '+option:''),price,quantity,memo:prev?.memo||'',note:note||prev?.note||'',r:item.r?1:0,s:item.s?1:0,d:item.d?1:0,sent:prev?.sent||0,t:item.t||0});
  else cart.delete(key);
- if(quantity>0)claimTable(activeTable);
+ if(quantity>0){claimTable(activeTable);touchOpened(activeTable);}
  saveOrders();renderCart();
 }
 function changeQty(key,delta){
@@ -377,7 +390,7 @@ function renderCart(){
  el('riceHint').hidden=!([...cart.values()].some(line=>line.r)&&!cart.has(RICE_ID)&&!riceDismissed.has(activeTable));
 }
 el('partyMinus').onclick=()=>{if(parties[activeTable]>0){parties[activeTable]--;saveOrders();renderCart();}};
-el('partyPlus').onclick=()=>{if(parties[activeTable]<99){parties[activeTable]++;claimTable(activeTable);saveOrders();renderCart();}};
+el('partyPlus').onclick=()=>{if(parties[activeTable]<99){parties[activeTable]++;claimTable(activeTable);touchOpened(activeTable);saveOrders();renderCart();}};
 el('addRice').onclick=()=>{
  const rice=groups['추가'].find(item=>item.ko===RICE_ID);
  addLine(rice,null,priceFor(rice,null,rice.price),'',1);
@@ -390,7 +403,7 @@ function askConfirm(message,onYes){
  el('confirmDlg').showModal();
 }
 el('clear').onclick=()=>askConfirm((activeTable+1)+'번 테이블 주문을 모두 비울까요?',()=>{
- orders[activeTable].clear();parties[activeTable]=0;servers[activeTable]='';riceDismissed.delete(activeTable);
+ orders[activeTable].clear();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';riceDismissed.delete(activeTable);
  saveOrders();
  renderCart();
 });
@@ -475,13 +488,13 @@ el('paymentForm').onsubmit=event=>{
  }
  el('payError').textContent='';
  const {sub,gratuity,tax}=totals(activeTable);
- const party=parties[activeTable],server=servers[activeTable];
- const record={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:activeTable+1,time:new Date().toISOString(),method,amount,subtotal:sub,gratuity,tax,tip,party,voided:false,items:[...order]};
+ const party=parties[activeTable],server=servers[activeTable],openedAt=opened[activeTable];
+ const record={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:activeTable+1,time:new Date().toISOString(),method,amount,subtotal:sub,gratuity,tax,tip,party,bizDate:bizDay(openedAt||new Date().toISOString()),openedAt,voided:false,items:[...order]};
  if(method==='현금'){record.received=received;record.change=change;}
  paidOrders.push(record);
- orders[activeTable]=new Map();parties[activeTable]=0;servers[activeTable]='';
+ orders[activeTable]=new Map();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';
  if(!saveOrders()){
-  orders[activeTable]=order;parties[activeTable]=party;servers[activeTable]=server;
+  orders[activeTable]=order;parties[activeTable]=party;servers[activeTable]=server;opened[activeTable]=openedAt;
   paidOrders.pop();
   el('payError').textContent='브라우저에 결제 기록을 저장할 수 없습니다. 테이블 주문은 그대로 있습니다.';
   return;
@@ -495,6 +508,11 @@ el('paymentForm').onsubmit=event=>{
 };
 // ---------- 결제 기록 · 일일 마감 ----------
 const dayKey=iso=>new Date(iso).toLocaleDateString('en-CA');
+// 영업일: 새벽 4시 전에 받은 주문/결제는 전날 영업일로 봅니다.
+const BIZ_CUTOFF_HOURS=4;
+const bizDay=iso=>new Date(new Date(iso).getTime()-BIZ_CUTOFF_HOURS*3600000).toLocaleDateString('en-CA');
+const recordDay=r=>r.bizDate||bizDay(r.time);
+const shiftDay=(day,delta)=>{const d=new Date(day+'T12:00:00');d.setDate(d.getDate()+delta);return d.toLocaleDateString('en-CA');};
 const recordSub=r=>Number.isFinite(r.subtotal)?r.subtotal:r.items.reduce((s,[,l])=>s+l.price*l.quantity,0);
 const recordGrat=r=>Number.isFinite(r.gratuity)?r.gratuity:0;
 const recordTax=r=>Number.isFinite(r.tax)?r.tax:0;
@@ -502,7 +520,7 @@ const recordTip=r=>Number.isFinite(r.tip)?r.tip:0;
 function visibleRecords(){
  const all=el('historyAll').checked;
  const day=el('historyDate').value;
- return paidOrders.filter(r=>all||dayKey(r.time)===day);
+ return paidOrders.filter(r=>all||recordDay(r)===day);
 }
 let historyTab='summary';
 const HISTORY_TABS=[['summary','요약'],['tips','팁 분배'],['hours','시간대별'],['tables','테이블별'],['items','판매 수량'],['list','결제 목록']];
@@ -590,7 +608,49 @@ function reportCard(title,rows){
  }
  card.append(h,table);return card;
 }
+function closeDay(day){
+ const open=orders.map((o,i)=>o.size?(i+1)+'번':null).filter(Boolean);
+ const msg=day+' 영업을 마감할까요?'+(open.length?' 아직 결제되지 않은 테이블('+open.join(', ')+')은 그대로 남고, 나중에 결제해도 주문을 받은 날의 매출로 기록됩니다.':'');
+ askConfirm(msg,()=>{
+  const recs=paidOrders.filter(r=>!r.voided&&recordDay(r)===day);
+  const snap={at:new Date().toISOString(),n:recs.length,paid:recs.reduce((t,r)=>t+r.amount,0),recv:recs.reduce((t,r)=>t+r.amount+recordTip(r),0)};
+  const previous=settings;
+  settings={...settings,closedDays:{...settings.closedDays,[day]:snap}};
+  if(!saveOrders()){settings=previous;}
+  renderHistory();
+ });
+}
+function renderCloseBar(){
+ const box=el('closeBar');box.replaceChildren();
+ if(el('historyAll').checked)return;
+ const day=el('historyDate').value;
+ const text=(value,cls)=>{const p=document.createElement('p');p.className=cls;p.textContent=value;return p;};
+ const recs=paidOrders.filter(r=>!r.voided&&recordDay(r)===day);
+ const closed=settings.closedDays[day];
+ if(closed){
+  box.append(text('✓ 마감됨 · '+new Date(closed.at).toLocaleString('ko-KR')+' · 결제 '+closed.n+'건 · 수령 '+money(closed.recv),'closed-ok'));
+  const late=recs.filter(r=>r.time>closed.at);
+  if(late.length){
+   const sum=late.reduce((t,r)=>t+r.amount+recordTip(r),0);
+   box.append(text('⚠ 마감 뒤에 이 날 매출로 결제된 '+late.length+'건('+money(sum)+')이 포함되어 있습니다.','closed-warn'));
+   box.append(button('다시 마감',()=>closeDay(day)));
+  }
+  box.append(button('전체 백업(JSON)',()=>el('exportJson').click()));
+ }else{
+  box.append(text('아직 마감하지 않았습니다.','closed-no'));
+  box.append(button(day+' 마감하기',()=>closeDay(day)));
+ }
+ const today=bizDay(new Date().toISOString());
+ if(day===today){
+  const prev=shiftDay(today,-1);
+  if(paidOrders.some(r=>!r.voided&&recordDay(r)===prev)&&!settings.closedDays[prev]){
+   box.append(text('⚠ 어제('+prev+')를 아직 마감하지 않았습니다.','closed-warn'));
+   box.append(button('어제 보기',()=>{el('historyDate').value=prev;renderHistory();}));
+  }
+ }
+}
 function renderHistory(){
+ renderCloseBar();
  const records=visibleRecords();
  const valid=records.filter(r=>!r.voided);
  const total=f=>valid.reduce((s,r)=>s+f(r),0);
@@ -613,11 +673,11 @@ function renderHistory(){
   reportCard('매출 내역',[['메뉴 합계',money(sub)],['세금',money(taxSum)],['매출 합계 (메뉴+세금)',money(sub+taxSum),'grand'],['팁 (자동 팁 포함)',money(tipTotal)],['총 청구액',money(sub+taxSum+tipTotal),'grand']]),
   reportCard('실제 입금',[['현금 (팁 포함)',money(receivedOn('현금'))],['카드 (팁 포함)',money(receivedOn('카드'))],['총 수령액',money(paid+tipSum),'grand'],['할인·반올림 등 차이',money(paid-calc),'diff']])
  );
- const byHour=groupSales(valid,rec=>new Date(rec.time).getHours());
+ const byHour=groupSales(valid,rec=>(new Date(rec.time).getHours()+24-BIZ_CUTOFF_HOURS)%24);
  if(byHour.size){
   const hours=[...byHour.keys()];
   const entries=[];
-  for(let hour=Math.min(...hours);hour<=Math.max(...hours);hour++)entries.push({label:hour+'시',...(byHour.get(hour)||{amount:0,count:0})});
+  for(let idx=Math.min(...hours);idx<=Math.max(...hours);idx++)entries.push({label:((idx+BIZ_CUTOFF_HOURS)%24)+'시',...(byHour.get(idx)||{amount:0,count:0})});
   pages.hours.push(barCard('시간대별 매출 (실제 결제액)',entries));
  }
  const byTable=groupSales(valid,rec=>rec.table);
@@ -651,6 +711,14 @@ function renderHistory(){
   const meta=document.createElement('p');meta.className='hint';
   meta.textContent='메뉴 '+money(recordSub(record))+' · 자동 팁 '+money(recordGrat(record))+' · 세금 '+money(recordTax(record))+(recordTip(record)?' · 팁 '+money(recordTip(record)):'')+(record.party?' · '+record.party+'명':'')+(record.received?' · 받은 '+money(record.received)+' · 거스름돈 '+money(record.change||0):'');
   entry.append(meta);
+  {
+   const rd=recordDay(record);
+   const row=document.createElement('p');row.className='hint';
+   row.append('영업일 '+(rd!==bizDay(record.time)?'(결제일과 다름) ':''));
+   const di=document.createElement('input');di.type='date';di.value=rd;di.style.width='auto';di.style.padding='6px';
+   row.append(di,button('영업일 변경',()=>{if(!di.value)return;record.bizDate=di.value;saveOrders();renderHistory();}));
+   entry.append(row);
+  }
   for(const [key,line] of record.items){
    const p=document.createElement('p');
    p.textContent=lineKo(key,line)+' × '+line.quantity+' · '+money(line.quantity*line.price)+(line.memo?' · 📝 '+line.memo:'');
@@ -693,10 +761,10 @@ const csvCell=value=>{
  return '"'+text.replaceAll('"','""')+'"';
 };
 el('exportCsv').onclick=()=>{
- const rows=[['일시','테이블','인원','결제수단','메뉴합계','자동팁(봉사료)','세금','실제결제액','팁','차이','받은금액','거스름돈','상태','품목']];
+ const rows=[['일시','영업일','테이블','인원','결제수단','메뉴합계','자동팁(봉사료)','세금','실제결제액','팁','차이','받은금액','거스름돈','상태','품목']];
  for(const r of visibleRecords()){
   const sub=recordSub(r),grat=recordGrat(r);
-  rows.push([new Date(r.time).toLocaleString('ko-KR'),r.table,r.party||'',r.method,(sub/100).toFixed(2),(grat/100).toFixed(2),(recordTax(r)/100).toFixed(2),(r.amount/100).toFixed(2),(recordTip(r)/100).toFixed(2),((r.amount-sub-grat-recordTax(r))/100).toFixed(2),r.received?(r.received/100).toFixed(2):'',r.received?((r.change||0)/100).toFixed(2):'',r.voided?'취소':'완료',r.items.map(([key,l])=>lineKo(key,l)+' x'+l.quantity+(l.memo?' ('+l.memo+')':'')).join('; ')]);
+  rows.push([new Date(r.time).toLocaleString('ko-KR'),recordDay(r),r.table,r.party||'',r.method,(sub/100).toFixed(2),(grat/100).toFixed(2),(recordTax(r)/100).toFixed(2),(r.amount/100).toFixed(2),(recordTip(r)/100).toFixed(2),((r.amount-sub-grat-recordTax(r))/100).toFixed(2),r.received?(r.received/100).toFixed(2):'',r.received?((r.change||0)/100).toFixed(2):'',r.voided?'취소':'완료',r.items.map(([key,l])=>lineKo(key,l)+' x'+l.quantity+(l.memo?' ('+l.memo+')':'')).join('; ')]);
  }
  const name='shin-toe-bul-yi-'+(el('historyAll').checked?'all':el('historyDate').value)+'.csv';
  showExport('CSV 내보내기',name,'text/csv;charset=utf-8',rows.map(row=>row.map(csvCell).join(',')).join('\r\n'),'\ufeff');
@@ -705,7 +773,7 @@ el('exportJson').onclick=()=>{
  showExport('전체 백업(JSON)','shin-toe-bul-yi-backup-'+dayKey(new Date().toISOString())+'.json','application/json',JSON.stringify({exportedAt:new Date().toISOString(),orders:orders.map(o=>[...o]),parties,settings,paidOrders},null,1));
 };
 el('viewHistory').onclick=()=>{
- el('historyDate').value=dayKey(new Date().toISOString());
+ el('historyDate').value=bizDay(new Date().toISOString());
  el('historyAll').checked=false;
  historyTab='summary';
  renderHistory();
@@ -814,8 +882,8 @@ el('reloadApp').onclick=()=>{
 };
 // ---------- 결제 후 팁 입력 ----------
 function renderTipList(focusId){
- const today=dayKey(new Date().toISOString());
- const rows=paidOrders.filter(rec=>!rec.voided&&dayKey(rec.time)===today).slice().reverse();
+ const today=bizDay(new Date().toISOString());
+ const rows=paidOrders.filter(rec=>!rec.voided&&(bizDay(rec.time)===today||recordDay(rec)===today)).slice().reverse();
  const table=el('tipTable');
  table.replaceChildren();
  if(!rows.length){const tr=table.insertRow();const td=tr.insertCell();td.textContent='오늘 저장된 결제가 없습니다.';return;}
@@ -1044,8 +1112,8 @@ const Sync=(()=>{
  let lastRecv=null,hiddenAt=0;
  const okText=()=>'동기화됨'+(lastRecv?' · 수신 '+lastRecv.toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit',second:'2-digit'}):'');
  function received(){lastRecv=new Date();if(!timer&&navigator.onLine)status(okText());}
- const emptyTable=JSON.stringify({lines:[],party:0,server:''});
- const tableJson=i=>JSON.stringify({lines:[...orders[i]],party:parties[i],server:servers[i]});
+ const emptyTable=JSON.stringify({lines:[],party:0,server:'',opened:''});
+ const tableJson=i=>JSON.stringify({lines:[...orders[i]],party:parties[i],server:servers[i],opened:opened[i]});
  const settingsJson=()=>JSON.stringify(normalizeSettings(settings));
  function status(text,warn){
   const node=el('syncStatus');
@@ -1094,6 +1162,7 @@ const Sync=(()=>{
   orders[i]=new Map(Array.isArray(data.lines)?data.lines:[]);
   parties[i]=Number.isInteger(data.party)&&data.party>=0?data.party:0;
   servers[i]=typeof data.server==='string'?data.server.slice(0,12):'';
+  opened[i]=typeof data.opened==='string'?data.opened.slice(0,40):'';
  }
  function onTables(map){
   let changed=false;
