@@ -45,7 +45,7 @@ function fill(container,ticket){
  const add=(text,cls)=>{const p=document.createElement('p');p.className=cls||'';p.textContent=text;container.append(p);return p;};
  const head=add(ticket.table+'번 테이블','t-head');
  if(ticket.extra){const tag=document.createElement('span');tag.className='extra';tag.textContent='추가 주문';head.append(' ',tag);}
- add(new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'})+(ticket.party?' · '+ticket.party+'명':''),'t-sub');
+ add(new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'})+(ticket.party?' · '+ticket.party+'명':'')+(ticket.staff?' · 주문 '+ticket.staff:''),'t-sub');
  const rule=document.createElement('p');rule.className='t-rule';container.append(rule);
  for(const item of ticket.items){
   add(item.qty+' × '+item.ko+(item.s?' 🌶':'')+(item.total>item.qty?' (총 '+item.total+')':''),'t-item');

@@ -35,9 +35,13 @@ aside>*{flex:none}
 .order-mode #sendKitchen{position:fixed;left:12px;right:12px;width:auto;bottom:calc(12px + env(safe-area-inset-bottom));z-index:50;min-height:58px;font-size:19px;margin:0;box-shadow:0 4px 14px #0004}
 .order-mode #kitchenNotice:not(:empty){position:fixed;left:12px;right:12px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:50;background:#193b30;color:#fff;border-radius:10px;padding:10px 12px;margin:0;text-align:center}
 @media(max-width:640px){
-.order-mode header{padding:10px 12px}.order-mode header strong{font-size:17px}
-.order-mode .hbtns button{padding:6px 10px;min-height:40px;white-space:nowrap}
-.order-mode .table-picker{padding:8px 12px 0}
+.order-mode header{display:none}
+.order-mode .table-picker h2{display:none}
+.order-mode .name-chip{flex:1;min-width:0;min-height:44px;font-weight:700;background:#f1f5ef;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 8px}
+.order-mode .reload-icon{min-width:44px;padding:4px 8px;font-size:20px}
+.order-mode .bar{gap:6px}.order-mode .bar h2{font-size:17px;white-space:nowrap}.order-mode .bar button{min-height:44px;padding:6px 10px}
+.order-mode #syncStatus{display:block;margin-top:2px;font-size:12px;color:#4e6559}.order-mode #syncStatus.warn{color:#943e21}
+.order-mode .table-picker{padding:10px 12px 0}
 .order-mode .table-picker #tables{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .order-mode .table-zone,.order-mode .table-row{display:contents}
 .order-mode .table-zone h3{display:none}
@@ -90,6 +94,11 @@ aside>*{flex:none}
 <p class="hint">손님이 계산 뒤에 놓고 간 팁을 해당 결제에 입력하세요. 이미 입력한 팁도 고칠 수 있습니다.</p>
 <div id="tipList"><table id="tipTable"></table></div>
 <form method="dialog"><button>닫기</button></form></dialog>
+<dialog id="nameDlg" class="option" aria-labelledby="nameTitle"><form id="nameForm"><h2 id="nameTitle">주문받는 사람 이름</h2>
+<p class="hint">주방 주문서에 표시됩니다. 이 기기에 저장됩니다.</p>
+<input id="nameInput" maxlength="12" autocomplete="off" placeholder="예: 민수">
+<p id="nameError" role="alert"></p>
+<button type="submit">확인</button> <button id="nameCancel" type="button">취소</button></form></dialog>
 <dialog id="ticketDlg" class="option" aria-labelledby="ticketTitle"><h2 id="ticketTitle">주방 주문서</h2>
 <div id="ticketPreview" class="ticket"></div>
 <div class="tools"><button type="button" id="ticketPrint">🖨 인쇄</button><button type="button" id="ticketClose">닫기</button></div></dialog>
@@ -313,7 +322,7 @@ el('memoForm').onsubmit=event=>{
 el('memoCancel').onclick=()=>el('memoDlg').close();
 function renderCart(){
  const cart=orders[activeTable];
- el('orderHeading').textContent=(activeTable+1)+'번 테이블 주문';
+ el('orderHeading').textContent=(activeTable+1)+(ORDER_MODE?'번':'번 테이블')+' 주문';
  renderTables();
  el('lines').replaceChildren();
  for(const [key,line] of cart){
@@ -826,12 +835,43 @@ function openTipDialog(focusId){
 el('openTips').onclick=()=>openTipDialog(null);
 el('tipLater').onclick=()=>openTipDialog(lastPaymentId);
 
+// ---------- 주문받는 사람 이름 ----------
+let staffName='',afterLogin=null;
+try{staffName=(localStorage.getItem('stby-staff-name')||'').slice(0,12);}catch{}
+let nameChip=null;
+function updateNameChip(){if(nameChip)nameChip.textContent='👤 '+(staffName||'이름');}
+function askName(required){
+ el('nameInput').value=staffName;el('nameError').textContent='';
+ el('nameCancel').hidden=required;
+ el('nameDlg').dataset.required=required?'1':'';
+ el('nameDlg').showModal();el('nameInput').focus();
+}
+el('nameDlg').addEventListener('cancel',event=>{if(el('nameDlg').dataset.required)event.preventDefault();});
+el('nameCancel').onclick=()=>el('nameDlg').close();
+el('nameForm').onsubmit=event=>{
+ event.preventDefault();
+ const value=el('nameInput').value.trim();
+ if(!value){el('nameError').textContent='이름을 입력하세요.';return;}
+ staffName=value.slice(0,12);
+ try{localStorage.setItem('stby-staff-name',staffName);}catch{}
+ updateNameChip();el('nameDlg').close();
+};
+if(ORDER_MODE){
+ // 위쪽 메뉴 대신: 이름과 새로고침은 주문 제목 줄에, 동기화 상태는 맨 아래에 둡니다.
+ nameChip=document.createElement('button');nameChip.type='button';nameChip.className='name-chip';nameChip.onclick=()=>askName(false);
+ updateNameChip();
+ const reload=el('reloadApp');reload.textContent='↻';reload.setAttribute('aria-label','새로고침');reload.className='reload-icon';
+ el('clear').before(nameChip,reload);
+ el('summaryBox').append(el('syncStatus'));
+ afterLogin=()=>{if(!staffName)askName(true);};
+}
+
 // ---------- 주방 전송 ----------
 function renderTicket(container,ticket){
  container.replaceChildren();
  const add=(text,cls)=>{const p=document.createElement('p');p.className=cls||'';p.textContent=text;container.append(p);return p;};
  add(ticket.table+'번 테이블'+(ticket.extra?' · 추가 주문':''),'t-head');
- add(new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'})+(ticket.party?' · '+ticket.party+'명':''),'t-sub');
+ add(new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'})+(ticket.party?' · '+ticket.party+'명':'')+(ticket.staff?' · 주문 '+ticket.staff:''),'t-sub');
  const rule=document.createElement('p');rule.className='t-rule';container.append(rule);
  for(const item of ticket.items){
   add(item.qty+' × '+item.ko+(item.s?' 🌶':'')+(item.total>item.qty?' (총 '+item.total+')':''),'t-item');
@@ -857,6 +897,7 @@ el('ticketClose').onclick=()=>el('ticketDlg').close();
 let lastTicket=null;
 const pendingOf=line=>line.d?0:Math.max(0,line.quantity-(line.sent||0));
 el('sendKitchen').onclick=()=>{
+ if(ORDER_MODE&&!staffName){askName(true);return;}
  const tableIndex=activeTable,cart=orders[tableIndex];
  const items=[],prevSent=new Map();
  let extra=false;
@@ -868,7 +909,7 @@ el('sendKitchen').onclick=()=>{
   if(qty>0)items.push({ko:line.ko||key,en:line.en||'',qty,total:line.quantity,memo:line.memo||'',note:line.note||'',t:line.t||0,s:line.s?1:0});
  }
  if(!items.length)return;
- const ticket={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:tableIndex+1,time:new Date().toISOString(),party:parties[tableIndex],extra,items,done:false};
+ const ticket={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:tableIndex+1,time:new Date().toISOString(),party:parties[tableIndex],staff:staffName,extra,items,done:false};
  for(const line of cart.values())if(!line.d)line.sent=line.quantity;
  saveOrders();renderCart();
  lastTicket=ticket;
@@ -1087,6 +1128,7 @@ const Sync=(()=>{
   adapter.onAuth(u=>{
    if(u){
     user=u;gate(false);begin();
+    if(afterLogin)afterLogin();
    }else{
     stop();status('로그아웃됨',true);
     el('loginRow').hidden=false;el('loginBtn').hidden=false;
@@ -1120,4 +1162,5 @@ const Sync=(()=>{
 el('search').oninput=renderMenu;
 renderMenu();renderCart();
 Sync.start();
+if(ORDER_MODE&&!Sync.enabled&&!staffName)askName(true);
 </script><script>if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));</script></html>
