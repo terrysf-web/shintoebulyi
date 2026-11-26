@@ -112,13 +112,14 @@ function cleanPrices(value){
  if(value&&typeof value==='object')for(const [key,cents] of Object.entries(value))if(Number.isInteger(cents)&&cents>=0&&cents<=999999)out[key]=cents;
  return out;
 }
-const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,prices:{},pinHash:''};
+const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:''};
 function normalizeSettings(raw){
  const out={...DEFAULT_SETTINGS,prices:{}};
  if(!raw||typeof raw!=='object')return out;
  if(Number.isFinite(raw.taxRate)&&raw.taxRate>=0&&raw.taxRate<=25)out.taxRate=raw.taxRate;
  out.taxGratuity=raw.taxGratuity!==false;
  out.staffCount=Number.isInteger(raw.staffCount)&&raw.staffCount>=0&&raw.staffCount<=99?raw.staffCount:0;
+ out.tipCut=Number.isFinite(raw.tipCut)&&raw.tipCut>=0&&raw.tipCut<=100?raw.tipCut:20;
  out.prices=cleanPrices(raw.prices);
  out.pinHash=typeof raw.pinHash==='string'&&raw.pinHash.length<=128?raw.pinHash:'';
  return out;
@@ -465,28 +466,55 @@ function groupSales(valid,keyOf){
  for(const rec of valid){const k=keyOf(rec);const e=map.get(k)||{amount:0,count:0};e.amount+=rec.amount;e.count++;map.set(k,e);}
  return map;
 }
-function staffCard(pool){
+function payoutCard(totalTips){
  const card=document.createElement('section');card.className='rcard';
- const h=document.createElement('h3');h.textContent='직원 분배 (균등)';
- const label=document.createElement('label');label.className='staff-row';
- label.append('직원 수 ');
- const input=document.createElement('input');input.type='number';input.min='0';input.max='99';input.step='1';input.inputMode='numeric';input.id='staffCount';
- input.value=settings.staffCount||'';input.placeholder='0';
- label.append(input,' 명');
+ const h=document.createElement('h3');h.textContent='팁 분배 (가게 몫을 뗀 뒤 균등)';
+ const cutLabel=document.createElement('label');cutLabel.className='staff-row';
+ cutLabel.append('가게 몫 ');
+ const cutInput=document.createElement('input');cutInput.type='number';cutInput.min='0';cutInput.max='100';cutInput.step='0.1';cutInput.inputMode='decimal';cutInput.id='tipCut';
+ cutInput.value=String(settings.tipCut);
+ cutLabel.append(cutInput,' %');
+ const staffLabel=document.createElement('label');staffLabel.className='staff-row';
+ staffLabel.append('직원 수 ');
+ const staffInput=document.createElement('input');staffInput.type='number';staffInput.min='0';staffInput.max='99';staffInput.step='1';staffInput.inputMode='numeric';staffInput.id='staffCount';
+ staffInput.value=settings.staffCount||'';staffInput.placeholder='0';
+ staffLabel.append(staffInput,' 명');
+ const table=document.createElement('table');
+ const cells={};
+ for(const [key,label,kind] of [['total','총 팁',''],['cut','가게 몫',''],['pool','분배 대상 합계','grand']]){
+  const tr=document.createElement('tr');if(kind)tr.className=kind;
+  const th=document.createElement('th');th.scope='row';th.textContent=label;
+  const td=document.createElement('td');cells[key]=td;
+  tr.append(th,td);table.append(tr);
+ }
  const result=document.createElement('p');result.className='staff-result';
  const update=()=>{
-  const n=Number(input.value);
+  const pct=Number(cutInput.value);
+  const valid=Number.isFinite(pct)&&pct>=0&&pct<=100&&cutInput.value!=='';
+  const cut=valid?Math.round(totalTips*pct/100):0;
+  const pool=totalTips-cut;
+  cells.total.textContent=money(totalTips);
+  cells.cut.textContent=valid?'−'+money(cut):'0~100 사이로 입력';
+  cells.pool.textContent=money(pool);
+  const n=Number(staffInput.value);
   if(!Number.isInteger(n)||n<=0){result.textContent='직원 수를 입력하면 1인당 금액이 계산됩니다.';return;}
   const each=Math.floor(pool/n);
   result.textContent='1인당 '+money(each)+(pool-each*n?' · 남는 금액 '+money(pool-each*n):'');
  };
- input.oninput=()=>{
-  const n=Number(input.value);
+ cutInput.oninput=()=>{
+  const pct=Number(cutInput.value);
+  if(cutInput.value!==''&&Number.isFinite(pct)&&pct>=0&&pct<=100){
+   settings={...settings,tipCut:pct};saveOrders();
+  }
+  update();
+ };
+ staffInput.oninput=()=>{
+  const n=Number(staffInput.value);
   settings={...settings,staffCount:Number.isInteger(n)&&n>0&&n<=99?n:0};
   saveOrders();update();
  };
  update();
- card.append(h,label,result);return card;
+ card.append(h,cutLabel,staffLabel,table,result);return card;
 }
 function reportCard(title,rows){
  const card=document.createElement('section');card.className='rcard';
@@ -514,7 +542,9 @@ function renderHistory(){
  head.textContent=dateText+' · 결제 '+valid.length+'건'+(cancelled?' (취소 '+cancelled+'건 제외)':'');
  const calc=sub+grat+taxSum;
  const tipOn=method=>valid.filter(rec=>rec.method===method).reduce((sum,rec)=>sum+recordTip(rec),0);
+ const gratOn=method=>valid.filter(rec=>rec.method===method).reduce((sum,rec)=>sum+recordGrat(rec),0);
  const tipCard=tipOn('카드'),tipCash=tipOn('현금'),tipSum=tipCard+tipCash;
+ const tipCardAll=tipCard+gratOn('카드'),tipCashAll=tipCash+gratOn('현금'),tipTotal=tipCardAll+tipCashAll;
  const pages={summary:[],tips:[],hours:[],tables:[],items:[]};
  pages.summary.push(
   reportCard('매출 내역',[['메뉴 합계',money(sub)],['봉사료',money(grat)],['세금',money(taxSum)],['계산상 합계',money(calc),'grand']]),
@@ -533,8 +563,8 @@ function renderHistory(){
   pages.tables.push(barCard('테이블별 매출 (실제 결제액)',entries));
  }
  pages.tips.push(
-  reportCard('팁 내역',[['카드 팁',money(tipCard)],['현금 팁',money(tipCash)],['팁 합계',money(tipSum),'grand'],['의무 봉사료 (6인 이상)',money(grat)],['분배 대상 합계',money(tipSum+grat),'grand']]),
-  staffCard(tipSum+grat)
+  reportCard('팁 내역 (의무 봉사료 포함)',[['카드 팁',money(tipCardAll)],['현금 팁',money(tipCashAll)],['총 팁',money(tipTotal),'grand']]),
+  payoutCard(tipTotal)
  );
  const sold=[...counts].sort((a,b)=>b[1]-a[1]);
  if(sold.length)pages.items.push(reportCard('판매 수량',sold.map(([name,qty])=>[name,qty+'개'])));
