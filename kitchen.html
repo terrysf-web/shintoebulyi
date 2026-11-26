@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126070222"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126070542"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -111,23 +111,26 @@ function onFirstGesture(){
 ['pointerdown','touchstart','keydown','click'].forEach(ev=>document.addEventListener(ev,onFirstGesture,true));
 setInterval(refreshSound,2000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&audio){audio.resume().catch(()=>{});refreshSound();}});
-// 크고 눈에 띄는 경보음: 두 음을 번갈아 6번, 3묶음 (약 4초), 최대 음량
+// 현관 초인종 같은 "딩동" 소리 (부드럽게 울렸다가 사라지는 종소리)
+function chime(start,freq,volume){
+ const master=audio.createGain();master.gain.value=volume;master.connect(audio.destination);
+ [[1,1],[2.01,0.35],[3.0,0.12]].forEach(([mult,level])=>{
+  const osc=audio.createOscillator(),gain=audio.createGain();
+  osc.type='sine';osc.frequency.value=freq*mult;
+  gain.gain.setValueAtTime(0.0001,start);
+  gain.gain.exponentialRampToValueAtTime(level,start+0.012);
+  gain.gain.exponentialRampToValueAtTime(0.0001,start+1.5);
+  osc.connect(gain);gain.connect(master);osc.start(start);osc.stop(start+1.6);
+ });
+}
 function alarm(){
  if(!soundReady())return;
  try{
   const t0=audio.currentTime+0.05;
-  const comp=audio.createDynamicsCompressor();
-  const master=audio.createGain();master.gain.value=1;
-  comp.connect(master);master.connect(audio.destination);
-  const notes=[880,1320,880,1320,880,1320];
-  for(let round=0;round<3;round++)notes.forEach((freq,i)=>{
-   const start=t0+round*1.4+i*0.2;
-   const osc=audio.createOscillator(),gain=audio.createGain();
-   osc.type='square';osc.frequency.value=freq;
-   gain.gain.setValueAtTime(0,start);gain.gain.linearRampToValueAtTime(1,start+0.01);
-   gain.gain.setValueAtTime(1,start+0.15);gain.gain.linearRampToValueAtTime(0,start+0.18);
-   osc.connect(gain);gain.connect(comp);osc.start(start);osc.stop(start+0.2);
-  });
+  for(let round=0;round<2;round++){
+   chime(t0+round*2.2,659.25,0.9);       // 딩 (미)
+   chime(t0+round*2.2+0.6,523.25,0.9);   // 동 (도)
+  }
  }catch{}
 }
 el('sound').onclick=async()=>{await unlockSound();alarm();};
