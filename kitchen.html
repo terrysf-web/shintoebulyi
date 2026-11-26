@@ -1,10 +1,11 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126065308"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126070222"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 header strong{font-size:20px}.hbtns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 button{font:inherit;cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:#fff;color:inherit;min-height:44px;padding:8px 14px}
 header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header label{display:flex;gap:6px;align-items:center;font-size:14px}
+#sound.soundoff{background:#ffb300;color:#202922;border-color:#ffb300;font-weight:700;animation:blink 1.2s ease infinite}@keyframes blink{50%{opacity:.55}}
 #status{font-size:13px;color:#d8e7dd}#status.warn{color:#ffd9a8}
 main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
@@ -24,7 +25,7 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 <header><strong>주방 주문</strong><div class="hbtns"><span id="status">연결 중…</span>
 <label><input type="checkbox" id="auto"> 새 주문 자동 인쇄</label>
 <button type="button" id="resync">↻ 다시 연결</button>
-<button type="button" id="sound">🔔 소리 켜기</button>
+<button type="button" id="sound" class="soundoff">🔕 소리 꺼짐 · 화면을 눌러 켜기</button>
 <button type="button" id="logout">로그아웃</button></div></header>
 <main><h2>조리 중 <span id="pendingCount"></span></h2><div id="pending" class="grid"></div>
 <h2>완료 (최근 20개)</h2><div id="done" class="grid"></div></main>
@@ -42,7 +43,7 @@ const cfg=window.STBY_CONFIG||{};
 const PRINT_UI=new URLSearchParams(location.search).get('print')==='1';
 el('auto').parentElement.hidden=!PRINT_UI;
 const DAY=24*60*60*1000;
-let adapter=null,unsub=null,tickets=new Map(),seen=null,soundOn=false,audio=null,printing=Promise.resolve();
+let adapter=null,unsub=null,tickets=new Map(),seen=null,audio=null,printing=Promise.resolve();
 try{el('auto').checked=localStorage.getItem('stby-kitchen-auto')==='1';}catch{}
 el('auto').onchange=()=>{try{localStorage.setItem('stby-kitchen-auto',el('auto').checked?'1':'0');}catch{}};
 let lastRecv=null;
@@ -77,19 +78,59 @@ function printTicket(ticket){
   setTimeout(()=>{window.print();setTimeout(()=>{printJobs--;resolve();},1500);},50);
  }));
 }
-function beep(){
- if(!soundOn||!audio)return;
+// ---------- 알림 소리: 항상 켜짐 (iOS는 화면을 한 번 터치해야 소리가 허용됩니다) ----------
+function makeSilentAudio(){
+ // 무음 파일을 계속 재생해 무음 스위치가 켜져 있어도 소리가 나게 합니다.
+ const n=800,bytes=new Uint8Array(44+n);
+ const w=(o,s)=>[...s].forEach((c,i)=>bytes[o+i]=c.charCodeAt(0));
+ const u32=(o,v)=>{bytes[o]=v&255;bytes[o+1]=v>>8&255;bytes[o+2]=v>>16&255;bytes[o+3]=v>>24&255;};
+ w(0,'RIFF');u32(4,36+n);w(8,'WAVE');w(12,'fmt ');u32(16,16);bytes[20]=1;bytes[22]=1;u32(24,8000);u32(28,8000);bytes[32]=1;bytes[34]=8;w(36,'data');u32(40,n);
+ bytes.fill(128,44);
+ const a=new Audio(URL.createObjectURL(new Blob([bytes],{type:'audio/wav'})));
+ a.loop=true;a.setAttribute('playsinline','');return a;
+}
+let silent=null;
+async function unlockSound(){
+ try{if('audioSession' in navigator)navigator.audioSession.type='playback';}catch{}
+ try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();}catch{return;}
+ try{await audio.resume();}catch{}
+ try{silent=silent||makeSilentAudio();await silent.play();}catch{}
+ refreshSound();
+}
+const soundReady=()=>!!audio&&audio.state==='running';
+function refreshSound(){
+ const ok=soundReady();
+ el('sound').textContent=ok?'🔔 소리 켜짐':'🔕 소리 꺼짐 · 화면을 눌러 켜기';
+ el('sound').className=ok?'':'soundoff';
+}
+function onFirstGesture(){
+ unlockSound().then(()=>{
+  if(soundReady())['pointerdown','touchstart','keydown','click'].forEach(ev=>document.removeEventListener(ev,onFirstGesture,true));
+ });
+}
+['pointerdown','touchstart','keydown','click'].forEach(ev=>document.addEventListener(ev,onFirstGesture,true));
+setInterval(refreshSound,2000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&audio){audio.resume().catch(()=>{});refreshSound();}});
+// 크고 눈에 띄는 경보음: 두 음을 번갈아 6번, 3묶음 (약 4초), 최대 음량
+function alarm(){
+ if(!soundReady())return;
  try{
-  const o=audio.createOscillator(),g=audio.createGain();
-  o.frequency.value=880;g.gain.value=0.2;o.connect(g);g.connect(audio.destination);
-  o.start();o.stop(audio.currentTime+0.35);
+  const t0=audio.currentTime+0.05;
+  const comp=audio.createDynamicsCompressor();
+  const master=audio.createGain();master.gain.value=1;
+  comp.connect(master);master.connect(audio.destination);
+  const notes=[880,1320,880,1320,880,1320];
+  for(let round=0;round<3;round++)notes.forEach((freq,i)=>{
+   const start=t0+round*1.4+i*0.2;
+   const osc=audio.createOscillator(),gain=audio.createGain();
+   osc.type='square';osc.frequency.value=freq;
+   gain.gain.setValueAtTime(0,start);gain.gain.linearRampToValueAtTime(1,start+0.01);
+   gain.gain.setValueAtTime(1,start+0.15);gain.gain.linearRampToValueAtTime(0,start+0.18);
+   osc.connect(gain);gain.connect(comp);osc.start(start);osc.stop(start+0.2);
+  });
  }catch{}
 }
-el('sound').onclick=()=>{
- try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();audio.resume();soundOn=!soundOn;}catch{soundOn=false;}
- el('sound').textContent=soundOn?'🔔 소리 켜짐':'🔔 소리 켜기';
- if(soundOn)beep();
-};
+el('sound').onclick=async()=>{await unlockSound();alarm();};
 function setDone(ticket,done){
  const next={...ticket,done,doneAt:done?new Date().toISOString():null};
  tickets.set(ticket.id,next);render();
@@ -130,7 +171,7 @@ function onTickets(map){
  freshIds=new Set(incoming.map(t=>t.id));
  render();
  if(incoming.length){
-  beep();
+  alarm();
   if(PRINT_UI&&el('auto').checked)incoming.sort((a,b)=>a.time<b.time?-1:1).forEach(printTicket);
   setTimeout(()=>{freshIds=new Set();},3000);
  }
