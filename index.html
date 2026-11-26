@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126071705"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261126072705"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -58,16 +58,16 @@ aside>*{flex:none}
 <div id="orderBody"><div id="lines"></div>
 <div id="riceHint" class="notice" hidden>밥이 포함되지 않은 메뉴가 있습니다. 공깃밥을 추가할까요?<div><button type="button" id="addRice">공깃밥 +$3.00</button><button type="button" id="skipRice">괜찮아요</button></div></div></div>
 <div id="summaryBox"><button type="button" id="sendKitchen" class="kitchen" disabled>🍳 주방 전송</button><p id="kitchenNotice" class="hint" role="status"></p><div class="sum"><span>메뉴 합계</span><span id="subtotal"></span></div>
-<div class="sum" id="gratRow"><span id="gratLabel">봉사료</span><span id="gratuity"></span></div>
+<div class="sum" id="gratRow"><span id="gratLabel">자동 팁</span><span id="gratuity"></span></div>
 <div class="sum" id="taxRow"><span id="taxLabel"></span><span id="tax"></span></div>
 <div class="total"><span>예상 합계 (세금 포함)</span><strong id="total" aria-live="polite"></strong></div>
-<button type="button" id="pay" class="pay">결제 완료</button><p id="payNotice" class="hint" role="status"></p><p id="tipLaterRow" hidden><button type="button" id="tipLater">💵 방금 결제한 테이블 팁 입력</button></p><p class="hint closing">6인 이상은 18% 봉사료가 자동 포함됩니다. 세금은 설정의 세율로 계산됩니다. 최종 결제는 Royal 레지스터기에서 처리하세요.</p></div></aside></main>
+<button type="button" id="pay" class="pay">결제 완료</button><p id="payNotice" class="hint" role="status"></p><p id="tipLaterRow" hidden><button type="button" id="tipLater">💵 방금 결제한 테이블 팁 입력</button></p><p class="hint closing">6인 이상은 18% 자동 팁이 포함됩니다. 세금은 설정의 세율로 계산됩니다. 최종 결제는 Royal 레지스터기에서 처리하세요.</p></div></aside></main>
 <dialog id="options" class="option"><h2 id="optionName"></h2><div id="choices"></div><form method="dialog"><button>닫기</button></form></dialog>
 <dialog id="settingsDlg" class="option" aria-labelledby="settingsTitle"><form id="settingsForm"><h2 id="settingsTitle">설정</h2>
 <label>세율 (%) <span class="settings-row"><input id="taxRate" type="number" min="0" max="25" step="0.001" required> %</span></label>
 <p class="hint">샌프란시스코 기본값 8.625%. 세율이 바뀌면 여기서 수정하세요. 이미 저장된 결제 기록은 바뀌지 않습니다.</p>
-<label class="settings-row"><input id="taxGratuity" type="checkbox" style="width:auto"> 봉사료에도 세금 부과</label>
-<p class="hint">캘리포니아에서는 의무 봉사료가 과세 대상인 경우가 많습니다. 정확한 처리는 세무사에게 확인하세요.</p>
+<label class="settings-row"><input id="taxGratuity" type="checkbox" style="width:auto"> 자동 팁에도 세금 부과</label>
+<p class="hint">캘리포니아에서는 의무 팁(봉사료)이 과세 대상인 경우가 많습니다. 정확한 처리는 세무사에게 확인하세요.</p>
 <p id="settingsError" role="alert"></p>
 <p><button type="button" id="openPrices">메뉴 가격 수정</button></p>
 <p id="logoutRow" hidden><button type="button" id="logoutBtn">로그아웃 (이 기기)</button></p>
@@ -363,7 +363,7 @@ function renderCart(){
  el('partyMinus').disabled=party<=0;
  el('subtotal').textContent=money(sub);
  el('gratRow').hidden=!gratuity;
- el('gratLabel').textContent='봉사료 18% ('+party+'명)';
+ el('gratLabel').textContent='자동 팁 18% ('+party+'명)';
  el('gratuity').textContent=money(gratuity);
  el('taxLabel').textContent='세금 '+settings.taxRate+'%';
  el('tax').textContent=money(tax);
@@ -402,7 +402,7 @@ el('pay').onclick=()=>{
  buildTipButtons();
  updatePaymentUi();
  el('paymentTitle').textContent=(activeTable+1)+'번 테이블 결제 완료';
- el('paymentSubtotal').textContent='메뉴 합계 '+money(sub)+(gratuity?' + 봉사료 '+money(gratuity):'')+' + 세금 '+money(tax)+' = '+money(total);
+ el('paymentSubtotal').textContent='메뉴 합계 '+money(sub)+(gratuity?' + 자동 팁 '+money(gratuity):'')+' + 세금 '+money(tax)+' = '+money(total);
  el('payError').textContent='';
  el('payment').showModal();
 };
@@ -606,10 +606,11 @@ function renderHistory(){
  const gratOn=method=>valid.filter(rec=>rec.method===method).reduce((sum,rec)=>sum+recordGrat(rec),0);
  const tipCard=tipOn('카드'),tipCash=tipOn('현금'),tipSum=tipCard+tipCash;
  const tipCardAll=tipCard+gratOn('카드'),tipCashAll=tipCash+gratOn('현금'),tipTotal=tipCardAll+tipCashAll;
+ const receivedOn=method=>valid.filter(rec=>rec.method===method).reduce((sum,rec)=>sum+rec.amount+recordTip(rec),0);
  const pages={summary:[],tips:[],hours:[],tables:[],items:[]};
  pages.summary.push(
-  reportCard('매출 내역',[['메뉴 합계',money(sub)],['봉사료',money(grat)],['세금',money(taxSum)],['계산상 합계',money(calc),'grand']]),
-  reportCard('실제 입금',[['현금',money(byMethod('현금'))],['카드',money(byMethod('카드'))],['실제 결제액 (팁 제외)',money(paid),'grand'],['팁',money(tipSum)],['총 수령액 (팁 포함)',money(paid+tipSum),'grand'],['할인·반올림 등 차이',money(paid-calc),'diff']])
+  reportCard('매출 내역',[['메뉴 합계',money(sub)],['세금',money(taxSum)],['매출 합계 (메뉴+세금)',money(sub+taxSum),'grand'],['팁 (자동 팁 포함)',money(tipTotal)],['총 청구액',money(sub+taxSum+tipTotal),'grand']]),
+  reportCard('실제 입금',[['현금 (팁 포함)',money(receivedOn('현금'))],['카드 (팁 포함)',money(receivedOn('카드'))],['총 수령액',money(paid+tipSum),'grand'],['할인·반올림 등 차이',money(paid-calc),'diff']])
  );
  const byHour=groupSales(valid,rec=>new Date(rec.time).getHours());
  if(byHour.size){
@@ -624,7 +625,7 @@ function renderHistory(){
   pages.tables.push(barCard('테이블별 매출 (실제 결제액)',entries));
  }
  pages.tips.push(
-  reportCard('팁 내역 (의무 봉사료 포함)',[['카드 팁',money(tipCardAll)],['현금 팁',money(tipCashAll)],['총 팁',money(tipTotal),'grand']]),
+  reportCard('팁 내역 (6인 이상 자동 팁 포함)',[['카드 팁',money(tipCardAll)],['현금 팁',money(tipCashAll)],['총 팁',money(tipTotal),'grand']]),
   payoutCard(tipTotal)
  );
  const sold=[...counts].sort((a,b)=>b[1]-a[1]);
@@ -647,7 +648,7 @@ function renderHistory(){
   summary.textContent=record.table+'번 · '+record.method+' '+money(record.amount)+(record.voided?' (취소됨)':'')+' · '+new Date(record.time).toLocaleString('ko-KR');
   entry.append(summary);
   const meta=document.createElement('p');meta.className='hint';
-  meta.textContent='메뉴 '+money(recordSub(record))+' · 봉사료 '+money(recordGrat(record))+' · 세금 '+money(recordTax(record))+(recordTip(record)?' · 팁 '+money(recordTip(record)):'')+(record.party?' · '+record.party+'명':'')+(record.received?' · 받은 '+money(record.received)+' · 거스름돈 '+money(record.change||0):'');
+  meta.textContent='메뉴 '+money(recordSub(record))+' · 자동 팁 '+money(recordGrat(record))+' · 세금 '+money(recordTax(record))+(recordTip(record)?' · 팁 '+money(recordTip(record)):'')+(record.party?' · '+record.party+'명':'')+(record.received?' · 받은 '+money(record.received)+' · 거스름돈 '+money(record.change||0):'');
   entry.append(meta);
   for(const [key,line] of record.items){
    const p=document.createElement('p');
@@ -691,7 +692,7 @@ const csvCell=value=>{
  return '"'+text.replaceAll('"','""')+'"';
 };
 el('exportCsv').onclick=()=>{
- const rows=[['일시','테이블','인원','결제수단','메뉴합계','봉사료','세금','실제결제액','팁','차이','받은금액','거스름돈','상태','품목']];
+ const rows=[['일시','테이블','인원','결제수단','메뉴합계','자동팁(봉사료)','세금','실제결제액','팁','차이','받은금액','거스름돈','상태','품목']];
  for(const r of visibleRecords()){
   const sub=recordSub(r),grat=recordGrat(r);
   rows.push([new Date(r.time).toLocaleString('ko-KR'),r.table,r.party||'',r.method,(sub/100).toFixed(2),(grat/100).toFixed(2),(recordTax(r)/100).toFixed(2),(r.amount/100).toFixed(2),(recordTip(r)/100).toFixed(2),((r.amount-sub-grat-recordTax(r))/100).toFixed(2),r.received?(r.received/100).toFixed(2):'',r.received?((r.change||0)/100).toFixed(2):'',r.voided?'취소':'완료',r.items.map(([key,l])=>lineKo(key,l)+' x'+l.quantity+(l.memo?' ('+l.memo+')':'')).join('; ')]);
