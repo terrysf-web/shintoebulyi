@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127220640"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127221923"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -212,29 +212,15 @@ aside h2{font-size:20px;font-weight:700}
 .is-togo.order-table .tile{box-shadow:0 0 0 1px #f0c93a}
 /* TOGO(포장) */
 #togoBar{flex:none;margin-top:8px}
-.order-mode #togoBar{display:none!important}
-.order-mode #homeBody{display:contents}
-/* 카운터: 왼쪽 가게(테이블) · 오른쪽 TOGO 세로 패널 */
-html:not(.order-mode) #homeBody{flex:1;min-height:0;display:flex;gap:12px;margin-top:6px}
-html:not(.order-mode) #homeBody #homeGrid{flex:1;min-width:0;margin-top:0}
-html:not(.order-mode) #togoBar{flex:none;width:300px;margin:0;display:flex;flex-direction:column;min-height:0;padding:10px;border:3px solid #e6cf75;border-radius:22px;background:#fffbe6}
-html:not(.order-mode) #togoList{flex:1;grid-template-columns:1fr;grid-template-rows:repeat(6,minmax(0,1fr));gap:10px}
-html:not(.order-mode) .tgo{padding:8px 14px;border-radius:16px;justify-content:center;gap:2px}
-html:not(.order-mode) .tgo .tg-head strong{font-size:26px}
-html:not(.order-mode) .tgo .tg-name{font-size:16px}
-html:not(.order-mode) .tgo span{font-size:14px}
-html:not(.order-mode) .tgo.empty{min-height:0;justify-content:flex-start;gap:10px;padding-left:18px}
-html:not(.order-mode) .tgo.empty strong{font-size:26px}html:not(.order-mode) .tgo.empty .tg-ico{font-size:26px}
-html:not(.order-mode) .tgo.empty .tg-plus{margin-left:auto;font-size:26px}   /* 포장(TOGO)은 카운터에서만 */
+.order-mode #togoBar{display:none!important}   /* 포장(TOGO)은 카운터에서만 */
 .tg-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.tg-top strong{font-size:16px}.tg-top #togoNew{margin-left:auto;min-height:36px;padding:2px 14px;font-weight:700;background:#fff8e1;border-color:#f5d97a}
-#togoList{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;min-height:0}
-.tgo{min-width:0;text-align:left;display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:14px;background:#fff8e1;border:1px solid #f5d97a;min-height:0}
+.tg-top strong{font-size:16px}.tg-top #togoNew{margin-left:auto;min-height:48px;padding:4px 22px;font-size:17px;font-weight:800;background:#ffd54a;border-color:#f5b800;border-radius:14px;color:#3b2b00}
+#togoList{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;min-height:0}
+.tgo{flex:none;width:200px;text-align:left;display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:14px;background:#fff8e1;border:1px solid #f5d97a;min-height:0}
 .tgo .tg-head{display:flex;gap:6px;align-items:baseline}.tgo .tg-head strong{font-size:17px}.tgo .tg-name{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tgo span{font-size:12.5px;color:#7a5b00;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tgo .tg-state{font-weight:800}
-.tgo.empty{background:#fffdf3;border:1px dashed #e6cf75;align-items:center;justify-content:center;flex-direction:row;gap:6px;min-height:54px}
-.tgo.empty .tg-ico{font-size:20px;opacity:.6}.tgo.empty strong{font-size:16px;color:#8a6a00}.tgo.empty .tg-plus{font-size:18px;color:#b08a00;font-weight:800}
+.tgo.paid{background:#e8f1ff;border-color:#9cc0f5}.tgo.paid span{color:#1d4f9c}.tgo.paid.ready{background:#e8f1ff;border-color:#9cc0f5}
 .tgo.ready{background:#e3f6e8;border-color:#b5e2c1}.tgo.ready span{color:#05603a}
 .tgo.unsent{border:2px solid #f79009}.tgo.unsent .tg-state{color:#b54708}
 #togoQuick{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
@@ -356,8 +342,8 @@ html:not(.order-mode) .oh-tools{display:none}
 <div class="oh-top"><h2>테이블 현황</h2><div class="oh-tools"><button type="button" id="homeName"></button><button type="button" id="homeReload" aria-label="새로고침">↻</button></div></div>
 <p id="homeSummary" class="hint"></p>
 <button type="button" id="homeTip" hidden></button>
-<div id="homeBody"><div id="homeGrid"></div>
-<div id="togoBar"><div class="tg-top"><strong>🥡 TOGO</strong><span id="togoCount" class="hint"></span></div><div id="togoList"></div></div></div>
+<div id="homeGrid"></div>
+<div id="togoBar"><div class="tg-top"><strong>🥡 TOGO</strong><span id="togoCount" class="hint"></span><button type="button" id="togoNew">🥡 New TOGO</button></div><div id="togoList"></div></div>
 <p id="homeFoot" class="hint"></p>
 </section>
 <div id="orderBar" hidden><button type="button" id="backHome">← 테이블</button><strong id="barTable"></strong><button type="button" id="barParty" class="bar-chip"></button><button type="button" id="barReady" class="bar-chip" hidden></button><button type="button" id="barServer" class="bar-chip"></button></div>
@@ -591,9 +577,12 @@ const el=id=>document.getElementById(id);
 const money=cents=>'$'+(cents/100).toFixed(2);
 const storageKey='shin-toe-bul-yi.table-orders.v1';
 // 테이블 9개 + TOGO(포장) 6칸. TOGO는 9번 칸 뒤(index 9~14)에 이어 붙입니다.
-const TABLE_COUNT=9,TOGO_COUNT=6,SLOTS=TABLE_COUNT+TOGO_COUNT;
+const TABLE_COUNT=9,TOGO_COUNT=12,SLOTS=TABLE_COUNT+TOGO_COUNT;
 const isTogo=i=>i>=TABLE_COUNT;
 const tableLabel=n=>n<=TABLE_COUNT?n+'번':'TOGO '+(n-TABLE_COUNT);
+// TOGO는 슬롯 번호 대신 '영업일마다 1번부터' 이어지는 주문 번호(#1, #2 …)로 부릅니다.
+const slotLabel=i=>isTogo(i)?'TOGO'+(togos[i]&&togos[i].no?' #'+togos[i].no:' '+(i-TABLE_COUNT+1)):(i+1)+'번';
+const recLabel=rec=>rec.table>TABLE_COUNT?'TOGO'+(rec.togoNo?' #'+rec.togoNo:''):rec.table+'번';
 const fmtPickup=hm=>{const m=/^(\d{1,2}):(\d{2})$/.exec(hm||'');if(!m)return '';const h=Number(m[1]);return (h<12?'오전 ':'오후 ')+(h%12||12)+':'+m[2];};
 const orders=Array.from({length:SLOTS},()=>new Map());
 const parties=Array(SLOTS).fill(0);
@@ -604,7 +593,7 @@ const togos=Array(SLOTS).fill(null);   // {name,phone,pickup:'HH:MM',ready}
 function cleanTogo(t){
  if(!t||typeof t!=='object')return null;
  const str=(x,n)=>typeof x==='string'?x.trim().slice(0,n):'';
- return {name:str(t.name,20),phone:str(t.phone,20),pickup:/^\d{1,2}:\d{2}$/.test(t.pickup||'')?t.pickup:'',ready:!!t.ready};
+ return {name:str(t.name,20),phone:str(t.phone,20),pickup:/^\d{1,2}:\d{2}$/.test(t.pickup||'')?t.pickup:'',ready:!!t.ready,no:Number.isInteger(t.no)&&t.no>0&&t.no<10000?t.no:0,day:/^\d{4}-\d{2}-\d{2}$/.test(t.day||'')?t.day:'',paid:!!t.paid,paidAmt:Number.isInteger(t.paidAmt)&&t.paidAmt>=0?t.paidAmt:0};
 }
 function addCancel(i,line,qty){
  if(line.d||!(qty>0))return;
@@ -931,7 +920,7 @@ el('memoForm').onsubmit=event=>{
 el('memoCancel').onclick=()=>el('memoDlg').close();
 function renderCart(){
  const cart=orders[activeTable];
- el('orderHeading').textContent=isTogo(activeTable)?'🥡 '+tableLabel(activeTable+1)+' 주문':(activeTable+1)+(ORDER_MODE?'번':'번 테이블')+' 주문';
+ el('orderHeading').textContent=isTogo(activeTable)?'🥡 '+slotLabel(activeTable)+' 주문':(activeTable+1)+(ORDER_MODE?'번':'번 테이블')+' 주문';
  renderTables();
  el('lines').replaceChildren();
  for(const [key,line] of cart){
@@ -993,7 +982,7 @@ function askConfirm(message,onYes){
  el('confirmNo').onclick=()=>el('confirmDlg').close();
  el('confirmDlg').showModal();
 }
-el('clear').onclick=()=>askConfirm(isTogo(activeTable)?tableLabel(activeTable+1)+' 주문을 모두 비울까요?':(activeTable+1)+'번 테이블 주문을 모두 비울까요?',()=>{
+el('clear').onclick=()=>askConfirm(isTogo(activeTable)?slotLabel(activeTable)+' 주문을 모두 비울까요?':(activeTable+1)+'번 테이블 주문을 모두 비울까요?',()=>{
  for(const line of orders[activeTable].values())addCancel(activeTable,line,line.sent||0);
  orders[activeTable].clear();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';togos[activeTable]=null;riceDismissed.delete(activeTable);
  saveOrders();
@@ -1007,7 +996,7 @@ el('pay').onclick=()=>{
  el('paidAmount').value=(total/100).toFixed(2);
  buildTipButtons();
  updatePaymentUi();
- el('paymentTitle').textContent=isTogo(activeTable)?'🥡 '+tableLabel(activeTable+1)+(togos[activeTable]?.name?' · '+togos[activeTable].name:'')+' 결제':(activeTable+1)+'번 테이블 결제';
+ el('paymentTitle').textContent=isTogo(activeTable)?'🥡 '+slotLabel(activeTable)+(togos[activeTable]?.name?' · '+togos[activeTable].name:'')+' 결제':(activeTable+1)+'번 테이블 결제';
  {
   const startedAt=opened[activeTable];
   el('payBizDate').value=bizDay(startedAt||new Date().toISOString());
@@ -1119,10 +1108,12 @@ el('paymentForm').onsubmit=event=>{
  const typedDay=el('payBizDate').value;
  const bizDate=/^\d{4}-\d{2}-\d{2}$/.test(typedDay)?typedDay:bizDay(openedAt||new Date().toISOString());
  const record={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:activeTable+1,time:new Date().toISOString(),method,amount,subtotal:sub,gratuity,tax,tip,party,bizDate,openedAt,voided:false,items:[...order]};
- if(togoBefore)record.togo=togoBefore.name||'TOGO';
+ if(togoBefore){record.togo=togoBefore.name||'TOGO';if(togoBefore.no)record.togoNo=togoBefore.no;}
  if(method==='현금'){record.received=received;record.change=change;}
  paidOrders.push(record);
- orders[activeTable]=new Map();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';cancels[activeTable]=[];togos[activeTable]=null;
+ orders[activeTable]=new Map();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';cancels[activeTable]=[];
+ // TOGO는 결제 후에도 '픽업 대기'로 남깁니다(픽업 완료를 누르면 사라짐).
+ togos[activeTable]=togoBefore?{...togoBefore,paid:true,paidAmt:amount}:null;
  if(!saveOrders()){
   orders[activeTable]=order;parties[activeTable]=party;servers[activeTable]=server;opened[activeTable]=openedAt;cancels[activeTable]=cancelsBefore;togos[activeTable]=togoBefore;
   paidOrders.pop();
@@ -1134,8 +1125,8 @@ el('paymentForm').onsubmit=event=>{
  setOrderView('home');
  lastPaymentId=record.id;
  el('tipLaterRow').hidden=false;
- if(!ORDER_MODE){const b=el('homeTip');b.textContent='💵 '+tableLabel(record.table)+(record.togo&&record.togo!=='TOGO'?' '+record.togo:'')+' 결제 완료 · 팁 입력';b.hidden=false;}
- el('payNotice').textContent=(record.table>TABLE_COUNT?tableLabel(record.table):record.table+'번 테이블')+' 결제 저장 완료.'+(tip?' 팁 '+money(tip)+'.':'')+(method==='현금'?' 거스름돈 '+money(change)+'.':'')+' 새 주문을 받을 수 있습니다.';
+ if(!ORDER_MODE){const b=el('homeTip');b.textContent='💵 '+recLabel(record)+(record.togo&&record.togo!=='TOGO'?' '+record.togo:'')+' 결제 완료 · 팁 입력';b.hidden=false;}
+ el('payNotice').textContent=(record.table>TABLE_COUNT?recLabel(record):record.table+'번 테이블')+' 결제 저장 완료.'+(record.table>TABLE_COUNT?' 픽업 대기 목록에 남아 있습니다.':'')+(tip?' 팁 '+money(tip)+'.':'')+(method==='현금'?' 거스름돈 '+money(change)+'.':'')+' 새 주문을 받을 수 있습니다.';
 };
 // ---------- 결제 기록 · 일일 마감 ----------
 const dayKey=iso=>new Date(iso).toLocaleDateString('en-CA');
@@ -1240,7 +1231,7 @@ function reportCard(title,rows){
  card.append(h,table);return card;
 }
 function closeDay(day){
- const open=orders.map((o,i)=>o.size?tableLabel(i+1):null).filter(Boolean);
+ const open=orders.map((o,i)=>o.size?slotLabel(i):null).filter(Boolean);
  const msg=day+' 영업을 마감할까요?'+(open.length?' 아직 결제되지 않은 테이블('+open.join(', ')+')은 그대로 남고, 나중에 결제해도 주문을 받은 날의 매출로 기록됩니다.':'');
  askConfirm(msg,()=>{
   const recs=paidOrders.filter(r=>!r.voided&&recordDay(r)===day);
@@ -1338,7 +1329,7 @@ function renderHistory(){
   const entry=document.createElement('details');
   const summary=document.createElement('summary');
   if(record.voided)summary.className='void';
-  summary.textContent=tableLabel(record.table)+(record.togo&&record.togo!=='TOGO'?' '+record.togo:'')+' · '+record.method+' '+money(record.amount)+(record.voided?' (취소됨)':'')+' · '+new Date(record.time).toLocaleString('ko-KR');
+  summary.textContent=recLabel(record)+(record.togo&&record.togo!=='TOGO'?' '+record.togo:'')+' · '+record.method+' '+money(record.amount)+(record.voided?' (취소됨)':'')+' · '+new Date(record.time).toLocaleString('ko-KR');
   entry.append(summary);
   const meta=document.createElement('p');meta.className='hint';
   meta.textContent='메뉴 '+money(recordSub(record))+' · 자동 팁 '+money(recordGrat(record))+' · 세금 '+money(recordTax(record))+(recordTip(record)?' · 팁 '+money(recordTip(record)):'')+(record.party?' · '+record.party+'명':'')+(record.received?' · 받은 '+money(record.received)+' · 거스름돈 '+money(record.change||0):'');
@@ -1357,7 +1348,7 @@ function renderHistory(){
    entry.append(p);
   }
   if(!record.voided){
-   entry.append(button('결제 취소 처리',()=>askConfirm(tableLabel(record.table)+' 결제를 취소 처리할까요? 기록은 남고 합계에서 제외됩니다.',()=>{
+   entry.append(button('결제 취소 처리',()=>askConfirm(recLabel(record)+' 결제를 취소 처리할까요? 기록은 남고 합계에서 제외됩니다.',()=>{
     record.voided=true;record.voidedAt=new Date().toISOString();
     saveOrders();renderHistory();
    })));
@@ -1598,13 +1589,13 @@ function renderTipList(focusId){
   const tr=table.insertRow();
   if(rec.id===focusId)tr.className='focus';
   const info=tr.insertCell();
-  info.textContent=tableLabel(rec.table)+' · '+new Date(rec.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'});
+  info.textContent=recLabel(rec)+' · '+new Date(rec.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'});
   const small=document.createElement('small');small.textContent=rec.method+' '+money(rec.amount);info.append(small);
   const cell=tr.insertCell();
   const input=document.createElement('input');
   input.type='number';input.min='0';input.max='9999.99';input.step='0.01';input.inputMode='decimal';input.placeholder='0.00';
   input.value=recordTip(rec)?(recordTip(rec)/100).toFixed(2):'';
-  input.setAttribute('aria-label',tableLabel(rec.table)+' 팁');
+  input.setAttribute('aria-label',recLabel(rec)+' 팁');
   cell.append(input);
   const act=tr.insertCell();
   const note=document.createElement('span');note.className='tip-saved';
@@ -1666,7 +1657,7 @@ function pickStaffForTable(n){
 }
 function openStaffPicker(tableIndex){
  staffPickFor=tableIndex;
- el('staffTitle').textContent=tableIndex===null?'주문 받는 사람':tableLabel(tableIndex+1)+' · 주문자';
+ el('staffTitle').textContent=tableIndex===null?'주문 받는 사람':slotLabel(tableIndex)+' · 주문자';
  staffChipsInto(el('staffChips'),pickStaffForTable);
  el('staffDlg').showModal();
 }
@@ -1770,42 +1761,47 @@ function renderTogoStrip(){
  const kids=[];let free=-1;
  for(let i=TABLE_COUNT;i<SLOTS;i++){
   const cart=orders[i];
-  if(!cart.size&&!togos[i]&&!cancels[i].length){
-   if(free<0)free=i;
-   const e=document.createElement('button');e.type='button';e.className='tgo empty';
-   const ic=document.createElement('span');ic.className='tg-ico';ic.textContent='🥡';
-   const lb=document.createElement('strong');lb.textContent='T'+(i-TABLE_COUNT+1);
-   const plus=document.createElement('span');plus.className='tg-plus';plus.textContent='＋';
-   e.append(ic,lb,plus);e.onclick=()=>openTable(i);kids.push(e);continue;
-  }
-  const t=togos[i]||{name:'',phone:'',pickup:'',ready:false};
+  if(!cart.size&&!togos[i]&&!cancels[i].length){if(free<0)free=i;continue;}
+  const t=togos[i]||{name:'',phone:'',pickup:'',ready:false,no:0,paid:false};
   const count=[...cart.values()].reduce((sum,line)=>sum+line.quantity,0);
   const unsent=[...cart.values()].reduce((n,l)=>n+pendingOf(l),0)+cancels[i].length;
-  const card=document.createElement('button');card.type='button';card.className='tgo'+(t.ready?' ready':'')+(unsent?' unsent':'');
+  const card=document.createElement('button');card.type='button';card.className='tgo'+(t.ready?' ready':'')+(unsent?' unsent':'')+(t.paid?' paid':'');
   const head=document.createElement('div');head.className='tg-head';
-  const num=document.createElement('strong');num.textContent='T'+(i-TABLE_COUNT+1);
+  const num=document.createElement('strong');num.textContent=t.no?'#'+t.no:'T'+(i-TABLE_COUNT+1);
   const nm=document.createElement('span');nm.className='tg-name';nm.textContent=t.name||'';
   head.append(num,nm);
-  const info=document.createElement('span');info.textContent=(t.pickup?'⏰ '+fmtPickup(t.pickup)+' · ':'')+count+'개'+(count?' · '+money(totals(i).sub):'');
+  const info=document.createElement('span');
+  info.textContent=t.paid?'💵 '+money(t.paidAmt||0)+(t.pickup?' · ⏰ '+fmtPickup(t.pickup):''):(t.pickup?'⏰ '+fmtPickup(t.pickup)+' · ':'')+count+'개'+(count?' · '+money(totals(i).sub):'');
   const state=document.createElement('span');state.className='tg-state';
-  state.textContent=unsent?'미전송 '+unsent:t.ready?'✅ 준비 완료':'⏳ 준비 중';
+  state.textContent=t.paid?'✅ 결제 완료 · 픽업 대기':unsent?'미전송 '+unsent:t.ready?'✅ 준비 완료':'⏳ 준비 중';
   card.append(head,info,state);
-  card.onclick=()=>openTable(i);
+  card.onclick=()=>{
+   if(t.paid){askConfirm('TOGO #'+t.no+(t.name?' '+t.name:'')+' 픽업 완료 처리할까요? 목록에서 사라집니다.',()=>{togos[i]=null;opened[i]='';saveOrders();renderTableHome();});return;}
+   openTable(i);
+  };
   kids.push(card);
  }
  el('togoList').replaceChildren(...kids);
- const used=SLOTS-TABLE_COUNT-kids.filter(k=>k.classList.contains('empty')).length;
- el('togoCount').textContent=used?used+'건 진행 중':'';
+ el('togoCount').textContent=kids.length?kids.length+'건':'';
+ el('togoNew').disabled=free<0;
+ el('togoNew').onclick=()=>{if(free>=0)openTable(free);};
 }
 // ---- TOGO 정보(이름·전화·픽업 시간) ----
 let togoFor=0,togoEdit=false;
 function nowPlus(min){const d=new Date(Date.now()+min*60000);return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function nextTogoNo(){
+ const today=bizDay(new Date().toISOString());
+ let max=0;
+ for(const rec of paidOrders)if(rec.togoNo&&recordDay(rec)===today)max=Math.max(max,rec.togoNo);
+ for(const t of togos)if(t&&t.no&&t.day===today)max=Math.max(max,t.no);
+ return max+1;
+}
 function askTogo(i,edit){
  togoFor=i;togoEdit=!!edit;
  const t=togos[i]||{name:'',phone:'',pickup:'',ready:false};
  el('togoStaffRow').hidden=ORDER_MODE||!!edit;
  if(!ORDER_MODE&&!edit)staffChipsInto(el('togoStaff'));
- el('togoTitle').textContent='🥡 '+tableLabel(i+1)+(edit?' · 정보 수정':' · 새 포장 주문');
+ el('togoTitle').textContent='🥡 '+(edit?slotLabel(i)+' · 정보 수정':'New TOGO · #'+nextTogoNo()+' 새 포장 주문');
  el('togoName').value=t.name;el('togoPhone').value=t.phone;
  const hm=/^(\d{1,2}):(\d{2})$/.exec(t.pickup||'');
  el('togoTime').value=hm?hm[1].padStart(2,'0')+':'+hm[2]:'';
@@ -1815,7 +1811,8 @@ function askTogo(i,edit){
 el('togoForm').onsubmit=event=>{
  event.preventDefault();
  const i=togoFor;
- togos[i]=cleanTogo({name:el('togoName').value,phone:el('togoPhone').value,pickup:el('togoTime').value.replace(/^0/,''),ready:togos[i]?.ready});
+ const prevT=togos[i];
+ togos[i]=cleanTogo({name:el('togoName').value,phone:el('togoPhone').value,pickup:el('togoTime').value.replace(/^0/,''),ready:prevT?.ready,no:prevT&&prevT.no?prevT.no:nextTogoNo(),day:prevT&&prevT.day?prevT.day:bizDay(new Date().toISOString()),paid:prevT?.paid,paidAmt:prevT?.paidAmt});
  claimTable(i);touchOpened(i);
  saveOrders();el('togoDlg').close();
  if(togoEdit)renderCart();else setOrderView('table');
@@ -1860,7 +1857,7 @@ el('guestCancel').onclick=()=>el('guestDlg').close();
 function goHome(){
  const i=activeTable;
  // 아무것도 담지 않고 나가면 빈 테이블로 되돌립니다.
- if(!orders[i].size&&!cancels[i].length){parties[i]=0;servers[i]='';opened[i]='';togos[i]=null;saveOrders();}
+ if(!orders[i].size&&!cancels[i].length){parties[i]=0;servers[i]='';opened[i]='';if(!(togos[i]&&togos[i].paid))togos[i]=null;saveOrders();}
  setOrderView('home');
 }
 el('backHome').onclick=goHome;
@@ -1878,7 +1875,7 @@ function updateOrderBar(){
  el('barReady').hidden=!tg;
  if(tg){
   const t=togos[i];
-  el('barTable').textContent='🥡 '+tableLabel(i+1);
+  el('barTable').textContent='🥡 '+slotLabel(i);
   el('barParty').textContent=t?'👤 '+(t.name||'이름 없음')+(t.pickup?' · ⏰ '+fmtPickup(t.pickup):''):'📝 정보 입력';
   el('barParty').classList.toggle('need',!t);
   el('barReady').textContent=t&&t.ready?'✅ 준비 완료':'⏳ 준비 중';
@@ -1895,7 +1892,7 @@ function updateOrderBar(){
 function renderTicket(container,ticket){
  container.replaceChildren();
  const add=(text,cls)=>{const p=document.createElement('p');p.className=cls||'';p.textContent=text;container.append(p);return p;};
- add((ticket.table>TABLE_COUNT?'🥡 '+tableLabel(ticket.table)+(ticket.togo?.name?' · '+ticket.togo.name:''):ticket.table+'번 테이블')+(ticket.extra?' · 추가 주문':''),'t-head');
+ add((ticket.table>TABLE_COUNT?'🥡 TOGO'+(ticket.togo?.no?' #'+ticket.togo.no:' '+(ticket.table-TABLE_COUNT))+(ticket.togo?.name?' · '+ticket.togo.name:''):ticket.table+'번 테이블')+(ticket.extra?' · 추가 주문':''),'t-head');
  add(new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'})+(ticket.party?' · '+ticket.party+'명':'')+(ticket.staff?' · 주문 '+ticket.staff:'')+(ticket.togo?.pickup?' · ⏰ 픽업 '+fmtPickup(ticket.togo.pickup):''),'t-sub');
  const rule=document.createElement('p');rule.className='t-rule';container.append(rule);
  for(const item of ticket.items){
@@ -1934,7 +1931,7 @@ function deliverTicket(ticket,count,revert){
  const timer=setTimeout(updateTicketWarn,8500);
  Sync.sendTicket(ticket).then(()=>{
   clearTimeout(timer);unacked.delete(ticket.id);updateTicketWarn();
-  flashNotice('✓ '+tableLabel(ticket.table)+' '+count+'개 주방에 전달됨');
+  flashNotice('✓ '+(ticket.table>TABLE_COUNT?'TOGO'+(ticket.togo?.no?' #'+ticket.togo.no:''):ticket.table+'번')+' '+count+'개 주방에 전달됨');
  }).catch(()=>{
   clearTimeout(timer);unacked.delete(ticket.id);updateTicketWarn();
   revert();flashNotice('주방 전송에 실패했습니다. 다시 눌러 주세요.');
@@ -1975,7 +1972,7 @@ el('sendKitchen').onclick=()=>{
  const cancelList=cancels[tableIndex].map(c=>({...c}));
  if(!items.length&&!cancelList.length)return;
  const ticket={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:tableIndex+1,time:new Date().toISOString(),party:parties[tableIndex],staff:servers[tableIndex]||staffLabel(),extra,items,cancels:cancelList,done:false};
- if(isTogo(tableIndex)&&togos[tableIndex])ticket.togo={name:togos[tableIndex].name,pickup:togos[tableIndex].pickup};
+ if(isTogo(tableIndex)&&togos[tableIndex])ticket.togo={name:togos[tableIndex].name,pickup:togos[tableIndex].pickup,no:togos[tableIndex].no};
  for(const line of cart.values())if(!line.d)line.sent=line.quantity;
  cancels[tableIndex]=[];
  saveOrders();renderCart();
@@ -1983,7 +1980,7 @@ el('sendKitchen').onclick=()=>{
  setTimeout(goHome,350);
  const count=items.reduce((sum,item)=>sum+item.qty,0)+cancelList.reduce((sum,c)=>sum+c.qty,0);
  if(Sync.enabled){
-  flashNotice(tableLabel(ticket.table)+' '+count+'개 전송 중…');
+  flashNotice((ticket.table>TABLE_COUNT?'TOGO'+(ticket.togo?.no?' #'+ticket.togo.no:''):ticket.table+'번')+' '+count+'개 전송 중…');
   deliverTicket(ticket,count,()=>{
    for(const [key,value] of prevSent){const line=orders[tableIndex].get(key);if(line)line.sent=Math.min(value,line.quantity);}
    cancels[tableIndex]=cancelList;
@@ -2267,7 +2264,7 @@ const Sync=(()=>{
  el('gateReload').onclick=()=>freshReload();
  el('logoutRow').hidden=!enabled;
  el('clearAllTables').onclick=()=>{
-  const used=orders.map((o,i)=>o.size||parties[i]||togos[i]?tableLabel(i+1):null).filter(Boolean);
+  const used=orders.map((o,i)=>o.size||parties[i]||togos[i]?slotLabel(i):null).filter(Boolean);
   askConfirm(used.length?'결제되지 않은 모든 테이블('+used.join(', ')+')의 주문을 지울까요? 주방에는 취소 알림이 가지 않고, 매출에도 들어가지 않습니다.':'비워야 할 테이블이 없습니다.',()=>{
    for(let i=0;i<orders.length;i++){orders[i]=new Map();parties[i]=0;servers[i]='';opened[i]='';cancels[i]=[];togos[i]=null;}
    riceDismissed.clear();
