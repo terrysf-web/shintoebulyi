@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127014538"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127034548"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -8,7 +8,7 @@
 .table-picker #tables{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.table-zone{background:#fff;border:1px solid #d9ded5;border-radius:10px;padding:8px}.table-zone h3{margin:0 0 6px;font-size:14px}.table-zone .table-key{width:100%;margin-bottom:5px;min-height:48px}.table-zone .table-key:last-child{margin-bottom:0}
 .pay{background:#245543;color:white;width:100%;margin-bottom:10px}.pay:hover{background:#193b30}.pay:disabled{opacity:.5}.history{max-height:55vh;overflow:auto;min-width:min(520px,80vw)}.history p{padding:6px 0}.history details{padding:9px;border-bottom:1px solid #ddd}.history .void{text-decoration:line-through;color:#888}.option label{display:block;margin:12px 0}.option select{font:inherit;padding:6px}.option form p{margin:8px 0}.option [role=alert]{color:#943e21}
 #exportText{width:min(640px,80vw);font:13px ui-monospace,monospace;padding:8px;border:1px solid #aebbb0;border-radius:10px}#closeout{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:12px 0}#closeout .report-head{grid-column:1/-1;font-weight:700;font-size:17px}.rcard{background:#f1f5ef;border-radius:10px;padding:10px 14px}.rcard h3{margin:0 0 6px;font-size:13px;color:#4e6559;text-transform:none}.rcard table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.rcard th{text-align:left;font-weight:400;padding:5px 0}.rcard td{text-align:right;padding:5px 0}.rcard tr.grand th,.rcard tr.grand td{font-weight:700;border-top:1px solid #aebbb0;padding-top:7px}.rcard tr.diff th,.rcard tr.diff td{color:#943e21;font-size:14px}#historyList{display:block;margin:12px 0}#tipList{display:block;max-height:55vh;overflow:auto;margin:10px 0;min-width:min(560px,80vw)}#tipTable{width:100%;border-collapse:collapse}#tipTable td{padding:6px 8px 6px 0;border-bottom:1px solid #e2e7de;vertical-align:middle}#tipTable tr.focus td{background:#fff3e0}#tipTable input{width:100px;padding:8px}#tipTable small{display:block;color:#6a7d72;font-size:12px}.tip-saved{color:#245543;font-size:13px}#priceList{display:block;max-height:50vh;overflow:auto;margin:10px 0;min-width:min(560px,80vw)}#priceTable{width:100%;border-collapse:collapse}#priceTable th{text-align:left;font-size:13px;color:#4e6559;padding:12px 0 4px}#priceTable td{padding:5px 6px 5px 0;border-bottom:1px solid #e2e7de;vertical-align:middle}#priceTable td.def{color:#6a7d72;font-size:13px;white-space:nowrap}#priceTable td small{display:block;color:#6a7d72;font-size:12px}#priceTable input{width:110px;padding:8px}#priceTable input.changed{background:#fff3e0;border-color:#e8c48f}.tipquick{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.tipquick button{min-height:40px;padding:6px 10px;font-size:14px}.staff-row{display:flex;align-items:center;gap:8px;margin:8px 0}.staff-row input{width:90px}.staff-result{font-size:20px;font-weight:700;margin-top:6px}#history{width:min(720px,94vw)}.htabs{margin:8px 0 0}.htabs button{min-height:44px;padding:8px 14px}.rcard.wide{grid-column:1/-1}.hours th{width:3.2em;white-space:nowrap}.hours .bar-cell{width:100%;padding:5px 8px}.hours td:last-child{white-space:nowrap}.hbar{display:block;height:10px;background:#245543;border-radius:5px}.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}.tools input{width:auto}.tools label{margin:0;display:flex;gap:6px;align-items:center}.items-sum{font-size:13px;color:#4e6559;margin-top:6px}
-[hidden]{display:none!important}.closebar{margin:6px 0}.closebar p{margin:0}.closed-ok{color:#245543;font-weight:700}.closed-warn{color:#943e21}.closed-no{color:#4e6559}.ok{background:#245543;color:#fff;border-color:#245543}.srv{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px!important}.party.need{outline:3px solid #b3261e;outline-offset:2px}.ticketwarn{position:fixed;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom));z-index:60;background:#b3261e;color:#fff;border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 4px 14px #0004}.ticketwarn button{min-height:38px;padding:4px 12px;color:#202922;white-space:nowrap}.updatebar{position:fixed;top:0;left:0;right:0;z-index:200;background:#b3261e;color:#fff;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));display:flex;gap:10px;align-items:center;justify-content:center}.updatebar button{min-height:36px;padding:4px 12px;color:#202922}.kitchen{width:100%;margin-bottom:6px;background:#b3261e;color:#fff;border-color:#b3261e;font-weight:700}.kitchen:hover{background:#8f1d17}.kitchen:disabled{opacity:.45}#kitchenNotice{min-height:1.2em;margin-bottom:8px}#printArea{display:none}.ticket p{margin:4px 0}.ticket .t-head{font-size:20px;font-weight:700}.ticket .t-item{font-size:20px;font-weight:700;margin-top:10px}.ticket .t-sub{font-size:13px;color:#555}.ticket .t-memo{font-size:16px;font-weight:700}.ticket .t-rule{border-top:2px dashed #000;margin:8px 0;height:0}#ticketPreview{display:block;font-family:ui-monospace,monospace;min-width:260px}@media print{@page{size:80mm auto;margin:3mm}body>*:not(#printArea){display:none!important}#printArea{display:block!important;color:#000;background:#fff}.ticket .t-sub{color:#000}}#syncStatus{align-self:center;font-size:13px;color:#d8e7dd}#syncStatus.warn{color:#ffd9a8}.gate{position:fixed;inset:0;background:#f6f4ee;z-index:100;display:flex;align-items:center;justify-content:center}.gate form{background:#fff;border:1px solid #d9ded5;border-radius:14px;padding:24px;width:min(380px,90vw)}.gate [role=alert]{color:#943e21}.change{margin:10px 0;padding:10px 12px;border-radius:10px;text-align:center;font-size:28px;font-weight:700}.change.ok{background:#e4efe3;color:#193b30}.change.short{background:#fbdcd8;color:#7a1810}.change.wait{background:#f1f5ef;color:#4e6559;font-size:14px;font-weight:400}.option{max-height:90vh;overflow:auto}
+[hidden]{display:none!important}.t-cancel{color:#b3261e;text-decoration:line-through}.closebar{margin:6px 0}.closebar p{margin:0}.closed-ok{color:#245543;font-weight:700}.closed-warn{color:#943e21}.closed-no{color:#4e6559}.ok{background:#245543;color:#fff;border-color:#245543}.srv{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px!important}.party.need{outline:3px solid #b3261e;outline-offset:2px}.ticketwarn{position:fixed;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom));z-index:60;background:#b3261e;color:#fff;border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 4px 14px #0004}.ticketwarn button{min-height:38px;padding:4px 12px;color:#202922;white-space:nowrap}.updatebar{position:fixed;top:0;left:0;right:0;z-index:200;background:#b3261e;color:#fff;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));display:flex;gap:10px;align-items:center;justify-content:center}.updatebar button{min-height:36px;padding:4px 12px;color:#202922}.kitchen{width:100%;margin-bottom:6px;background:#b3261e;color:#fff;border-color:#b3261e;font-weight:700}.kitchen:hover{background:#8f1d17}.kitchen:disabled{opacity:.45}#kitchenNotice{min-height:1.2em;margin-bottom:8px}#printArea{display:none}.ticket p{margin:4px 0}.ticket .t-head{font-size:20px;font-weight:700}.ticket .t-item{font-size:20px;font-weight:700;margin-top:10px}.ticket .t-sub{font-size:13px;color:#555}.ticket .t-memo{font-size:16px;font-weight:700}.ticket .t-rule{border-top:2px dashed #000;margin:8px 0;height:0}#ticketPreview{display:block;font-family:ui-monospace,monospace;min-width:260px}@media print{@page{size:80mm auto;margin:3mm}body>*:not(#printArea){display:none!important}#printArea{display:block!important;color:#000;background:#fff}.ticket .t-sub{color:#000}}#syncStatus{align-self:center;font-size:13px;color:#d8e7dd}#syncStatus.warn{color:#ffd9a8}.gate{position:fixed;inset:0;background:#f6f4ee;z-index:100;display:flex;align-items:center;justify-content:center}.gate form{background:#fff;border:1px solid #d9ded5;border-radius:14px;padding:24px;width:min(380px,90vw)}.gate [role=alert]{color:#943e21}.change{margin:10px 0;padding:10px 12px;border-radius:10px;text-align:center;font-size:28px;font-weight:700}.change.ok{background:#e4efe3;color:#193b30}.change.short{background:#fbdcd8;color:#7a1810}.change.wait{background:#f1f5ef;color:#4e6559;font-size:14px;font-weight:400}.option{max-height:90vh;overflow:auto}
 @media(min-width:641px){
 html,body{height:100%}
 body{display:flex;flex-direction:column;overflow:hidden}
@@ -79,6 +79,7 @@ aside>*{flex:none}
 <p class="hint">샌프란시스코 기본값 8.625%. 세율이 바뀌면 여기서 수정하세요. 이미 저장된 결제 기록은 바뀌지 않습니다.</p>
 <label class="settings-row"><input id="taxGratuity" type="checkbox" style="width:auto"> 자동 팁에도 세금 부과</label>
 <p class="hint">캘리포니아에서는 의무 팁(봉사료)이 과세 대상인 경우가 많습니다. 정확한 처리는 세무사에게 확인하세요.</p>
+<label>자주 쓰는 요청 (메모 버튼, 한 줄에 하나)<textarea id="memoChipsInput" rows="5" maxlength="300" style="width:100%;font:inherit;padding:8px;border:1px solid #aebbb0;border-radius:10px"></textarea></label>
 <p id="settingsError" role="alert"></p>
 <p><button type="button" id="openPrices">메뉴 가격 수정</button></p>
 <p id="logoutRow" hidden><button type="button" id="logoutBtn">로그아웃 (이 기기)</button></p>
@@ -187,9 +188,9 @@ function cleanClosed(value){
  }
  return out;
 }
-const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',closedDays:{}};
+const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',closedDays:{},memoChips:['덜 맵게','맵게','포장','양파 빼고','먼저 주세요']};
 function normalizeSettings(raw){
- const out={...DEFAULT_SETTINGS,prices:{},closedDays:{}};
+ const out={...DEFAULT_SETTINGS,prices:{},closedDays:{},memoChips:[...DEFAULT_SETTINGS.memoChips]};
  if(!raw||typeof raw!=='object')return out;
  if(Number.isFinite(raw.taxRate)&&raw.taxRate>=0&&raw.taxRate<=25)out.taxRate=raw.taxRate;
  out.taxGratuity=raw.taxGratuity!==false;
@@ -198,6 +199,10 @@ function normalizeSettings(raw){
  out.prices=cleanPrices(raw.prices);
  out.pinHash=typeof raw.pinHash==='string'&&raw.pinHash.length<=128?raw.pinHash:'';
  out.closedDays=cleanClosed(raw.closedDays);
+ if(Array.isArray(raw.memoChips)){
+  const chips=raw.memoChips.filter(c=>typeof c==='string').map(c=>c.trim().slice(0,14)).filter(Boolean).slice(0,12);
+  if(chips.length)out.memoChips=[...new Set(chips)];
+ }
  return out;
 }
 let settings=normalizeSettings(null);
@@ -211,6 +216,13 @@ const orders=Array.from({length:9},()=>new Map());
 const parties=Array(9).fill(0);
 const servers=Array(9).fill('');
 const opened=Array(9).fill('');
+const cancels=Array.from({length:9},()=>[]);
+function addCancel(i,line,qty){
+ if(line.d||!(qty>0))return;
+ const name=line.ko||'';
+ const hit=cancels[i].find(c=>c.ko===name);
+ if(hit)hit.qty+=qty;else cancels[i].push({ko:name,en:line.en||'',qty});
+}
 function touchOpened(i){if(!opened[i])opened[i]=new Date().toISOString();}
 function claimTable(i){if(staffName&&!servers[i])servers[i]=staffName;}
 const riceDismissed=new Set();
@@ -224,6 +236,7 @@ try {
   if(Number.isInteger(saved.activeTable)&&orders[saved.activeTable])activeTable=saved.activeTable;
  }
  if(saved?.settings)settings=normalizeSettings(saved.settings);
+ if(Array.isArray(saved?.cancels)&&saved.cancels.length===cancels.length)saved.cancels.forEach((arr,i)=>{cancels[i]=Array.isArray(arr)?arr.filter(c=>c&&typeof c.ko==='string'&&Number.isInteger(c.qty)&&c.qty>0).slice(0,30):[];});
  if(Array.isArray(saved?.opened)&&saved.opened.length===opened.length)saved.opened.forEach((v,i)=>{opened[i]=typeof v==='string'?v.slice(0,40):'';});
  if(Array.isArray(saved?.servers)&&saved.servers.length===servers.length)saved.servers.forEach((n,i)=>{servers[i]=typeof n==='string'?n.slice(0,12):'';});
  if(Array.isArray(saved?.parties)&&saved.parties.length===parties.length)saved.parties.forEach((n,i)=>{parties[i]=Number.isInteger(n)&&n>=0?n:0;});
@@ -237,7 +250,7 @@ function saveOrders(){
 }
 function persistLocal(){
  try {
-  localStorage.setItem(storageKey,JSON.stringify({activeTable,orders:orders.map(order=>[...order]),parties,servers,opened,settings,paidOrders}));
+  localStorage.setItem(storageKey,JSON.stringify({activeTable,orders:orders.map(order=>[...order]),parties,servers,opened,cancels,settings,paidOrders}));
   el('storageWarning').hidden=true;
   return true;
  } catch {
@@ -288,13 +301,31 @@ function renderTables(){
  }));
 }
 let category=Object.keys(groups)[0];
+let categoryChosen=false;
+const FAV_TAB='⭐ 자주';
+function favoriteItems(){
+ const byId=new Map();
+ for(const items of Object.values(groups))for(const item of items)byId.set(item.id,item);
+ const counts=new Map();
+ for(const rec of paidOrders){
+  if(rec.voided)continue;
+  for(const [key,line] of rec.items){
+   const id=String(key).split('|')[0];
+   if(byId.has(id)&&!byId.get(id).d)counts.set(id,(counts.get(id)||0)+(line.quantity||1));
+  }
+ }
+ return [...counts].sort((a,b)=>b[1]-a[1]).slice(0,12).map(([id])=>byId.get(id));
+}
 function renderMenu(){
  const query=el('search').value.trim().toLowerCase();
- el('tabs').replaceChildren(...Object.keys(groups).map(name=>{
-  const node=button(name,()=>{category=name;el('search').value='';renderMenu();});
+ const favs=favoriteItems();
+ if(!categoryChosen&&favs.length)category=FAV_TAB;
+ if(category===FAV_TAB&&!favs.length)category=Object.keys(groups)[0];
+ el('tabs').replaceChildren(...[...(favs.length?[FAV_TAB]:[]),...Object.keys(groups)].map(name=>{
+  const node=button(name,()=>{category=name;categoryChosen=true;el('search').value='';renderMenu();});
   node.setAttribute('aria-pressed',String(name===category&&!query));return node;
  }));
- const items=query?Object.values(groups).flat().filter(item=>item.ko.toLowerCase().includes(query)||item.en.toLowerCase().includes(query)||String(item.n)===query):groups[category];
+ const items=query?Object.values(groups).flat().filter(item=>item.ko.toLowerCase().includes(query)||item.en.toLowerCase().includes(query)||String(item.n)===query):(category===FAV_TAB?favs:groups[category]);
  el('menu').replaceChildren(...items.map(item=>{
   const {n,ko,en,price}=item;
   const node=button('',()=>pick(item));node.className='tile';node.disabled=price===null;
@@ -339,23 +370,44 @@ function changeQty(key,delta){
  const line=cart.get(key);
  if(!line)return;
  const quantity=line.quantity+delta;
- if(quantity>0){line.quantity=quantity;if((line.sent||0)>quantity)line.sent=quantity;}else cart.delete(key);
+ if(quantity>0){
+  if((line.sent||0)>quantity){addCancel(activeTable,line,(line.sent||0)-quantity);line.sent=quantity;}
+  line.quantity=quantity;
+ }else{
+  if((line.sent||0)>0)addCancel(activeTable,line,line.sent);
+  cart.delete(key);
+ }
  saveOrders();renderCart();
 }
 let memoKey=null;
+function memoTokens(){return el('memoInput').value.split(',').map(t=>t.trim()).filter(Boolean);}
+function refreshMemoChips(){
+ const tokens=memoTokens();
+ for(const chip of el('memoQuick').children)chip.setAttribute('aria-pressed',String(tokens.includes(chip.textContent)));
+}
+function buildMemoChips(line){
+ const spicy=line&&line.s?['순한맛','안 맵게','아주 맵게']:[];
+ const chips=[...new Set([...spicy,...settings.memoChips])];
+ el('memoQuick').replaceChildren(...chips.map(text=>button(text,()=>{
+  const tokens=memoTokens();
+  const at=tokens.indexOf(text);
+  if(at>=0)tokens.splice(at,1);else tokens.push(text);
+  el('memoInput').value=tokens.join(', ');
+  refreshMemoChips();
+ })));
+ refreshMemoChips();
+}
+el('memoInput').addEventListener('input',refreshMemoChips);
 function openMemo(key){
  const line=orders[activeTable].get(key);
  if(!line)return;
  memoKey=key;
  el('memoTitle').textContent=lineKo(key,line)+' 메모';
  el('memoInput').value=line.memo||'';
+ buildMemoChips(line);
  el('memoDlg').showModal();
  el('memoInput').focus();
 }
-el('memoQuick').replaceChildren(...['덜 맵게','맵게','포장','양파 빼고','먼저 주세요'].map(text=>button(text,()=>{
- const input=el('memoInput');
- input.value=(input.value?input.value+', ':'')+text;
-})));
 el('memoForm').onsubmit=event=>{
  event.preventDefault();
  const line=orders[activeTable].get(memoKey);
@@ -401,8 +453,9 @@ function renderCart(){
  el('clear').disabled=!cart.size&&!party;el('pay').disabled=!cart.size;
  document.documentElement.classList.toggle('cart-empty',!cart.size);
  {const pending=[...cart.values()].reduce((sum,line)=>sum+pendingOf(line),0);
-  el('sendKitchen').textContent=pending?'🍳 주방 전송 ('+pending+'개)':'🍳 주방 전송';
-  el('sendKitchen').disabled=!pending;}
+  const cancelN=cancels[activeTable].reduce((sum,c)=>sum+c.qty,0);
+  el('sendKitchen').textContent=pending&&cancelN?'🍳 주방 전송 ('+pending+'개 · 취소 '+cancelN+')':pending?'🍳 주방 전송 ('+pending+'개)':cancelN?'✕ 취소 내용 주방에 전달 ('+cancelN+')':'🍳 주방 전송';
+  el('sendKitchen').disabled=!pending&&!cancelN;}
  {const rice=groups['추가'].find(item=>item.ko===RICE_ID);el('addRice').textContent='공깃밥 +'+money(priceFor(rice,null,rice.price));}
  el('riceHint').hidden=!([...cart.values()].some(line=>line.r)&&!cart.has(RICE_ID)&&!riceDismissed.has(activeTable));
 }
@@ -420,6 +473,7 @@ function askConfirm(message,onYes){
  el('confirmDlg').showModal();
 }
 el('clear').onclick=()=>askConfirm((activeTable+1)+'번 테이블 주문을 모두 비울까요?',()=>{
+ for(const line of orders[activeTable].values())addCancel(activeTable,line,line.sent||0);
  orders[activeTable].clear();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';riceDismissed.delete(activeTable);
  saveOrders();
  renderCart();
@@ -510,15 +564,15 @@ el('paymentForm').onsubmit=event=>{
  }
  el('payError').textContent='';
  const {sub,gratuity,tax}=totals(activeTable);
- const party=parties[activeTable],server=servers[activeTable],openedAt=opened[activeTable];
+ const party=parties[activeTable],server=servers[activeTable],openedAt=opened[activeTable],cancelsBefore=cancels[activeTable];
  const typedDay=el('payBizDate').value;
  const bizDate=/^\d{4}-\d{2}-\d{2}$/.test(typedDay)?typedDay:bizDay(openedAt||new Date().toISOString());
  const record={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:activeTable+1,time:new Date().toISOString(),method,amount,subtotal:sub,gratuity,tax,tip,party,bizDate,openedAt,voided:false,items:[...order]};
  if(method==='현금'){record.received=received;record.change=change;}
  paidOrders.push(record);
- orders[activeTable]=new Map();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';
+ orders[activeTable]=new Map();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';cancels[activeTable]=[];
  if(!saveOrders()){
-  orders[activeTable]=order;parties[activeTable]=party;servers[activeTable]=server;opened[activeTable]=openedAt;
+  orders[activeTable]=order;parties[activeTable]=party;servers[activeTable]=server;opened[activeTable]=openedAt;cancels[activeTable]=cancelsBefore;
   paidOrders.pop();
   el('payError').textContent='브라우저에 결제 기록을 저장할 수 없습니다. 테이블 주문은 그대로 있습니다.';
   return;
@@ -807,6 +861,7 @@ el('historyDate').onchange=renderHistory;
 el('historyAll').onchange=()=>{el('historyDate').disabled=el('historyAll').checked;renderHistory();};
 el('openSettings').onclick=()=>{
  el('taxRate').value=settings.taxRate;el('taxGratuity').checked=settings.taxGratuity;el('settingsError').textContent='';
+ el('memoChipsInput').value=settings.memoChips.join('\n');
  el('settingsDlg').showModal();
 };
 el('settingsCancel').onclick=()=>el('settingsDlg').close();
@@ -815,7 +870,8 @@ el('settingsForm').onsubmit=event=>{
  const rate=Number(el('taxRate').value);
  if(!Number.isFinite(rate)||rate<0||rate>25){el('settingsError').textContent='세율은 0~25% 사이로 입력하세요.';return;}
  const previous=settings;
- settings={...settings,taxRate:rate,taxGratuity:el('taxGratuity').checked};
+ const chipLines=el('memoChipsInput').value.split('\n').map(t=>t.trim().slice(0,14)).filter(Boolean).slice(0,12);
+ settings={...settings,taxRate:rate,taxGratuity:el('taxGratuity').checked,memoChips:chipLines.length?[...new Set(chipLines)]:[...DEFAULT_SETTINGS.memoChips]};
  if(!saveOrders()){settings=previous;el('settingsError').textContent='브라우저에 저장할 수 없습니다.';return;}
  el('settingsDlg').close();renderCart();
 };
@@ -995,6 +1051,11 @@ function renderTicket(container,ticket){
   if(item.t)add('⏱ '+item.t+'분 소요','t-sub');
   if(item.memo)add('★ '+item.memo,'t-memo');
  }
+ if(ticket.cancels&&ticket.cancels.length){
+  const rule2=document.createElement('p');rule2.className='t-rule';container.append(rule2);
+  add('✕ 취소','t-head');
+  for(const c of ticket.cancels)add('✕ '+c.qty+' × '+c.ko,'t-item t-cancel');
+ }
 }
 function printTicket(ticket){
  renderTicket(el('printArea'),ticket);
@@ -1047,7 +1108,8 @@ el('partyEnter').onclick=()=>{
 el('partySkip').onclick=()=>{el('partyDlg').close();skipParty=true;el('sendKitchen').click();};
 el('sendKitchen').onclick=()=>{
  if(ORDER_MODE&&!staffName){askName(true);return;}
- if(!parties[activeTable]&&!skipParty){askParty();return;}
+ const hasNew=[...orders[activeTable].values()].some(l=>pendingOf(l)>0);
+ if(hasNew&&!parties[activeTable]&&!skipParty){askParty();return;}
  skipParty=false;
  const tableIndex=activeTable,cart=orders[tableIndex];
  const items=[],prevSent=new Map();
@@ -1059,16 +1121,19 @@ el('sendKitchen').onclick=()=>{
   const qty=pendingOf(line);
   if(qty>0)items.push({ko:line.ko||key,en:line.en||'',qty,total:line.quantity,memo:line.memo||'',note:line.note||'',t:line.t||0,s:line.s?1:0});
  }
- if(!items.length)return;
- const ticket={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:tableIndex+1,time:new Date().toISOString(),party:parties[tableIndex],staff:staffLabel(),extra,items,done:false};
+ const cancelList=cancels[tableIndex].map(c=>({...c}));
+ if(!items.length&&!cancelList.length)return;
+ const ticket={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:tableIndex+1,time:new Date().toISOString(),party:parties[tableIndex],staff:staffLabel(),extra,items,cancels:cancelList,done:false};
  for(const line of cart.values())if(!line.d)line.sent=line.quantity;
+ cancels[tableIndex]=[];
  saveOrders();renderCart();
  lastTicket=ticket;
- const count=items.reduce((sum,item)=>sum+item.qty,0);
+ const count=items.reduce((sum,item)=>sum+item.qty,0)+cancelList.reduce((sum,c)=>sum+c.qty,0);
  if(Sync.enabled){
   flashNotice(ticket.table+'번 '+count+'개 전송 중…');
   deliverTicket(ticket,count,()=>{
    for(const [key,value] of prevSent){const line=orders[tableIndex].get(key);if(line)line.sent=Math.min(value,line.quantity);}
+   cancels[tableIndex]=cancelList;
    saveOrders();renderCart();
   });
  }else{
@@ -1136,8 +1201,8 @@ const Sync=(()=>{
  let lastRecv=null,hiddenAt=0;
  const okText=()=>'동기화됨'+(lastRecv?' · 수신 '+lastRecv.toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit',second:'2-digit'}):'');
  function received(){lastRecv=new Date();if(!timer&&navigator.onLine)status(okText());}
- const emptyTable=JSON.stringify({lines:[],party:0,server:'',opened:''});
- const tableJson=i=>JSON.stringify({lines:[...orders[i]],party:parties[i],server:servers[i],opened:opened[i]});
+ const emptyTable=JSON.stringify({lines:[],party:0,server:'',opened:'',cancels:[]});
+ const tableJson=i=>JSON.stringify({lines:[...orders[i]],party:parties[i],server:servers[i],opened:opened[i],cancels:cancels[i]});
  const settingsJson=()=>JSON.stringify(normalizeSettings(settings));
  function status(text,warn){
   const node=el('syncStatus');
@@ -1187,6 +1252,7 @@ const Sync=(()=>{
   parties[i]=Number.isInteger(data.party)&&data.party>=0?data.party:0;
   servers[i]=typeof data.server==='string'?data.server.slice(0,12):'';
   opened[i]=typeof data.opened==='string'?data.opened.slice(0,40):'';
+  cancels[i]=Array.isArray(data.cancels)?data.cancels.filter(c=>c&&typeof c.ko==='string'&&Number.isInteger(c.qty)&&c.qty>0).slice(0,30):[];
  }
  function onTables(map){
   let changed=false;

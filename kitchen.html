@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127014538"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127034548"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -11,6 +11,7 @@ main{display:block}.lane{border-top:6px solid;padding-top:6px;margin-top:20px}.l
 .lane h2{margin:6px 0 10px}.lane-hint{font-size:13px;font-weight:400;color:#4e6559;margin-left:8px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chip{min-height:54px;padding:6px 16px;border:1px solid #b8c2b8;border-left:6px solid #9aa79d;border-radius:10px;background:#fff;font-weight:700;touch-action:manipulation;user-select:none;-webkit-user-select:none;text-align:left}.chip small{display:block;font-weight:400;color:#4e6559;font-size:12px}
 dialog#doneDlg{border:0;border-radius:14px;padding:16px;max-width:92vw;width:min(420px,92vw)}dialog#doneDlg::backdrop{background:#14271e88}
+#printArea .t-cancel,.card .t-cancel{color:#b3261e;text-decoration:line-through}.t-cancel-head{font-weight:700;color:#b3261e;font-size:16px}.card.has-cancel{border-color:#b3261e;border-width:3px;background:#fff5f4}
 #status{font-size:13px;color:#d8e7dd}#status.warn{color:#ffd9a8}
 main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
@@ -77,6 +78,11 @@ function fill(container,ticket){
   if(item.note)add(item.note,'t-sub');
   if(item.t)add('⏱ '+item.t+'분 소요','t-sub');
   if(item.memo)add('★ '+item.memo,'t-memo');
+ }
+ if(ticket.cancels&&ticket.cancels.length){
+  const rule2=document.createElement('p');rule2.className='t-rule';container.append(rule2);
+  add('✕ 취소','t-cancel-head');
+  for(const c of ticket.cancels)add('✕ '+c.qty+' × '+c.ko,'t-item t-cancel');
  }
 }
 let printJobs=0;
@@ -151,7 +157,7 @@ function setDone(ticket,done){
 }
 function card(ticket,fresh){
  const node=document.createElement('section');
- node.className='card'+(ticket.done?' done':'')+(fresh?' fresh':'');
+ node.className='card'+(ticket.done?' done':'')+(fresh?' fresh':'')+(ticket.cancels&&ticket.cancels.length?' has-cancel':'');
  const body=document.createElement('div');fill(body,ticket);
  const actions=document.createElement('div');actions.className='actions';
  const doneBtn=document.createElement('button');doneBtn.type='button';
