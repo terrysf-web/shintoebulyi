@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127222911"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127223303"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -237,9 +237,18 @@ html:not(.order-mode) .tgo.empty .tg-plus{font-size:26px;color:#b08a00;font-weig
 .tgo span{font-size:12.5px;color:#7a5b00;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tgo .tg-state{font-weight:800}
 .tcard .tkit{font-size:12px;font-weight:800;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.tcard .tparty{display:flex;align-items:center;gap:6px;width:100%}.tcard .tparty .tptxt{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}.tcard .tparty .tkit{flex:none}
+.tcard .tkit.served{background:#175cd3;color:#fff!important}.tcard .tkit.part{background:#d1e9ff;color:#175cd3!important}
+.tcard.occ.allserved{background:#eef4ff;border-color:#b2ccff}.tcard.occ.allserved strong,.tcard.occ.allserved span:not(.tkit){color:#1849a9}
 .tcard .tkit.done{background:#12b76a;color:#fff!important}.tcard .tkit.cooking{background:#fff1d6;color:#b54708!important}
 .tcard.occ.cooked{background:#e3f6e8;border-color:#6ce9a6}.tcard.occ.cooked strong,.tcard.occ.cooked span{color:#05603a}
 .tgo.cooked{background:#d1fadf;border:2px solid #12b76a}.tgo.cooked span{color:#05603a}
+.row .qty{flex-wrap:wrap;justify-content:flex-end;max-width:62%}
+.serve-btn{min-height:34px;padding:2px 10px;font-size:13px;font-weight:700;border-radius:999px;background:#f2f4f7;white-space:nowrap}
+.serve-btn.part{background:#d1e9ff;border-color:#84caff;color:#175cd3}
+.serve-btn.on{background:#175cd3;border-color:#175cd3;color:#fff}
+.row.served .name{opacity:.55}
+#serveAll{min-height:34px;padding:2px 10px;font-size:13px;font-weight:700}
 .tgo.paid{background:#e8f1ff;border-color:#9cc0f5}.tgo.paid span{color:#1d4f9c}.tgo.paid.ready{background:#e8f1ff;border-color:#9cc0f5}
 .tgo.ready{background:#e3f6e8;border-color:#b5e2c1}.tgo.ready span{color:#05603a}
 .tgo.unsent{border:2px solid #f79009}.tgo.unsent .tg-state{color:#b54708}
@@ -368,7 +377,7 @@ html:not(.order-mode) .oh-tools{display:none}
 </section>
 <div id="orderBar" hidden><button type="button" id="backHome">← 테이블</button><strong id="barTable"></strong><button type="button" id="barParty" class="bar-chip"></button><button type="button" id="barReady" class="bar-chip" hidden></button><button type="button" id="barServer" class="bar-chip"></button></div>
 <section class="table-picker" aria-labelledby="tableHeading"><h2 id="tableHeading">테이블 선택</h2><nav id="tables" aria-label="테이블 1번부터 9번까지"></nav><p id="storageWarning" class="hint" role="status" hidden>이 브라우저는 파일의 주문 저장을 허용하지 않습니다. 화면을 닫으면 주문이 사라질 수 있습니다.</p></section><main><section aria-label="메뉴"><input id="search" type="search" placeholder="메뉴 이름(한/영) 또는 번호로 검색" aria-label="메뉴 검색"><nav id="tabs" aria-label="메뉴 분류"></nav><div id="menu"></div></section>
-<aside><div class="bar"><h2 id="orderHeading">1번 테이블 주문</h2><button id="clear" type="button">비우기</button></div>
+<aside><div class="bar"><h2 id="orderHeading">1번 테이블 주문</h2><button id="serveAll" type="button">🍽 전체 나감</button><button id="clear" type="button">비우기</button></div>
 <div class="party"><span>인원</span><div class="qty"><button type="button" id="partyMinus" aria-label="인원 줄이기">−</button><strong id="partyCount" aria-live="polite">0</strong><button type="button" id="partyPlus" aria-label="인원 늘리기">+</button></div></div>
 <div id="orderBody"><div id="lines"></div>
 <div id="riceHint" class="notice" hidden>밥이 포함되지 않은 메뉴가 있습니다. 공깃밥을 추가할까요?<div><button type="button" id="addRice">공깃밥 +$3.00</button><button type="button" id="skipRice">괜찮아요</button></div></div></div>
@@ -883,7 +892,7 @@ function addLine(item,option,price,note,delta){
  const cart=orders[activeTable];
  const prev=cart.get(key);
  const quantity=(prev?.quantity||0)+delta;
- if(quantity>0)cart.set(key,{ko:item.ko+(option?' · '+option:''),en:item.en+(option?' · '+option:''),price,quantity,memo:prev?.memo||'',note:note||prev?.note||'',r:item.r?1:0,s:item.s?1:0,d:item.d?1:0,sent:prev?.sent||0,t:item.t||0});
+ if(quantity>0)cart.set(key,{ko:item.ko+(option?' · '+option:''),en:item.en+(option?' · '+option:''),price,quantity,memo:prev?.memo||'',note:note||prev?.note||'',r:item.r?1:0,s:item.s?1:0,d:item.d?1:0,sent:prev?.sent||0,served:Math.min(prev?.served||0,quantity),t:item.t||0});
  else cart.delete(key);
  if(quantity>0){claimTable(activeTable);touchOpened(activeTable);}
  saveOrders();renderCart();
@@ -896,6 +905,7 @@ function changeQty(key,delta){
  if(quantity>0){
   if((line.sent||0)>quantity){addCancel(activeTable,line,(line.sent||0)-quantity);line.sent=quantity;}
   line.quantity=quantity;
+  if((line.served||0)>quantity)line.served=quantity;
  }else{
   if((line.sent||0)>0)addCancel(activeTable,line,line.sent);
   cart.delete(key);
@@ -938,6 +948,26 @@ el('memoForm').onsubmit=event=>{
  el('memoDlg').close();
 };
 el('memoCancel').onclick=()=>el('memoDlg').close();
+// ---- 서빙(음식이 테이블로 나갔는지) ----
+const canServe=line=>line.d||(line.sent||0)>0;
+function servedInfo(i){
+ let total=0,served=0;
+ for(const line of orders[i].values()){total+=line.quantity;served+=Math.min(line.served||0,line.quantity);}
+ return {total,served};
+}
+function tapServe(key){
+ const line=orders[activeTable].get(key);if(!line)return;
+ const max=line.quantity;
+ line.served=(line.served||0)>=max?0:(line.served||0)+1;
+ saveOrders();renderCart();
+}
+function serveAllToggle(){
+ const lines=[...orders[activeTable].values()].filter(canServe);
+ if(!lines.length)return;
+ const all=lines.every(l=>(l.served||0)>=l.quantity);
+ for(const l of lines)l.served=all?0:l.quantity;
+ saveOrders();renderCart();
+}
 function renderCart(){
  const cart=orders[activeTable];
  el('orderHeading').textContent=isTogo(activeTable)?'🥡 '+slotLabel(activeTable)+' 주문':(activeTable+1)+(ORDER_MODE?'번':'번 테이블')+' 주문';
@@ -958,7 +988,15 @@ function renderCart(){
   const plus=button('+',()=>changeQty(key,1));
   const note=button(line.memo?'메모✓':'메모',()=>openMemo(key));note.className='memo-btn';
   minus.setAttribute('aria-label',lineKo(key,line)+' 수량 줄이기');plus.setAttribute('aria-label',lineKo(key,line)+' 수량 늘리기');
-  controls.append(minus,String(quantity),plus,note);row.append(title,controls);el('lines').append(row);
+  controls.append(minus,String(quantity),plus,note);
+  if(canServe(line)){
+   const sv=Math.min(line.served||0,quantity);
+   const sb=button(sv>=quantity?'✓ 나감':sv>0?'나감 '+sv+'/'+quantity:'나감',()=>tapServe(key));
+   sb.className='serve-btn'+(sv>=quantity?' on':sv>0?' part':'');
+   controls.append(sb);
+   if(sv>=quantity)row.classList.add('served');
+  }
+  row.append(title,controls);el('lines').append(row);
  }
  if(!cart.size){el('lines').textContent='메뉴를 눌러 주문을 추가하세요.';el('lines').className='empty hint';}
  else el('lines').className='';
@@ -1002,6 +1040,7 @@ function askConfirm(message,onYes){
  el('confirmNo').onclick=()=>el('confirmDlg').close();
  el('confirmDlg').showModal();
 }
+el('serveAll').onclick=serveAllToggle;
 el('clear').onclick=()=>askConfirm(isTogo(activeTable)?slotLabel(activeTable)+' 주문을 모두 비울까요?':(activeTable+1)+'번 테이블 주문을 모두 비울까요?',()=>{
  for(const line of orders[activeTable].values())addCancel(activeTable,line,line.sent||0);
  orders[activeTable].clear();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';togos[activeTable]=null;riceDismissed.delete(activeTable);
@@ -1787,9 +1826,15 @@ function renderTableHome(){
    const unsent=[...cart.values()].reduce((n,l)=>n+pendingOf(l),0)+(cancels[i]||[]).length;
    if(unsent){card.classList.add('unsent');const u=document.createElement('span');u.className='tunsent';u.textContent='미전송 '+unsent;head.append(u);}
    const ks=kitchenState(i);if(ks==='done'&&!unsent)card.classList.add('cooked');
-   const kp=kPill(ks,'tkit');if(kp&&!unsent)head.append(kp);
+   const si=servedInfo(i);
+   let pill=null;
+   if(si.total&&si.served>=si.total){card.classList.add('allserved');card.classList.remove('cooked');pill=document.createElement('span');pill.className='tkit served';pill.textContent='🍽 다 나감';}
+   else if(si.served>0){pill=document.createElement('span');pill.className='tkit part';pill.textContent='🍽 '+si.served+'/'+si.total+' 나감';}
+   else{const kp=kPill(ks,'tkit');if(kp&&!unsent)pill=kp;}
    const sum=document.createElement('span');sum.className='tmoney';sum.textContent=count?money(totals(i).sub):'';head.append(sum);
-   lines.push(mk(parties[i]?'👥 '+parties[i]+'명'+(count?' · '+count+'개':''):'👥 인원 미입력'+(count?' · '+count+'개':'')));
+   {const prow=document.createElement('span');prow.className='tparty';
+    const ptxt=document.createElement('span');ptxt.className='tptxt';ptxt.textContent=parties[i]?'👥 '+parties[i]+'명'+(count?' · '+count+'개':''):'👥 인원 미입력'+(count?' · '+count+'개':'');
+    prow.append(ptxt);if(pill)prow.append(pill);lines.push(prow);}
    if(servers[i]||opened[i]){
     const row=document.createElement('span');row.className='twho';
     const nm=document.createElement('span');nm.className='tname';nm.textContent=servers[i]?'👤 '+servers[i]:'';
@@ -1845,7 +1890,8 @@ function renderTogoStrip(){
   const state=document.createElement('span');state.className='tg-state';
   const ks=kitchenState(i);
   if(ks==='done'&&!unsent)card.classList.add('cooked');
-  const kline=ks==='done'?'✅ 조리 완료':ks==='cooking'?'🍳 조리 중':'';
+  const si=servedInfo(i);
+  const kline=si.total&&si.served>=si.total?'🍽 전달 완료':si.served>0?'🍽 '+si.served+'/'+si.total+' 나감':ks==='done'?'✅ 조리 완료':ks==='cooking'?'🍳 조리 중':'';
   state.textContent=t.paid?'💳 결제 완료 · '+(t.ready?'📦 포장 완료':kline||'픽업 대기'):unsent?'미전송 '+unsent:t.ready?'📦 포장 완료':kline?(ks==='done'?kline+' · 포장하세요':kline):'⏳ 대기';
   card.append(head,info,state);
   card.onclick=()=>{
