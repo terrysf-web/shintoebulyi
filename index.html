@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127201354"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127202413"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -158,6 +158,40 @@ aside h2{font-size:20px;font-weight:700}
 .option form:not([method]) button[type=submit]{background:var(--blue);color:#fff;border:0;min-height:48px;padding:10px 22px;font-weight:700}
 .option form:not([method]) button[type=submit]:hover{background:var(--blue-d)}
 .option form:not([method]) button[type=submit]:disabled{opacity:.5}
+/* 주문 전용: 한 화면에 메뉴가 보이도록 압축 */
+.order-mode #search{display:none}
+.order-mode #tabs{flex-wrap:nowrap;overflow-x:auto;gap:8px;margin:8px 0;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.order-mode #tabs::-webkit-scrollbar{display:none}
+.order-mode #tabs button{flex:none;padding:8px 14px;min-height:40px}
+.order-mode #menu{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.order-mode .tile{min-height:64px;padding:8px 10px;gap:2px;justify-content:center}
+.order-mode .tile .en,.order-mode .tile .badges{display:none}
+.order-mode .tile strong{font-size:15px;line-height:1.2}
+.order-mode .tile small{font-size:13px}
+.cart-toggle{display:none}
+@media(max-width:640px){
+ .order-mode #menu{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .order-mode.order-table main{padding:4px 12px}
+ .order-mode.order-table aside{display:none}
+ .order-mode.order-table.cart-open aside{display:flex;flex-direction:column;position:fixed;left:0;right:0;top:58px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:40;border-radius:0;overflow:auto;border:0;border-top:1px solid var(--line);box-shadow:none;padding:4px 16px}
+ .order-mode.order-table.cart-open #orderBody{max-height:none}
+ .order-mode.order-table .name-chip,.order-mode.order-table .reload-icon,.order-mode.order-table #syncStatus{display:none}
+ .order-mode.order-table .cart-toggle{display:block;position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));width:calc(42% - 18px);min-height:58px;z-index:50;background:#fff;border:1px solid #d0d5dd;border-radius:14px;font-size:15px;box-shadow:0 4px 14px rgba(16,24,40,.15);padding:6px 8px;line-height:1.25}
+ .order-mode.order-table #sendKitchen{left:calc(42% + 6px);right:12px}
+ .order-mode.order-table.no-send .cart-toggle{width:calc(100% - 24px)}
+ .order-mode.order-table.cart-open .cart-toggle{background:var(--ink);color:#fff;border-color:var(--ink)}
+}
+.order-table #modeFooter{display:none}
+/* 위쪽 바: 인원·서버 이름 수정, 카드 없애고 넓게 */
+#orderBar{flex-wrap:wrap}
+#orderBar strong{margin-right:2px}
+.bar-chip{min-height:38px;padding:4px 14px;border-radius:999px;background:#f2f4f7;border:0;font-weight:700;font-size:14px}
+.bar-chip.need{background:#fff3e0;color:#b54708}
+.order-table .party{display:none}
+.order-table .name-chip,.order-table .reload-icon{display:none}
+.order-table aside{background:#fff;border:0;border-left:1px solid var(--line);border-radius:0;box-shadow:none;padding:6px 16px}
+.order-table aside .bar{justify-content:flex-end}
+@media(min-width:641px){.order-table main{grid-template-columns:minmax(0,1fr) minmax(340px,36%);gap:0;padding:8px 0 8px 16px}.order-table main>section{padding-right:16px}}
 /* 주문 전용: 테이블 현황 → 인원 → 주문 */
 #orderHome{padding:14px 16px;max-width:920px;margin:0 auto;width:100%}
 .oh-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -167,7 +201,11 @@ aside h2{font-size:20px;font-weight:700}
 #homeSummary{margin:2px 0 6px}
 #homeGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:8px}
 @media(min-width:641px){#homeGrid{grid-template-columns:repeat(3,minmax(0,1fr))}#orderHome{flex:1;min-height:0;overflow:auto}}
-@media(min-width:1000px){#homeGrid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+/* 카운터: 가게 전체를 큰 사각형으로, 아이패드 화면을 꽉 채움 */
+html:not(.order-mode) #orderHome{max-width:none;margin:0;padding:10px 14px 14px;display:flex;flex-direction:column;overflow:hidden}
+html:not(.order-mode) #homeGrid{flex:1;min-height:0;margin-top:6px;padding:14px;gap:14px;border:3px solid #98a2b3;border-radius:22px;background:repeating-linear-gradient(0deg,#f7f8fa,#f7f8fa 38px,#f2f4f7 38px,#f2f4f7 40px);grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr))}
+html:not(.order-mode) #homeGrid .tcard{min-height:0;height:100%;justify-content:center;border-radius:16px}
+html:not(.order-mode) #homeGrid .tcard strong{font-size:34px}
 .tcard{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:3px;padding:14px 14px 12px;min-height:124px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);text-align:left}
 .tcard strong{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:2px}
 .tcard span{font-size:13px;color:var(--muted);font-weight:500}
@@ -225,7 +263,7 @@ html:not(.order-mode) .oh-tools{display:none}
 <div id="homeGrid"></div>
 <p id="homeFoot" class="hint"></p>
 </section>
-<div id="orderBar" hidden><button type="button" id="backHome">← 테이블</button><strong id="orderBarTitle"></strong></div>
+<div id="orderBar" hidden><button type="button" id="backHome">← 테이블</button><strong id="barTable"></strong><button type="button" id="barParty" class="bar-chip"></button><button type="button" id="barServer" class="bar-chip"></button></div>
 <section class="table-picker" aria-labelledby="tableHeading"><h2 id="tableHeading">테이블 선택</h2><nav id="tables" aria-label="테이블 1번부터 9번까지"></nav><p id="storageWarning" class="hint" role="status" hidden>이 브라우저는 파일의 주문 저장을 허용하지 않습니다. 화면을 닫으면 주문이 사라질 수 있습니다.</p></section><main><section aria-label="메뉴"><input id="search" type="search" placeholder="메뉴 이름(한/영) 또는 번호로 검색" aria-label="메뉴 검색"><nav id="tabs" aria-label="메뉴 분류"></nav><div id="menu"></div></section>
 <aside><div class="bar"><h2 id="orderHeading">1번 테이블 주문</h2><button id="clear" type="button">비우기</button></div>
 <div class="party"><span>인원</span><div class="qty"><button type="button" id="partyMinus" aria-label="인원 줄이기">−</button><strong id="partyCount" aria-live="polite">0</strong><button type="button" id="partyPlus" aria-label="인원 늘리기">+</button></div></div>
@@ -274,6 +312,7 @@ html:not(.order-mode) .oh-tools{display:none}
 <div id="tipList"><table id="tipTable"></table></div>
 <form method="dialog"><button>닫기</button></form></dialog>
 <p id="modeFooter" class="hint" hidden style="text-align:center;margin:18px 0 90px"><button type="button" id="makeCounterDevice">카운터(일반) 화면으로 바꾸기 · 이 기기</button></p>
+<button type="button" id="cartToggle" class="cart-toggle">🧾 주문 내역</button>
 <div id="ticketWarn" class="ticketwarn" hidden><span id="ticketWarnText"></span><button type="button" id="ticketResend">다시 보내기</button></div>
 <div id="updateBar" class="updatebar" hidden><span>새 버전이 있습니다.</span><button type="button" id="updateNow">새로고침</button><button type="button" id="updateClose" aria-label="닫기">✕</button></div>
 <dialog id="partyDlg" class="option" aria-labelledby="partyTitle"><h2 id="partyTitle">인원을 입력하세요</h2>
@@ -530,7 +569,7 @@ function renderMenu(){
   const detail=document.createElement('small');
   const eff=Array.isArray(price)?price.map(([option,base])=>[option,priceFor(item,option,base)]):price===null?null:priceFor(item,null,price);
   const cost=Array.isArray(eff)?money(eff[0][1])+(eff.some(option=>option[1]!==eff[0][1])?'부터':''):eff===null?'가격 확인 필요':money(eff);
-  detail.textContent=(n?n+' · ':'')+cost;
+  detail.textContent=ORDER_MODE?cost+(item.s?' 🌶':'')+(item.r?' 🍚':'')+(item.t?' ⏱':''):(n?n+' · ':'')+cost;
   node.append(title,sub,detail);
   const badges=[item.s?'🌶 매움':'',item.r?'밥 별도':'',item.t?'⏱ '+item.t+'분 소요':''].filter(Boolean).join(' · ');
   if(badges){const b=document.createElement('span');b.className='badges';b.textContent=badges;node.append(b);}
@@ -648,11 +687,17 @@ function renderCart(){
  el('total').textContent=money(total);
  el('clear').disabled=!cart.size&&!party;el('pay').disabled=!cart.size;
  document.documentElement.classList.toggle('cart-empty',!cart.size);
- renderTableHome();updateOrderBar();
+
  {const pending=[...cart.values()].reduce((sum,line)=>sum+pendingOf(line),0);
   const cancelN=cancels[activeTable].reduce((sum,c)=>sum+c.qty,0);
   el('sendKitchen').textContent=pending&&cancelN?'🍳 주방 전송 ('+pending+'개 · 취소 '+cancelN+')':pending?'🍳 주방 전송 ('+pending+'개)':cancelN?'✕ 취소 내용 주방에 전달 ('+cancelN+')':'🍳 주방 전송';
   el('sendKitchen').disabled=!pending&&!cancelN;}
+ renderTableHome();updateOrderBar();
+ if(ORDER_MODE){
+  const cnt=[...cart.values()].reduce((sum,line)=>sum+line.quantity,0);
+  el('cartToggle').textContent=document.documentElement.classList.contains('cart-open')?'▼ 닫기':'🧾 '+cnt+'개 · '+money(totals(activeTable).sub);
+  document.documentElement.classList.toggle('no-send',el('sendKitchen').disabled);
+ }
  {const rice=groups['추가'].find(item=>item.ko===RICE_ID);el('addRice').textContent='공깃밥 +'+money(priceFor(rice,null,rice.price));}
  el('riceHint').hidden=!([...cart.values()].some(line=>line.r)&&!cart.has(RICE_ID)&&!riceDismissed.has(activeTable));
 }
@@ -1253,6 +1298,7 @@ el('nameForm').onsubmit=event=>{
  staffName=value.slice(0,12);
  try{localStorage.setItem('stby-staff-name',staffName);}catch{}
  updateNameChip();el('nameDlg').close();
+ if(typeof orderView!=='undefined'&&orderView==='table'){servers[activeTable]=staffName;saveOrders();renderCart();}
 };
 if(!ORDER_MODE){
  nameChip=document.createElement('button');nameChip.type='button';nameChip.onclick=()=>askName(false);
@@ -1271,6 +1317,7 @@ el('summaryBox').append(el('syncStatus'));
  afterLogin=()=>{if(!staffName)askName(true);};
  // ----- 테이블 현황(첫 화면) → 인원 → 테이블 주문 -----
 }
+if(ORDER_MODE)document.body.append(el('sendKitchen'));
 el('orderHome').hidden=false;el('orderBar').hidden=false;
 document.documentElement.classList.add('order-home');
 document.body.append(el('kitchenNotice'));
@@ -1279,6 +1326,7 @@ document.body.append(el('kitchenNotice'));
 let orderView='home';
 function setOrderView(view){
  orderView=view;
+ document.documentElement.classList.remove('cart-open');
  document.documentElement.classList.toggle('order-home',view==='home');
  document.documentElement.classList.toggle('order-table',view==='table');
  if(ORDER_MODE){if(view==='home')el('homeFoot').append(el('syncStatus'));else el('summaryBox').append(el('syncStatus'));}
@@ -1289,6 +1337,8 @@ function elapsedText(iso){
  const minutes=Math.max(0,Math.round((Date.now()-new Date(iso).getTime())/60000));
  return minutes>=60?Math.floor(minutes/60)+'시간 '+(minutes%60)+'분':minutes+'분';
 }
+// 카운터: 가게 실제 배치(3열) — 왼쪽 위에서 3·2·1, 가운데 7·6·5·4, 오른쪽 9·8
+const COUNTER_POS={3:[1,1],2:[1,2],1:[1,3],7:[2,1],6:[2,2],5:[2,3],4:[2,4],9:[3,1],8:[3,2]};
 function renderTableHome(){
  let used=0;
  const cards=orders.map((cart,i)=>{
@@ -1306,6 +1356,7 @@ function renderTableHome(){
   }else lines.push('빈 테이블');
   card.append(num,...lines.map(text=>{const span=document.createElement('span');span.textContent=text;return span;}));
   card.onclick=()=>openTable(i);
+  if(!ORDER_MODE){const pos=COUNTER_POS[i+1];if(pos){card.style.gridColumn=pos[0];card.style.gridRow=pos[1];}}
   return card;
  });
  el('homeGrid').replaceChildren(...cards);
@@ -1318,18 +1369,21 @@ function openTable(i){
  setOrderView('table');
 }
 let guestFor=0,guestPick=0;
+let guestEdit=false;
 function startTable(i,count){
  activeTable=i;
  parties[i]=count;
  if(count>0){claimTable(i);touchOpened(i);}
  saveOrders();
  el('guestDlg').close();
+ if(guestEdit){renderCart();return;}   // 인원만 바꾸는 경우: 주문 화면에 그대로 머뭅니다
  setOrderView('table');
 }
-function askGuests(i){
- guestFor=i;guestPick=0;
- el('guestTitle').textContent=(i+1)+'번 테이블 · 몇 분이세요?';
- el('guestInput').value='';
+function askGuests(i,edit){
+ guestFor=i;guestPick=0;guestEdit=!!edit;
+ el('guestTitle').textContent=(i+1)+'번 테이블 · '+(edit?'인원 변경':'몇 분이세요?');
+ el('guestSkip').hidden=!!edit;
+ el('guestInput').value=edit&&parties[i]>6?String(parties[i]):'';
  el('guestGrid').replaceChildren(...Array.from({length:6},(_,n)=>button(String(n+1),()=>startTable(guestFor,n+1))));
  el('guestDlg').showModal();
 }
@@ -1348,12 +1402,18 @@ function goHome(){
  setOrderView('home');
 }
 el('backHome').onclick=goHome;
+el('barParty').onclick=()=>askGuests(activeTable,true);
+el('barServer').onclick=()=>askName(false);
+el('cartToggle').onclick=()=>{document.documentElement.classList.toggle('cart-open');renderCart();};
 el('homeName').onclick=()=>askName(false);
 el('homeReload').onclick=()=>el('reloadApp').click();
 setInterval(()=>{if(orderView==='home')renderTableHome();},30000);
 function updateOrderBar(){
  const i=activeTable;
- el('orderBarTitle').textContent=(i+1)+'번 테이블'+(parties[i]?' · 👥 '+parties[i]+'명':'')+(servers[i]?' · 👤 '+servers[i]:'');
+ el('barTable').textContent=(i+1)+'번 테이블';
+ el('barParty').textContent=parties[i]?'👥 '+parties[i]+'명':'👥 인원 입력';
+ el('barParty').classList.toggle('need',!parties[i]);
+ el('barServer').textContent='👤 '+(servers[i]||staffName||'이름');
 }
 
 // ---------- 주방 전송 ----------
@@ -1419,10 +1479,7 @@ let skipParty=false;
 function askParty(){el('partyDlg').showModal();}
 el('partyEnter').onclick=()=>{
  el('partyDlg').close();
- const row=document.querySelector('.party');
- row.classList.add('need');setTimeout(()=>row.classList.remove('need'),2500);
- row.scrollIntoView({block:'center',behavior:'smooth'});
- el('partyPlus').focus();
+ askGuests(activeTable,true);
 };
 el('partySkip').onclick=()=>{el('partyDlg').close();skipParty=true;el('sendKitchen').click();};
 el('sendKitchen').onclick=()=>{
