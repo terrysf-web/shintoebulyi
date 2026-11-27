@@ -5,7 +5,7 @@ import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from
 import {
   initializeFirestore, persistentLocalCache, persistentMultipleTabManager, memoryLocalCache,
   collection, doc, onSnapshot, writeBatch, waitForPendingWrites, disableNetwork, enableNetwork,
-  query, where, getDocs, getDoc,
+  query, where, getDocs, getDoc, terminate, clearIndexedDbPersistence,
 } from 'firebase/firestore';
 
 // 기기마다 시계가 조금씩 달라도 '확인용 조회(poll)'가 놓치지 않도록, 쓰기 시각(updatedAt)은
@@ -107,6 +107,11 @@ function create(config, options = {}) {
     pending: () => waitForPendingWrites(db),
     // 연결을 끊었다가 다시 맺어 실시간 수신을 되살립니다.
     reconnect: async () => { await disableNetwork(db); await enableNetwork(db); },
+    // 이 기기에 쌓인 '보내지 못한 쓰기 대기열'과 저장소를 비웁니다(서버 데이터와 화면의 주문은 그대로).
+    resetCache: async () => {
+      try { await terminate(db); } catch (e) { /* 이미 종료됨 */ }
+      try { await clearIndexedDbPersistence(db); } catch (e) { /* 메모리 저장소면 비울 게 없음 */ }
+    },
   };
 }
 

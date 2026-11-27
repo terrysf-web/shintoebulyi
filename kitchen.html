@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127232603"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127232903"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -66,7 +66,7 @@ dialog#doneDlg{border-radius:22px;box-shadow:0 24px 70px rgba(16,24,40,.3)}
 <section class="lane lane-pending"><h2>조리 중 <span id="pendingCount"></span> <span class="lane-hint">새 주문이 왼쪽에 들어옵니다</span></h2><div id="pending" class="grid"></div></section>
 <section class="lane lane-done"><h2>완료 <span class="lane-hint">테이블을 두 번 누르면 내용을 봅니다</span></h2><div id="done" class="chips"></div></section>
 </main>
-<dialog id="diagDlg"><h2>연결 진단</h2><pre id="diagText" style="white-space:pre-wrap;font:14px/1.6 ui-monospace,Menlo,monospace"></pre><div style="display:flex;gap:8px"><button type="button" id="diagRefresh">새로 보기</button><button type="button" id="diagReconnect">연결 새로 맺기</button><button type="button" id="diagClose">닫기</button></div></dialog>
+<dialog id="diagDlg"><h2>연결 진단</h2><pre id="diagText" style="white-space:pre-wrap;font:14px/1.6 ui-monospace,Menlo,monospace"></pre><div style="display:flex;gap:8px"><button type="button" id="diagRefresh">새로 보기</button><button type="button" id="diagReconnect">연결 새로 맺기</button><button type="button" id="diagReset">다시 시작</button><button type="button" id="diagClose">닫기</button></div></dialog>
 <dialog id="doneDlg"><div class="card done" id="doneBody"></div><div class="actions" style="display:flex;gap:8px;margin-top:12px"><button type="button" id="doneUndo">되돌리기</button><button type="button" id="doneClose" class="ok">닫기</button></div></dialog>
 <div id="printArea"></div>
 <div id="gate" class="gate"><form id="loginForm"><h2>신토불이 주방</h2><p id="gateMsg">로그인 확인 중…</p>
@@ -265,6 +265,7 @@ el('status').style.cursor='pointer';
 el('status').addEventListener('click',()=>{el('diagText').textContent=diagText();el('diagDlg').showModal();});
 el('diagRefresh').onclick=()=>{el('diagText').textContent=diagText();};
 el('diagReconnect').onclick=()=>{el('diagText').textContent='연결을 새로 맺는 중…';(adapter&&adapter.reconnect?adapter.reconnect():Promise.resolve()).catch(()=>{}).finally(()=>setTimeout(()=>{resubscribe();el('diagText').textContent=diagText();},2500));};
+el('diagReset').onclick=()=>{el('diagText').textContent='다시 시작하는 중…';(adapter&&adapter.resetCache?adapter.resetCache():Promise.resolve()).catch(()=>{}).finally(()=>freshReload());};
 el('diagClose').onclick=()=>el('diagDlg').close();
 el('doneClose').onclick=()=>el('doneDlg').close();
 el('doneUndo').onclick=()=>{if(doneTicket)setDone(doneTicket,false);el('doneDlg').close();};
