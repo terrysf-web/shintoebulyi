@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127203716"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127204052"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -126,8 +126,9 @@ h2{letter-spacing:-.01em}
 .fav-edit{flex:none;background:#fff8e1;border-color:#f5d97a;font-weight:700}
 .fav-edit.on{background:#f5b800;color:#1d1d1f;border-color:#f5b800}
 .tile.is-fav{outline:3px solid #f5b800;outline-offset:-3px}
-.fav-moves{display:flex;gap:6px;margin-top:4px}
-.fav-move{flex:1;text-align:center;background:#f5b800;color:#1d1d1f;border-radius:8px;padding:6px 0;font-weight:800;font-size:15px}
+.tile.drag{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.tile.dragging{z-index:30;opacity:.92;box-shadow:0 12px 30px rgba(16,24,40,.35);transform-origin:center;cursor:grabbing}
+.fav-grip{font-size:12px;font-weight:700;color:#8a6a00}
 .fav-star{position:absolute;top:6px;right:8px;font-size:22px;color:#f5b800;line-height:1}
 .fav-tip{grid-column:1/-1;background:#fff8e1;border:1px solid #f5d97a;border-radius:12px;padding:8px 12px;font-size:13px;font-weight:600}
 
@@ -441,7 +442,7 @@ function cleanClosed(value){
  }
  return out;
 }
-const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',favs:null,closedDays:{},memoChips:['덜 맵게','맵게','포장','양파 빼고','먼저 주세요']};
+const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',favs:null,favsAt:0,closedDays:{},memoChips:['덜 맵게','맵게','포장','양파 빼고','먼저 주세요']};
 function normalizeSettings(raw){
  const out={...DEFAULT_SETTINGS,prices:{},closedDays:{},memoChips:[...DEFAULT_SETTINGS.memoChips]};
  if(!raw||typeof raw!=='object')return out;
@@ -451,6 +452,7 @@ function normalizeSettings(raw){
  out.tipCut=Number.isFinite(raw.tipCut)&&raw.tipCut>=0&&raw.tipCut<=100?raw.tipCut:20;
  out.prices=cleanPrices(raw.prices);
  if(Array.isArray(raw.favs))out.favs=[...new Set(raw.favs.filter(x=>typeof x==='string'&&x.length<=16))].slice(0,24);
+ out.favsAt=Number.isFinite(raw.favsAt)?raw.favsAt:0;
  out.pinHash=typeof raw.pinHash==='string'&&raw.pinHash.length<=128?raw.pinHash:'';
  out.closedDays=cleanClosed(raw.closedDays);
  if(Array.isArray(raw.memoChips)){
@@ -558,18 +560,63 @@ let category=Object.keys(groups)[0];
 let categoryChosen=false;
 let favEdit=false;
 function isFav(item){return favoriteItems().some(f=>f.id===item.id);}
+function enableFavDrag(){
+ const menu=el('menu');
+ let drag=null;
+ menu.querySelectorAll('.tile.drag').forEach(tile=>{
+  tile.addEventListener('pointerdown',e=>{
+   if(e.button>0)return;
+   drag={tile,x:e.clientX,y:e.clientY,on:false,id:e.pointerId};
+  });
+ });
+ const move=e=>{
+  if(!drag||e.pointerId!==drag.id)return;
+  if(!drag.on){
+   if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<10)return;
+   drag.on=true;drag.tile.setPointerCapture(e.pointerId);drag.tile.classList.add('dragging');
+  }
+  drag.tile.style.transform='translate('+(e.clientX-drag.x)+'px,'+(e.clientY-drag.y)+'px)';
+  drag.tile.style.pointerEvents='none';
+  const under=document.elementFromPoint(e.clientX,e.clientY);
+  drag.tile.style.pointerEvents='';
+  const other=under&&under.closest&&under.closest('.tile.drag');
+  if(other&&other!==drag.tile&&other.parentNode===menu){
+   const before=drag.tile.compareDocumentPosition(other)&Node.DOCUMENT_POSITION_FOLLOWING;
+   const r=other.getBoundingClientRect();
+   // 자리를 바꾼 뒤 손가락 위치에 맞게 보정
+   const old=drag.tile.getBoundingClientRect();
+   if(before)other.after(drag.tile);else other.before(drag.tile);
+   const now=drag.tile.getBoundingClientRect();
+   drag.x+=now.left-old.left;drag.y+=now.top-old.top;
+   drag.tile.style.transform='translate('+(e.clientX-drag.x)+'px,'+(e.clientY-drag.y)+'px)';
+  }
+ };
+ const up=e=>{
+  if(!drag||e.pointerId!==drag.id)return;
+  const d=drag;drag=null;
+  if(!d.on)return;
+  d.tile.classList.remove('dragging');d.tile.style.transform='';
+  const swallow=ev=>{ev.stopPropagation();ev.preventDefault();};
+  d.tile.addEventListener('click',swallow,{capture:true,once:true});
+  setTimeout(()=>d.tile.removeEventListener('click',swallow,true),50);
+  const ids=[...menu.querySelectorAll('.tile.drag')].map(t=>t.dataset.id);
+  const prev=settings;settings={...settings,favs:ids,favsAt:Date.now()};
+  if(!saveOrders())settings=prev;
+ };
+ menu.onpointermove=move;menu.onpointerup=up;menu.onpointercancel=up;
+}
 function moveFav(item,dir){
  const cur=favoriteItems().map(f=>f.id);const i=cur.indexOf(item.id),j=i+dir;
  if(i<0||j<0||j>=cur.length)return;
  [cur[i],cur[j]]=[cur[j],cur[i]];
- const prev=settings;settings={...settings,favs:cur};
+ const prev=settings;settings={...settings,favs:cur,favsAt:Date.now()};
  if(!saveOrders())settings=prev;
  renderMenu();
 }
 function toggleFav(item){
  const cur=favoriteItems().map(f=>f.id);
  const next=cur.includes(item.id)?cur.filter(id=>id!==item.id):[...cur,item.id].slice(0,24);
- const prev=settings;settings={...settings,favs:next};
+ const prev=settings;settings={...settings,favs:next,favsAt:Date.now()};
  if(!saveOrders())settings=prev;
  renderMenu();
 }
@@ -607,7 +654,7 @@ function renderMenu(){
  el('menu').replaceChildren(...items.map(item=>{
   const {n,ko,en,price}=item;
   const node=button('',()=>favEdit?toggleFav(item):pick(item));node.className='tile'+(favEdit&&isFav(item)?' is-fav':'');node.disabled=price===null&&!favEdit;
-  node.dataset.cat=String(catIndexOf(item.id));
+  node.dataset.cat=String(catIndexOf(item.id));node.dataset.id=item.id;
   const title=document.createElement('strong');title.textContent=ko;
   const sub=document.createElement('span');sub.className='en';sub.textContent=en;
   const detail=document.createElement('small');
@@ -616,15 +663,14 @@ function renderMenu(){
   detail.textContent=ORDER_MODE?cost+(item.s?' 🌶':'')+(item.r?' 🍚':'')+(item.t?' ⏱':''):(n?n+' · ':'')+cost;
   node.append(title,sub,detail);
   if(favEdit){const star=document.createElement('span');star.className='fav-star';star.textContent=isFav(item)?'★':'☆';node.append(star);
-   if(category===FAV_TAB&&!query){
-    const mv=(label,dir)=>{const b=document.createElement('span');b.className='fav-move';b.setAttribute('role','button');b.textContent=label;b.onclick=e=>{e.stopPropagation();moveFav(item,dir);};return b;};
-    const wrap=document.createElement('span');wrap.className='fav-moves';wrap.append(mv('◀',-1),mv('▶',1));node.append(wrap);
-   }}
+   if(category===FAV_TAB&&!query){node.classList.add('drag');const g=document.createElement('span');g.className='fav-grip';g.textContent='⠿ 끌어서 이동';node.append(g);}
+  }
   const badges=[item.s?'🌶 매움':'',item.r?'밥 별도':'',item.t?'⏱ '+item.t+'분 소요':''].filter(Boolean).join(' · ');
   if(badges){const b=document.createElement('span');b.className='badges';b.textContent=badges;node.append(b);}
   return node;
  }));
- if(favEdit){const tip=document.createElement('p');tip.className='fav-tip';tip.textContent='⭐ 자주 메뉴 편집 중 — 메뉴를 누르면 추가/해제, ⭐ 자주 탭에서는 ◀ ▶로 순서를 바꿉니다. 끝나면 ✓ 완료';el('menu').prepend(tip);}
+if(favEdit&&category===FAV_TAB&&!query)enableFavDrag();
+ if(favEdit){const tip=document.createElement('p');tip.className='fav-tip';tip.textContent='⭐ 자주 메뉴 편집 중 — 메뉴를 누르면 추가/해제, ⭐ 자주 탭에서는 메뉴를 손으로 끌어서 순서를 바꿉니다. 끝나면 ✓ 완료';el('menu').prepend(tip);}
  if(!items.length)el('menu').append(document.createTextNode(favEdit?'아직 고른 메뉴가 없습니다. 다른 분류에서 ☆를 눌러 추가하세요.':'검색 결과가 없습니다.'));
 }
 const priceKey=(item,option)=>item.id+(option?'|'+option:'');
@@ -1732,7 +1778,7 @@ const Sync=(()=>{
    const unsent=!first&&local!==sent.settings;
    if(!unsent){
     if(json!==local){
-     try{settings=normalizeSettings(JSON.parse(json));persistLocal();renderMenu();renderCart();if(el('history').open)renderHistory();}catch{}
+     try{const incoming=normalizeSettings(JSON.parse(json));if(settings.favsAt>incoming.favsAt){incoming.favs=settings.favs;incoming.favsAt=settings.favsAt;}settings=incoming;persistLocal();renderMenu();renderCart();if(el('history').open)renderHistory();}catch{}
     }
     sent.settings=json;
    }
