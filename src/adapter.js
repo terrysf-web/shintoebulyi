@@ -8,6 +8,11 @@ import {
   query, where, getDocs,
 } from 'firebase/firestore';
 
+// 기기마다 시계가 조금씩 달라도 '확인용 조회(poll)'가 놓치지 않도록, 쓰기 시각(updatedAt)은
+// 항상 '지금까지 본 가장 늦은 시각'보다 크게 정합니다.
+let lastSeen = 0;
+const seen = ts => { if (typeof ts === 'number' && ts > lastSeen) lastSeen = ts; };
+
 function create(config, options = {}) {
   const app = initializeApp(config);
   const auth = getAuth(app);
@@ -29,14 +34,14 @@ function create(config, options = {}) {
       if (handlers.tables) {
         stops.push(onSnapshot(collection(db, 'tables'), snap => {
           const out = {};
-          snap.forEach(d => { out[d.id] = d.data().data; });
+          snap.forEach(d => { out[d.id] = d.data().data; seen(d.data().updatedAt); });
           handlers.tables(out);
         }, fail));
       }
       if (handlers.payments) {
         stops.push(onSnapshot(collection(db, 'payments'), snap => {
           const out = {};
-          snap.forEach(d => { out[d.id] = d.data().data; });
+          snap.forEach(d => { out[d.id] = d.data().data; seen(d.data().updatedAt); });
           handlers.payments(out);
         }, fail));
       }
@@ -45,7 +50,7 @@ function create(config, options = {}) {
         const recent = query(collection(db, 'tickets'), where('updatedAt', '>=', Date.now() - 24 * 60 * 60 * 1000));
         stops.push(onSnapshot(recent, snap => {
           const out = {};
-          snap.forEach(d => { out[d.id] = d.data().data; });
+          snap.forEach(d => { out[d.id] = d.data().data; seen(d.data().updatedAt); });
           handlers.tickets(out);
         }, fail));
       }
@@ -58,7 +63,8 @@ function create(config, options = {}) {
     },
     write({ tables = {}, payments = {}, settings = null, tickets = {} }) {
       const batch = writeBatch(db);
-      const now = Date.now();
+      const now = Math.max(Date.now(), lastSeen + 1);
+      seen(now);
       for (const [id, data] of Object.entries(tables)) batch.set(doc(db, 'tables', id), { data, updatedAt: now });
       for (const [id, data] of Object.entries(payments)) batch.set(doc(db, 'payments', id), { data, updatedAt: now });
       for (const [id, data] of Object.entries(tickets)) batch.set(doc(db, 'tickets', id), { data, updatedAt: now });
@@ -75,6 +81,7 @@ function create(config, options = {}) {
         snap.forEach(d => {
           const v = d.data();
           map[d.id] = v.data;
+          seen(v.updatedAt);
           if (v.updatedAt > max) max = v.updatedAt;
         });
         out[kind] = { map, max };
