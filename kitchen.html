@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127210339"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127210741"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -88,10 +88,15 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 setInterval(()=>{if(adapter&&subscribed&&document.visibilityState==='visible'&&lastRecv&&Date.now()-lastRecv.getTime()>10*60*1000&&adapter.reconnect)adapter.reconnect().catch(()=>{});},5*60*1000);
 keepAwake();
 function status(text,warn){el('status').textContent=text;el('status').className=warn?'warn':'';}
+const fmtPickup=hm=>{const m=/^(\d{1,2}):(\d{2})$/.exec(hm||'');if(!m)return '';const h=Number(m[1]);return (h<12?'오전 ':'오후 ')+(h%12||12)+':'+m[2];};
+function tlabel(ticket,full){
+ if(ticket.table>9)return '🥡 TOGO '+(ticket.table-9)+(ticket.togo&&ticket.togo.name?' · '+ticket.togo.name:'')+(ticket.togo&&ticket.togo.pickup?' · ⏰ '+fmtPickup(ticket.togo.pickup):'');
+ return ticket.table+'번 테이블';
+}
 function fill(container,ticket){
  container.replaceChildren();
  const add=(text,cls)=>{const p=document.createElement('p');p.className=cls||'';p.textContent=text;container.append(p);return p;};
- const head=add(ticket.table+'번 테이블','t-head');
+ const head=add(tlabel(ticket,true),'t-head');
  if(ticket.extra){const tag=document.createElement('span');tag.className='extra';tag.textContent='추가 주문';head.append(' ',tag);}
  add(new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'})+(ticket.party?' · '+ticket.party+'명':'')+(ticket.staff?' · 주문 '+ticket.staff:''),'t-sub');
  const rule=document.createElement('p');rule.className='t-rule';container.append(rule);
@@ -200,7 +205,7 @@ el('doneClose').onclick=()=>el('doneDlg').close();
 el('doneUndo').onclick=()=>{if(doneTicket)setDone(doneTicket,false);el('doneDlg').close();};
 function chip(ticket){
  const b=document.createElement('button');b.type='button';b.className='chip';
- b.textContent=ticket.table+'번';
+ b.textContent=ticket.table>9?'🥡 T'+(ticket.table-9):ticket.table+'번';
  const small=document.createElement('small');
  small.textContent=new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'});
  b.append(small);
