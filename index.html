@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127213150"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127213729"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -201,6 +201,10 @@ aside h2{font-size:20px;font-weight:700}
 }
 .order-table #modeFooter{display:none}
 .order-mode.order-home #sendKitchen,.order-mode.order-home #cartToggle{display:none!important}
+.staff-chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
+.staff-chips button{min-height:46px;padding:4px 18px;border-radius:999px;font-weight:700;font-size:16px}
+.staff-chips button.on{background:#111418;color:#fff;border-color:#111418}
+.staff-chips .staff-add{background:#f2f4f7;border-style:dashed}
 /* TOGO(포장): 노란 바탕으로 구분 */
 .is-togo.order-table body,.is-togo.order-table main{background:#fff4c2}
 .is-togo.order-table #orderBar{background:#ffe98a}
@@ -360,6 +364,7 @@ html:not(.order-mode) .oh-tools{display:none}
 <label class="settings-row"><input id="taxGratuity" type="checkbox" style="width:auto"> 자동 팁에도 세금 부과</label>
 <p class="hint">캘리포니아에서는 의무 팁(봉사료)이 과세 대상인 경우가 많습니다. 정확한 처리는 세무사에게 확인하세요.</p>
 <label>자주 쓰는 요청 (메모 버튼, 한 줄에 하나)<textarea id="memoChipsInput" rows="5" maxlength="300" style="width:100%;font:inherit;padding:8px;border:1px solid #aebbb0;border-radius:10px"></textarea></label>
+<label>주문 받는 사람 (카운터, 한 줄에 한 명)<textarea id="staffInput" rows="3" maxlength="120" style="width:100%;font:inherit;padding:8px;border:1px solid #aebbb0;border-radius:10px"></textarea></label>
 <p id="settingsError" role="alert"></p>
 <p><button type="button" id="openMenuAdmin">🍽 메뉴 관리 (품절·숨김·추가)</button></p>
 <p><button type="button" id="openPrices">메뉴 가격 수정</button></p>
@@ -413,16 +418,19 @@ html:not(.order-mode) .oh-tools{display:none}
 <p>이 테이블의 인원수가 입력되지 않았습니다. 인원을 먼저 입력해 주세요.</p>
 <div><button type="button" id="partyEnter" class="ok">인원 입력하러 가기</button><button type="button" id="partySkip">인원 없이 전송</button></div></dialog>
 <dialog id="togoDlg" class="option" aria-labelledby="togoTitle"><form id="togoForm"><h2 id="togoTitle"></h2>
+<div id="togoStaffRow" hidden><p class="hint">주문 받는 사람</p><div id="togoStaff" class="staff-chips"></div></div>
 <label>이름 <input id="togoName" maxlength="20" autocomplete="off" placeholder="손님 이름 (선택)"></label>
 <label>전화번호 <input id="togoPhone" maxlength="20" inputmode="tel" autocomplete="off" placeholder="(선택)"></label>
 <label>픽업 시간 <input id="togoTime" type="time"></label>
 <div id="togoQuick"></div>
 <div class="tools"><button type="submit">주문 시작</button><button type="button" id="togoCancel">취소</button></div></form></dialog>
 <dialog id="guestDlg" class="option" aria-labelledby="guestTitle"><h2 id="guestTitle"></h2>
+<div id="guestStaffRow" hidden><p class="hint">주문 받는 사람</p><div id="guestStaff" class="staff-chips"></div></div>
 <p class="hint">손님 인원을 눌러 주세요.</p>
 <div id="guestGrid" class="guest-grid"></div>
 <label class="guest-more">7명 이상이면 숫자를 입력하세요 <input id="guestInput" type="number" min="7" max="99" inputmode="numeric" placeholder="예: 8"></label>
 <div class="guest-actions"><button type="button" id="guestOk" class="ok">확인</button><button type="button" id="guestSkip">인원 없이 시작</button><button type="button" id="guestCancel">취소</button></div></dialog>
+<dialog id="staffDlg" class="option" aria-labelledby="staffTitle"><h2 id="staffTitle"></h2><div id="staffChips" class="staff-chips"></div><div class="tools"><button type="button" id="staffClose">닫기</button></div></dialog>
 <dialog id="nameDlg" class="option" aria-labelledby="nameTitle"><form id="nameForm"><h2 id="nameTitle">주문받는 사람 이름</h2>
 <p class="hint">주방 주문서에 표시됩니다. 이 기기에 저장됩니다.</p>
 <input id="nameInput" maxlength="12" autocomplete="off" placeholder="예: 민수">
@@ -519,7 +527,7 @@ function cleanClosed(value){
  }
  return out;
 }
-const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',favs:null,favsAt:0,tileColors:{},menu:{off:{},names:{},custom:[]},closedDays:{},memoChips:['덜 맵게','맵게','포장','양파 빼고','먼저 주세요']};
+const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',favs:null,favsAt:0,staff:[],tileColors:{},menu:{off:{},names:{},custom:[]},closedDays:{},memoChips:['덜 맵게','맵게','포장','양파 빼고','먼저 주세요']};
 function cleanMenu(v){
  const out={off:{},names:{},custom:[]};
  if(!v||typeof v!=='object')return out;
@@ -548,6 +556,7 @@ function normalizeSettings(raw){
  if(Array.isArray(raw.favs))out.favs=[...new Set(raw.favs.filter(x=>typeof x==='string'&&x.length<=16))].slice(0,24);
  out.favsAt=Number.isFinite(raw.favsAt)?raw.favsAt:0;
  out.menu=cleanMenu(raw.menu);
+ out.staff=Array.isArray(raw.staff)?[...new Set(raw.staff.filter(x=>typeof x==='string').map(x=>x.trim().slice(0,12)).filter(Boolean))].slice(0,8):[];
  out.tileColors={};
  if(raw.tileColors&&typeof raw.tileColors==='object')for(const [id,c] of Object.entries(raw.tileColors).slice(0,200))if(id.length<=16&&/^[0-7]$/.test(String(c)))out.tileColors[id]=String(c);
  out.pinHash=typeof raw.pinHash==='string'&&raw.pinHash.length<=128?raw.pinHash:'';
@@ -588,7 +597,7 @@ function addCancel(i,line,qty){
  if(hit)hit.qty+=qty;else cancels[i].push({ko:name,en:line.en||'',qty});
 }
 function touchOpened(i){if(!opened[i])opened[i]=new Date().toISOString();}
-function claimTable(i){if(staffName&&!servers[i])servers[i]=staffName;}
+function claimTable(i){const n=currentServer();if(n&&!servers[i])servers[i]=n;}
 const riceDismissed=new Set();
 let activeTable=0;
 let paidOrders=[];
@@ -1380,6 +1389,7 @@ el('historyAll').onchange=()=>{el('historyDate').disabled=el('historyAll').check
 el('openSettings').onclick=()=>{
  el('taxRate').value=settings.taxRate;el('taxGratuity').checked=settings.taxGratuity;el('settingsError').textContent='';
  el('memoChipsInput').value=settings.memoChips.join('\n');
+ el('staffInput').value=settings.staff.join('\n');
  el('settingsDlg').showModal();
 };
 el('settingsCancel').onclick=()=>el('settingsDlg').close();
@@ -1389,7 +1399,8 @@ el('settingsForm').onsubmit=event=>{
  if(!Number.isFinite(rate)||rate<0||rate>25){el('settingsError').textContent='세율은 0~25% 사이로 입력하세요.';return;}
  const previous=settings;
  const chipLines=el('memoChipsInput').value.split('\n').map(t=>t.trim().slice(0,14)).filter(Boolean).slice(0,12);
- settings={...settings,taxRate:rate,taxGratuity:el('taxGratuity').checked,memoChips:chipLines.length?[...new Set(chipLines)]:[...DEFAULT_SETTINGS.memoChips]};
+ const staffLines=[...new Set(el('staffInput').value.split('\n').map(t=>t.trim().slice(0,12)).filter(Boolean))].slice(0,8);
+ settings={...settings,staff:staffLines,favsAt:Date.now(),taxRate:rate,taxGratuity:el('taxGratuity').checked,memoChips:chipLines.length?[...new Set(chipLines)]:[...DEFAULT_SETTINGS.memoChips]};
  if(!saveOrders()){settings=previous;el('settingsError').textContent='브라우저에 저장할 수 없습니다.';return;}
  el('settingsDlg').close();renderCart();
 };
@@ -1591,12 +1602,49 @@ el('tipLater').onclick=()=>openTipDialog(lastPaymentId);
 el('homeTip').onclick=()=>{el('homeTip').hidden=true;openTipDialog(lastPaymentId);};
 
 // ---------- 주문받는 사람 이름 ----------
+let counterServer='';
+try{counterServer=(localStorage.getItem('stby-counter-server')||'').slice(0,12);}catch{}
 let staffName='',afterLogin=null;
 try{staffName=(localStorage.getItem('stby-staff-name')||'').slice(0,12);}catch{}
 let nameChip=null;
-const staffLabel=()=>staffName||(ORDER_MODE?'':'카운터');
+const currentServer=()=>{
+ if(ORDER_MODE)return staffName;
+ const list=settings.staff;
+ if(list.length){if(!list.includes(counterServer))counterServer=list[0];return counterServer;}
+ return staffName;
+};
+const staffLabel=()=>currentServer()||(ORDER_MODE?'':'카운터');
+function setCounterServer(n){counterServer=n;try{localStorage.setItem('stby-counter-server',n);}catch{}updateNameChip();}
+function addStaff(n){
+ if(!n||settings.staff.includes(n))return;
+ const prev=settings;settings={...settings,staff:[...settings.staff,n].slice(0,8),favsAt:Date.now()};
+ if(!saveOrders())settings=prev;
+}
+function staffChipsInto(box,onPick){
+ currentServer();
+ const chips=settings.staff.map(n=>{const b=button(n,()=>{setCounterServer(n);if(onPick)onPick(n);refreshStaffChips();});if(n===counterServer)b.classList.add('on');return b;});
+ const add=button('＋ 이름',()=>askName(false));add.className='staff-add';
+ box.replaceChildren(...chips,add);
+}
+function refreshStaffChips(){
+ if(el('guestDlg').open)staffChipsInto(el('guestStaff'));
+ if(el('togoDlg').open)staffChipsInto(el('togoStaff'));
+ if(el('staffDlg').open)staffChipsInto(el('staffChips'),pickStaffForTable);
+}
+let staffPickFor=null;
+function pickStaffForTable(n){
+ if(staffPickFor!==null){servers[staffPickFor]=n;saveOrders();renderCart();}
+ el('staffDlg').close();
+}
+function openStaffPicker(tableIndex){
+ staffPickFor=tableIndex;
+ el('staffTitle').textContent=tableIndex===null?'주문 받는 사람':tableLabel(tableIndex+1)+' · 주문자';
+ staffChipsInto(el('staffChips'),pickStaffForTable);
+ el('staffDlg').showModal();
+}
+el('staffClose').onclick=()=>el('staffDlg').close();
 function updateNameChip(){
- const label='👤 '+(staffName||(ORDER_MODE?'이름':'카운터'));
+ const label='👤 '+(currentServer()||(ORDER_MODE?'이름':'카운터'));
  if(nameChip)nameChip.textContent=label;
  const hn=document.getElementById('homeName');if(hn)hn.textContent=label;
 }
@@ -1614,11 +1662,12 @@ el('nameForm').onsubmit=event=>{
  if(!value){el('nameError').textContent='이름을 입력하세요.';return;}
  staffName=value.slice(0,12);
  try{localStorage.setItem('stby-staff-name',staffName);}catch{}
- updateNameChip();el('nameDlg').close();
+if(!ORDER_MODE){addStaff(staffName);setCounterServer(staffName);}
+ updateNameChip();el('nameDlg').close();refreshStaffChips();
  if(typeof orderView!=='undefined'&&orderView==='table'){servers[activeTable]=staffName;saveOrders();renderCart();}
 };
 if(!ORDER_MODE){
- nameChip=document.createElement('button');nameChip.type='button';nameChip.onclick=()=>askName(false);
+ nameChip=document.createElement('button');nameChip.type='button';nameChip.onclick=()=>openStaffPicker(null);
  document.querySelector('.hbtns').prepend(nameChip);updateNameChip();
 }
 if(ORDER_MODE){
@@ -1720,6 +1769,8 @@ function nowPlus(min){const d=new Date(Date.now()+min*60000);return String(d.get
 function askTogo(i,edit){
  togoFor=i;togoEdit=!!edit;
  const t=togos[i]||{name:'',phone:'',pickup:'',ready:false};
+ el('togoStaffRow').hidden=ORDER_MODE||!!edit;
+ if(!ORDER_MODE&&!edit)staffChipsInto(el('togoStaff'));
  el('togoTitle').textContent='🥡 '+tableLabel(i+1)+(edit?' · 정보 수정':' · 새 포장 주문');
  el('togoName').value=t.name;el('togoPhone').value=t.phone;
  const hm=/^(\d{1,2}):(\d{2})$/.exec(t.pickup||'');
@@ -1758,6 +1809,8 @@ function askGuests(i,edit){
  guestFor=i;guestPick=0;guestEdit=!!edit;
  el('guestTitle').textContent=(i+1)+'번 테이블 · '+(edit?'인원 변경':'몇 분이세요?');
  el('guestSkip').hidden=!!edit;
+ el('guestStaffRow').hidden=ORDER_MODE||!!edit;
+ if(!ORDER_MODE&&!edit)staffChipsInto(el('guestStaff'));
  el('guestInput').value=edit&&parties[i]>6?String(parties[i]):'';
  el('guestGrid').replaceChildren(...Array.from({length:6},(_,n)=>button(String(n+1),()=>startTable(guestFor,n+1))));
  el('guestDlg').showModal();
@@ -1779,9 +1832,9 @@ function goHome(){
 el('backHome').onclick=goHome;
 el('barParty').onclick=()=>{if(isTogo(activeTable))askTogo(activeTable,true);else askGuests(activeTable,true);};
 el('barReady').onclick=()=>{const t=togos[activeTable];if(!t)return;togos[activeTable]={...t,ready:!t.ready};saveOrders();renderCart();};
-el('barServer').onclick=()=>askName(false);
+el('barServer').onclick=()=>{if(ORDER_MODE)askName(false);else openStaffPicker(activeTable);};
 el('cartToggle').onclick=()=>{document.documentElement.classList.toggle('cart-open');renderCart();};
-el('homeName').onclick=()=>askName(false);
+el('homeName').onclick=()=>{if(ORDER_MODE)askName(false);else openStaffPicker(null);};
 el('homeReload').onclick=()=>el('reloadApp').click();
 setInterval(()=>{if(orderView==='home')renderTableHome();},30000);
 function updateOrderBar(){
@@ -1801,7 +1854,7 @@ function updateOrderBar(){
  el('barParty').textContent=parties[i]?'👥 '+parties[i]+'명':'👥 인원 입력';
  el('barParty').classList.toggle('need',!parties[i]);
  }
- el('barServer').textContent='👤 '+(servers[i]||staffName||'이름');
+ el('barServer').textContent='👤 '+(servers[i]||currentServer()||'이름');
 }
 
 // ---------- 주방 전송 ----------
@@ -1887,7 +1940,7 @@ el('sendKitchen').onclick=()=>{
  }
  const cancelList=cancels[tableIndex].map(c=>({...c}));
  if(!items.length&&!cancelList.length)return;
- const ticket={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:tableIndex+1,time:new Date().toISOString(),party:parties[tableIndex],staff:staffLabel(),extra,items,cancels:cancelList,done:false};
+ const ticket={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:tableIndex+1,time:new Date().toISOString(),party:parties[tableIndex],staff:servers[tableIndex]||staffLabel(),extra,items,cancels:cancelList,done:false};
  if(isTogo(tableIndex)&&togos[tableIndex])ticket.togo={name:togos[tableIndex].name,pickup:togos[tableIndex].pickup};
  for(const line of cart.values())if(!line.d)line.sent=line.quantity;
  cancels[tableIndex]=[];
@@ -2072,7 +2125,7 @@ const Sync=(()=>{
    const unsent=!first&&local!==sent.settings;
    if(!unsent){
     if(json!==local){
-     try{const incoming=normalizeSettings(JSON.parse(json));if(settings.favsAt>incoming.favsAt){incoming.favs=settings.favs;incoming.tileColors=settings.tileColors;incoming.menu=settings.menu;incoming.favsAt=settings.favsAt;}settings=incoming;persistLocal();renderMenu();renderCart();if(el('history').open)renderHistory();}catch{}
+     try{const incoming=normalizeSettings(JSON.parse(json));if(settings.favsAt>incoming.favsAt){incoming.favs=settings.favs;incoming.tileColors=settings.tileColors;incoming.menu=settings.menu;incoming.staff=settings.staff;incoming.favsAt=settings.favsAt;}settings=incoming;persistLocal();renderMenu();renderCart();if(el('history').open)renderHistory();}catch{}
     }
     sent.settings=json;
    }
