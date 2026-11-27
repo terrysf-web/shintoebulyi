@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127230729"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127231028"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -352,9 +352,9 @@ async function pollTickets(){
   pollSince=Math.max(pollSince,r.tickets.max||0,(r.tables&&r.tables.max)||0);
   if(Object.keys(r.tickets.map).length)onTickets(r.tickets.map);
   if(r.tables&&Object.keys(r.tables.map).length)onTables(r.tables.map);
- }catch{}
+ }catch(e){if(e&&e.code)status('연결 오류 ('+e.code+')',true);}
 }
-setInterval(pollTickets,4000);
+setInterval(pollTickets,5000);
 async function start(){
  if(!(cfg.firebase&&cfg.firebase.apiKey)){showGate(true,'동기화 설정이 없습니다. config.js를 확인하세요.',false);return;}
  if(adapter)return;

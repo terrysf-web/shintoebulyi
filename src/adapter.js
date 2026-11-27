@@ -5,13 +5,15 @@ import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from
 import {
   initializeFirestore, persistentLocalCache, persistentMultipleTabManager, memoryLocalCache,
   collection, doc, onSnapshot, writeBatch, waitForPendingWrites, disableNetwork, enableNetwork,
-  query, where, getDocs,
+  query, where, getDocs, getDoc,
 } from 'firebase/firestore';
 
 // 기기마다 시계가 조금씩 달라도 '확인용 조회(poll)'가 놓치지 않도록, 쓰기 시각(updatedAt)은
 // 항상 '지금까지 본 가장 늦은 시각'보다 크게 정합니다.
 let lastSeen = 0;
 const seen = ts => { if (typeof ts === 'number' && ts > lastSeen) lastSeen = ts; };
+
+let lastRevPolled = 0;
 
 function create(config, options = {}) {
   const app = initializeApp(config);
@@ -69,13 +71,26 @@ function create(config, options = {}) {
       for (const [id, data] of Object.entries(payments)) batch.set(doc(db, 'payments', id), { data, updatedAt: now });
       for (const [id, data] of Object.entries(tickets)) batch.set(doc(db, 'tickets', id), { data, updatedAt: now });
       if (settings !== null) batch.set(doc(db, 'config', 'settings'), { data: settings, updatedAt: now });
+      // 확인용 조회(poll)가 문서 1개만 읽어 '바뀐 게 있는지' 알 수 있도록 번호표를 함께 갱신합니다.
+      batch.set(doc(db, 'config', 'rev'), { n: now, updatedAt: now });
       return batch.commit();
     },
-    // 실시간 연결이 멈췄을 때를 대비해, 최근에 바뀐 문서만 서버에서 직접 가져옵니다.
+    // 실시간 연결이 멈췄을 때를 대비한 확인용 조회입니다. 읽기 횟수를 아끼려고,
+    // 평소에는 번호표 문서 1개만 읽고 번호가 바뀌었을 때만 바뀐 문서를 가져옵니다.
     async poll(kinds, sinceMs) {
       const out = {};
+      let rev = 0;
+      try {
+        const r = await getDoc(doc(db, 'config', 'rev'));
+        rev = r.exists() ? Number(r.data().n) || 0 : 0;
+      } catch (e) { rev = 0; }
+      if (rev && lastRevPolled && rev === lastRevPolled) {
+        for (const kind of kinds) out[kind] = { map: {}, max: 0 };
+        return out;
+      }
+      const since = rev && lastRevPolled ? Math.max(0, lastRevPolled - 5000) : sinceMs;
       for (const kind of kinds) {
-        const snap = await getDocs(query(collection(db, kind), where('updatedAt', '>=', sinceMs)));
+        const snap = await getDocs(query(collection(db, kind), where('updatedAt', '>=', since)));
         const map = {};
         let max = 0;
         snap.forEach(d => {
@@ -86,6 +101,7 @@ function create(config, options = {}) {
         });
         out[kind] = { map, max };
       }
+      if (rev) { lastRevPolled = rev; seen(rev); }
       return out;
     },
     pending: () => waitForPendingWrites(db),
