@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127211358"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127211451"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -40,6 +40,11 @@ button{border-radius:10px;font-weight:600}
 .card{border:1px solid var(--line);border-top:6px solid #d92d20;border-radius:14px;box-shadow:0 1px 3px rgba(16,24,40,.1)}
 .card.done{border-top-color:#98a2b3}
 .card.has-cancel{border:1px solid #d92d20;border-top:6px solid #d92d20;background:#fff5f4}
+/* 포장(TOGO)은 노란 바탕 */
+.card.togo{background:#fff4c2;border:1px solid #f0c93a;border-top:6px solid #f5a300}
+.card.togo.done{background:#fbf6dd;border-top-color:#c9b46a}
+.card.togo.has-cancel{background:#fff4c2;border:2px solid #d92d20;border-top:6px solid #d92d20}
+.chip.togo{background:#fff4c2;border-color:#f0c93a;border-left-color:#f5a300}
 .t-head{font-weight:700;letter-spacing:-.01em}
 .extra{background:#d92d20}
 .t-rule{border-top-color:#d0d5dd}
@@ -185,7 +190,7 @@ function setDone(ticket,done){
 }
 function card(ticket,fresh){
  const node=document.createElement('section');
- node.className='card'+(ticket.done?' done':'')+(fresh?' fresh':'')+(ticket.cancels&&ticket.cancels.length?' has-cancel':'');
+ node.className='card'+(ticket.table>9?' togo':'')+(ticket.done?' done':'')+(fresh?' fresh':'')+(ticket.cancels&&ticket.cancels.length?' has-cancel':'');
  const body=document.createElement('div');fill(body,ticket);
  const actions=document.createElement('div');actions.className='actions';
  const doneBtn=document.createElement('button');doneBtn.type='button';
@@ -204,7 +209,7 @@ function showDone(ticket){
 el('doneClose').onclick=()=>el('doneDlg').close();
 el('doneUndo').onclick=()=>{if(doneTicket)setDone(doneTicket,false);el('doneDlg').close();};
 function chip(ticket){
- const b=document.createElement('button');b.type='button';b.className='chip';
+ const b=document.createElement('button');b.type='button';b.className='chip'+(ticket.table>9?' togo':'');
  b.textContent=ticket.table>9?'🥡 T'+(ticket.table-9):ticket.table+'번';
  const small=document.createElement('small');
  small.textContent=new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'});
