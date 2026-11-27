@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127234333"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127234839"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -412,6 +412,7 @@ html:not(.order-mode) .oh-tools{display:none}
 <label class="settings-row"><input id="taxGratuity" type="checkbox" style="width:auto"> 자동 팁에도 세금 부과</label>
 <p class="hint">캘리포니아에서는 의무 팁(봉사료)이 과세 대상인 경우가 많습니다. 정확한 처리는 세무사에게 확인하세요.</p>
 <label>자주 쓰는 요청 (메모 버튼, 한 줄에 하나)<textarea id="memoChipsInput" rows="5" maxlength="300" style="width:100%;font:inherit;padding:8px;border:1px solid #aebbb0;border-radius:10px"></textarea></label>
+<label class="settings-row"><input id="riceHintOn" type="checkbox" style="width:auto"> 공깃밥 추가 안내 보이기 (이 기기)</label>
 <label>주문 받는 사람 (카운터, 한 줄에 한 명)<textarea id="staffInput" rows="3" maxlength="120" style="width:100%;font:inherit;padding:8px;border:1px solid #aebbb0;border-radius:10px"></textarea></label>
 <p id="settingsError" role="alert"></p>
 <p><button type="button" id="openMenuAdmin">🍽 메뉴 관리 (품절·숨김·추가)</button></p>
@@ -653,6 +654,9 @@ function addCancel(i,line,qty){
 function touchOpened(i){if(!opened[i])opened[i]=new Date().toISOString();}
 function claimTable(i){const n=currentServer();if(n&&!servers[i])servers[i]=n;}
 const riceDismissed=new Set();
+// '괜찮아요'를 한 번 누르면 이 기기에서는 공깃밥 안내를 다시 띄우지 않습니다(설정에서 다시 켤 수 있음).
+let riceHintOff=false;
+try{riceHintOff=localStorage.getItem('stby-rice-hint-off')==='1';}catch{}
 let activeTable=0;
 let paidOrders=[];
 try {
@@ -1051,7 +1055,7 @@ function renderCart(){
   document.documentElement.classList.toggle('no-send',el('sendKitchen').disabled);
  }
  {const rice=groups['추가'].find(item=>item.ko===RICE_ID);el('addRice').textContent='공깃밥 +'+money(priceFor(rice,null,rice.price));}
- el('riceHint').hidden=!([...cart.values()].some(line=>line.r)&&!cart.has(RICE_ID)&&!riceDismissed.has(activeTable));
+ el('riceHint').hidden=!([...cart.values()].some(line=>line.r)&&!cart.has(RICE_ID)&&!riceDismissed.has(activeTable)&&!riceHintOff);
 }
 el('partyMinus').onclick=()=>{if(parties[activeTable]>0){parties[activeTable]--;saveOrders();renderCart();}};
 el('partyPlus').onclick=()=>{if(parties[activeTable]<99){parties[activeTable]++;claimTable(activeTable);touchOpened(activeTable);saveOrders();renderCart();}};
@@ -1059,7 +1063,7 @@ el('addRice').onclick=()=>{
  const rice=groups['추가'].find(item=>item.ko===RICE_ID);
  addLine(rice,null,priceFor(rice,null,rice.price),'',1);
 };
-el('skipRice').onclick=()=>{riceDismissed.add(activeTable);renderCart();};
+el('skipRice').onclick=()=>{riceDismissed.add(activeTable);riceHintOff=true;try{localStorage.setItem('stby-rice-hint-off','1');}catch{}renderCart();};
 function askConfirm(message,onYes){
  el('confirmText').textContent=message;
  el('confirmYes').onclick=()=>{el('confirmDlg').close();onYes();};
@@ -1493,6 +1497,7 @@ el('openSettings').onclick=()=>{
  el('taxRate').value=settings.taxRate;el('taxGratuity').checked=settings.taxGratuity;el('settingsError').textContent='';
  el('memoChipsInput').value=settings.memoChips.join('\n');
  el('staffInput').value=settings.staff.join('\n');
+ el('riceHintOn').checked=!riceHintOff;
  el('settingsDlg').showModal();
 };
 el('settingsCancel').onclick=()=>el('settingsDlg').close();
@@ -1502,6 +1507,7 @@ el('settingsForm').onsubmit=event=>{
  if(!Number.isFinite(rate)||rate<0||rate>25){el('settingsError').textContent='세율은 0~25% 사이로 입력하세요.';return;}
  const previous=settings;
  const chipLines=el('memoChipsInput').value.split('\n').map(t=>t.trim().slice(0,14)).filter(Boolean).slice(0,12);
+ riceHintOff=!el('riceHintOn').checked;try{localStorage.setItem('stby-rice-hint-off',riceHintOff?'1':'0');}catch{}
  const staffLines=[...new Set(el('staffInput').value.split('\n').map(t=>t.trim().slice(0,12)).filter(Boolean))].slice(0,8);
  settings={...settings,staff:staffLines,favsAt:Date.now(),taxRate:rate,taxGratuity:el('taxGratuity').checked,memoChips:chipLines.length?[...new Set(chipLines)]:[...DEFAULT_SETTINGS.memoChips]};
  if(!saveOrders()){settings=previous;el('settingsError').textContent='브라우저에 저장할 수 없습니다.';return;}
