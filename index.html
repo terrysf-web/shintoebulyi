@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127082349"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127200726"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -63,6 +63,13 @@ aside>*{flex:none}
 }
 </style>
 <style id="theme">
+@media(max-width:640px){
+header{flex-wrap:wrap;padding:10px 12px;gap:8px}
+header strong{font-size:16px}
+.hbtns{flex-wrap:wrap;gap:6px;width:100%;justify-content:flex-start}
+.hbtns button{white-space:nowrap;padding:6px 10px;min-height:40px;font-size:14px}
+#syncStatus{order:9;width:100%}
+}
 /* ===== Square 스타일 테마 (기존 규칙 위에 덮어씁니다) ===== */
 :root{--bg:#f4f5f7;--surface:#fff;--line:#e4e7ec;--text:#14171a;--muted:#667085;--blue:#006aff;--blue-d:#0050c8;--blue-l:#e8f1ff;--red:#d92d20;--red-l:#fdecea;--ink:#111418;--shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.08)}
 body{background:var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -178,7 +185,7 @@ aside h2{font-size:20px;font-weight:700}
 .order-mode #sendKitchen{background:var(--blue);box-shadow:0 8px 24px rgba(0,106,255,.35)}
 .order-mode #kitchenNotice:not(:empty){background:var(--ink)}
 </style>
-<header><strong>Shin Toe Bul Yi</strong><div class="hbtns"><button type="button" id="makeCounterHdr" hidden>카운터 화면으로</button><span id="syncStatus" hidden></span><button type="button" id="openTips">💵 팁 입력</button><button type="button" id="reloadApp" aria-label="새로고침">↻ 새로고침</button><button type="button" id="openSettings">⚙ 설정</button><button type="button" id="viewHistory">결제 기록 · 마감</button></div></header>
+<header><strong>Shin Toe Bul Yi</strong><div class="hbtns"><button type="button" id="makeOrderHdr" hidden>주문 화면으로</button><button type="button" id="makeCounterHdr" hidden>카운터 화면으로</button><span id="syncStatus" hidden></span><button type="button" id="openTips">💵 팁 입력</button><button type="button" id="reloadApp" aria-label="새로고침">↻ 새로고침</button><button type="button" id="openSettings">⚙ 설정</button><button type="button" id="viewHistory">결제 기록 · 마감</button></div></header>
 <section class="table-picker" aria-labelledby="tableHeading"><h2 id="tableHeading">테이블 선택</h2><nav id="tables" aria-label="테이블 1번부터 9번까지"></nav><p id="storageWarning" class="hint" role="status" hidden>이 브라우저는 파일의 주문 저장을 허용하지 않습니다. 화면을 닫으면 주문이 사라질 수 있습니다.</p></section><main><section aria-label="메뉴"><input id="search" type="search" placeholder="메뉴 이름(한/영) 또는 번호로 검색" aria-label="메뉴 검색"><nav id="tabs" aria-label="메뉴 분류"></nav><div id="menu"></div></section>
 <aside><div class="bar"><h2 id="orderHeading">1번 테이블 주문</h2><button id="clear" type="button">비우기</button></div>
 <div class="party"><span>인원</span><div class="qty"><button type="button" id="partyMinus" aria-label="인원 줄이기">−</button><strong id="partyCount" aria-live="polite">0</strong><button type="button" id="partyPlus" aria-label="인원 늘리기">+</button></div></div>
@@ -286,7 +293,10 @@ const MODE_PARAM=new URLSearchParams(location.search).get('mode');
 const IS_PHONE=Math.min(screen.width||9999,screen.height||9999)<=500;
 // 이 기기에서 직접 정한 화면(저장값)이 가장 우선이고, 그다음 주소의 mode, 마지막으로 전화기 자동 판별입니다.
 let DEVICE_MODE='';
-try{DEVICE_MODE=localStorage.getItem('stby-device-mode')||'';}catch{}
+try{
+ if(MODE_PARAM==='auto')localStorage.removeItem('stby-device-mode');
+ DEVICE_MODE=localStorage.getItem('stby-device-mode')||'';
+}catch{}
 const ORDER_MODE=DEVICE_MODE?DEVICE_MODE==='order':(MODE_PARAM==='order'||(MODE_PARAM!=='counter'&&IS_PHONE));
 function setDeviceMode(mode){
  try{localStorage.setItem('stby-device-mode',mode);}catch{}
@@ -1594,6 +1604,10 @@ const Sync=(()=>{
    saveOrders();renderCart();el('settingsDlg').close();
   });
  };
+ if(!ORDER_MODE){
+  el('makeOrderHdr').hidden=false;
+  el('makeOrderHdr').onclick=()=>askConfirm('이 기기를 주문 전용 화면으로 바꿀까요? 결제·설정·마감 화면은 보이지 않게 됩니다.',()=>setDeviceMode('order'));
+ }
  el('makeOrderDevice').onclick=()=>askConfirm('이 기기를 주문 전용 화면으로 바꿀까요? 결제·마감 화면은 보이지 않게 됩니다.',()=>setDeviceMode('order'));
  el('logoutBtn').onclick=()=>askConfirm('이 기기에서 로그아웃할까요? 다시 쓰려면 가게 비밀번호가 필요합니다.',()=>{el('settingsDlg').close();if(adapter)adapter.signOut();});
  addEventListener('offline',()=>{if(enabled&&user)status('오프라인 · 연결되면 자동 저장',true);});
