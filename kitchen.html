@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127224459"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127224822"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -17,7 +17,7 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 .card{background:#fff;border:2px solid #d4574c;border-radius:12px;padding:12px}.card.done{border-color:#d9ded5;opacity:.7}
 .card.fresh{animation:flash 1.2s ease 2}@keyframes flash{50%{background:#fff3e0}}
-.card p{margin:4px 0}.t-head{font-size:22px;font-weight:700}.t-sub{font-size:13px;color:#4e6559}
+.card p{margin:4px 0}.t-head{font-size:22px;font-weight:700}.t-served{font-size:15px;font-weight:800;color:#175cd3;background:#e8f1ff;display:inline-block;border-radius:8px;padding:1px 8px}.t-sub{font-size:13px;color:#4e6559}
 .t-item{font-size:20px;font-weight:700;margin-top:10px!important}.t-memo{font-size:16px;font-weight:700;color:#943e21}
 .t-rule{border-top:2px dashed #9aa79d;margin:8px 0;height:0}.extra{background:#b3261e;color:#fff;border-radius:6px;padding:1px 8px;font-size:14px}
 .card .actions{display:flex;gap:8px;margin-top:12px}.card .actions button{flex:1}
@@ -98,7 +98,28 @@ function tlabel(ticket,full){
  if(ticket.table>9)return '🥡 TOGO '+(ticket.togo&&ticket.togo.no?'#'+ticket.togo.no:ticket.table-9)+(ticket.togo&&ticket.togo.name?' · '+ticket.togo.name:'');
  return ticket.table+'번 테이블';
 }
-function fill(container,ticket){
+// 카운터/폰에서 '나감'으로 표시한 내용을 테이블 문서에서 읽어 옵니다.
+const tableServed=new Map();   // 테이블 번호 -> Map(메뉴이름 -> {served,qty})
+function onTables(map){
+ for(const [id,json] of Object.entries(map)){
+  const idx=Number(String(id).replace('t',''));
+  if(!Number.isInteger(idx))continue;
+  try{
+   const data=JSON.parse(json);const m=new Map();
+   for(const [,line] of (Array.isArray(data.lines)?data.lines:[])){
+    if(line&&typeof line.ko==='string')m.set(line.ko,{served:Math.min(line.served||0,line.quantity||0),qty:line.quantity||0});
+   }
+   tableServed.set(idx+1,m);
+  }catch{}
+ }
+ if(typeof render==='function'&&subscribed)render();
+}
+function servedOf(ticket,item){
+ const m=tableServed.get(ticket.table);
+ const v=m&&m.get(item.ko);
+ return v&&v.served>0?v:null;
+}
+function fill(container,ticket,plain){
  container.replaceChildren();
  const add=(text,cls)=>{const p=document.createElement('p');p.className=cls||'';p.textContent=text;container.append(p);return p;};
  const head=add(tlabel(ticket,true),'t-head');
@@ -107,6 +128,8 @@ function fill(container,ticket){
  const rule=document.createElement('p');rule.className='t-rule';container.append(rule);
  for(const item of ticket.items){
   add(item.qty+' × '+item.ko+(item.s?' 🌶':'')+(item.total>item.qty?' (총 '+item.total+')':''),'t-item');
+  const sv=plain?null:servedOf(ticket,item);
+  if(sv)add(sv.served>=sv.qty?'✓ 테이블에 나감':'🍽 '+sv.served+'/'+sv.qty+' 나감','t-served');
   if(item.en)add(item.en,'t-sub');
   if(item.note)add(item.note,'t-sub');
   if(item.t)add('⏱ '+item.t+'분 소요','t-sub');
@@ -123,7 +146,7 @@ function printTicket(ticket){
  // 여러 장이 겹치지 않게 순서대로 인쇄
  printJobs++;
  printing=printing.then(()=>new Promise(resolve=>{
-  fill(el('printArea'),ticket);
+  fill(el('printArea'),ticket,true);
   setTimeout(()=>{window.print();setTimeout(()=>{printJobs--;resolve();},1500);},50);
  }));
 }
@@ -283,6 +306,7 @@ function resubscribe(){
  status('불러오는 중…');
  unsub=adapter.subscribe({
   tickets:onTickets,
+  tables:onTables,
   error:e=>status('연결 오류 ('+(e.code||e.message)+')',true)
  });
 }
@@ -292,9 +316,10 @@ let pollSince=Date.now();
 async function pollTickets(){
  if(!adapter||!subscribed||seen===null||!adapter.poll||document.visibilityState!=='visible'||!navigator.onLine)return;
  try{
-  const r=await adapter.poll(['tickets'],Math.max(0,pollSince-120000));
-  if(r.tickets.max)pollSince=Math.max(pollSince,r.tickets.max);
+  const r=await adapter.poll(['tickets','tables'],Math.max(0,pollSince-120000));
+  pollSince=Math.max(pollSince,r.tickets.max||0,(r.tables&&r.tables.max)||0);
   if(Object.keys(r.tickets.map).length)onTickets(r.tickets.map);
+  if(r.tables&&Object.keys(r.tables.map).length)onTables(r.tables.map);
  }catch{}
 }
 setInterval(pollTickets,8000);
