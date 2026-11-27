@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127213729"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127214322"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -527,10 +527,11 @@ function cleanClosed(value){
  }
  return out;
 }
-const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',favs:null,favsAt:0,staff:[],tileColors:{},menu:{off:{},names:{},custom:[]},closedDays:{},memoChips:['덜 맵게','맵게','포장','양파 빼고','먼저 주세요']};
+const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',favs:null,favsAt:0,staff:[],tileColors:{},menu:{off:{},names:{},custom:[],order:{}},closedDays:{},memoChips:['덜 맵게','맵게','포장','양파 빼고','먼저 주세요']};
 function cleanMenu(v){
- const out={off:{},names:{},custom:[]};
+ const out={off:{},names:{},custom:[],order:{}};
  if(!v||typeof v!=='object')return out;
+ if(v.order&&typeof v.order==='object')for(const [cat,ids] of Object.entries(v.order).slice(0,12)){if(cat.length<=30&&Array.isArray(ids))out.order[cat]=[...new Set(ids.filter(x=>typeof x==='string'&&x.length<=40))].slice(0,120);}
  const str=(x,n)=>typeof x==='string'?x.trim().slice(0,n):'';
  if(v.off&&typeof v.off==='object')for(const [id,k] of Object.entries(v.off).slice(0,400))if(id.length<=40&&(k==='sold'||k==='hide'))out.off[id]=k;
  if(v.names&&typeof v.names==='object')for(const [id,n] of Object.entries(v.names).slice(0,400)){
@@ -688,6 +689,12 @@ function menuGroups(all){
   const n=settings.menu.names[c.id];if(n){item.ko=n.ko;item.en=n.en||item.en;}
   if(all||settings.menu.off[c.id]!=='hide')out[c.cat].push(item);
  }
+ for(const cat of Object.keys(out)){
+  const ord=settings.menu.order[cat];
+  if(!ord||!ord.length)continue;
+  const pos=new Map(ord.map((id,i)=>[id,i]));
+  out[cat]=out[cat].map((item,i)=>[item,i]).sort((a,b)=>(pos.has(a[0].id)?pos.get(a[0].id):1e6+a[1])-(pos.has(b[0].id)?pos.get(b[0].id):1e6+b[1])).map(x=>x[0]);
+ }
  return out;
 }
 let category=Object.keys(groups)[0];
@@ -734,8 +741,13 @@ function enableFavDrag(){
   d.tile.addEventListener('click',swallow,{capture:true,once:true});
   setTimeout(()=>d.tile.removeEventListener('click',swallow,true),50);
   const ids=[...menu.querySelectorAll('.tile.drag')].map(t=>t.dataset.id);
-  const prev=settings;settings={...settings,favs:ids,favsAt:Date.now()};
-  if(!saveOrders())settings=prev;
+  if(category===FAV_TAB){
+   const prev=settings;settings={...settings,favs:ids,favsAt:Date.now()};
+   if(!saveOrders())settings=prev;
+  }else{
+   const cat=category;
+   saveMenu(m=>{m.order[cat]=[...ids,...(m.order[cat]||[]).filter(id=>!ids.includes(id))];},true);
+  }
  };
  menu.onpointermove=move;menu.onpointerup=up;menu.onpointercancel=up;
 }
@@ -818,14 +830,14 @@ function renderMenu(){
   node.append(title,sub,detail);
   if(favEdit){const star=document.createElement('span');star.className='fav-star';star.textContent=isFav(item)?'★':'☆';node.append(star);
    const pal=document.createElement('span');pal.className='tile-pal';pal.setAttribute('role','button');pal.textContent='🎨';pal.onpointerdown=e=>e.stopPropagation();pal.onclick=e=>{e.stopPropagation();askTileColor(item);};node.append(pal);
-   if(category===FAV_TAB&&!query){node.classList.add('drag');const g=document.createElement('span');g.className='fav-grip';g.textContent='⠿ 끌어서 이동';node.append(g);}
+   if(!query){node.classList.add('drag');const g=document.createElement('span');g.className='fav-grip';g.textContent='⠿ 끌어서 이동';node.append(g);}
   }
   const badges=[isSold(item)?'⛔ 품절':'',item.s?'🌶 매움':'',item.r?'밥 별도':'',item.t?'⏱ '+item.t+'분 소요':''].filter(Boolean).join(' · ');
   if(badges){const b=document.createElement('span');b.className='badges';b.textContent=badges;node.append(b);}
   return node;
  }));
-if(favEdit&&category===FAV_TAB&&!query)enableFavDrag();
- if(favEdit){const tip=document.createElement('p');tip.className='fav-tip';tip.textContent='⭐ 편집 중 — 메뉴를 누르면 자주 메뉴 추가/해제, 🎨는 타일 색 변경, ⭐ 자주 탭에서는 끌어서 순서 변경. 끝나면 ✓ 완료';el('menu').prepend(tip);}
+if(favEdit&&!query)enableFavDrag();
+ if(favEdit){const tip=document.createElement('p');tip.className='fav-tip';tip.textContent='⭐ 편집 중 — 메뉴를 누르면 자주 메뉴 추가/해제, 🎨는 타일 색 변경, 메뉴를 손으로 끌어서 순서 변경. 끝나면 ✓ 완료';el('menu').prepend(tip);}
  if(!items.length)el('menu').append(document.createTextNode(favEdit?'아직 고른 메뉴가 없습니다. 다른 분류에서 ☆를 눌러 추가하세요.':'검색 결과가 없습니다.'));
 }
 const priceKey=(item,option)=>item.id+(option?'|'+option:'');
@@ -1405,13 +1417,14 @@ el('settingsForm').onsubmit=event=>{
  el('settingsDlg').close();renderCart();
 };
 // ---------- 메뉴 관리 (품절·숨김·추가·이름) ----------
-function saveMenu(mutate){
+function saveMenu(mutate,quiet){
  const prev=settings;
- const menu={off:{...settings.menu.off},names:{...settings.menu.names},custom:settings.menu.custom.map(c=>({...c}))};
+ const menu={off:{...settings.menu.off},names:{...settings.menu.names},custom:settings.menu.custom.map(c=>({...c})),order:Object.fromEntries(Object.entries(settings.menu.order).map(([k,v])=>[k,[...v]]))};
  mutate(menu);
  settings={...settings,menu:cleanMenu(menu),favsAt:Date.now()};
  if(!saveOrders()){settings=prev;return false;}
- renderMenu();renderCart();return true;
+ if(!quiet){renderMenu();renderCart();}
+ return true;
 }
 let menuEditing=null;
 function renderMenuAdmin(){
