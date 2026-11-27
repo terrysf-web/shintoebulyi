@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127081822"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127082349"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -150,6 +150,29 @@ aside h2{font-size:20px;font-weight:700}
 .option form:not([method]) button[type=submit]{background:var(--blue);color:#fff;border:0;min-height:48px;padding:10px 22px;font-weight:700}
 .option form:not([method]) button[type=submit]:hover{background:var(--blue-d)}
 .option form:not([method]) button[type=submit]:disabled{opacity:.5}
+/* 결제(체크아웃) */
+#payment{width:min(540px,94vw)}
+.pay-sub{color:var(--muted);margin:2px 0 0}
+.pay-big{font-size:42px;font-weight:800;letter-spacing:-.02em;margin:4px 0 0;line-height:1.1}
+.pay-label{font-size:12px;font-weight:700;color:var(--muted);margin:16px 0 6px;text-transform:none}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.option .seg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
+.seg button{min-height:68px;font-size:18px;border-radius:16px}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.option .tipquick{margin:0;gap:8px}
+.tipquick button{flex:1 1 0;min-width:64px;min-height:50px;border-radius:12px;font-size:14px;line-height:1.2}
+.option #cashBox{display:block;margin:0}
+.option #cashBox[hidden]{display:none}
+#payTotalLine{display:none}
+.option label.pay-tipinput,.option #receivedRow{display:flex;align-items:center;gap:10px;margin:8px 0 0;font-size:14px;color:var(--muted)}
+.pay-tipinput input,#receivedRow input{width:150px;flex:none}
+.pay-adv{margin-top:14px;border-top:1px solid var(--line);padding-top:8px}
+.pay-adv summary{cursor:pointer;color:var(--muted);font-weight:600;padding:6px 0}
+.pay-actions{display:flex;gap:10px;margin:14px 0 0}
+.option .pay-actions{margin:14px 0 0}
+.pay-actions #paySubmit{flex:1;min-height:56px;font-size:17px;border-radius:14px}
+.pay-actions #cancelPayment{min-width:96px;min-height:56px;border-radius:14px}
+.change{font-size:30px}
 /* 주문 전용(전화기) */
 .order-mode .name-chip{background:#f2f4f7}
 .order-mode #sendKitchen{background:var(--blue);box-shadow:0 8px 24px rgba(0,106,255,.35)}
@@ -222,19 +245,29 @@ aside h2{font-size:20px;font-weight:700}
 <dialog id="payment" class="option" aria-labelledby="paymentTitle">
 <form id="paymentForm">
 <h2 id="paymentTitle"></h2>
-<p id="paymentSubtotal"></p>
-<p class="hint" id="payHint">Royal에서 결제를 받은 뒤 실제 받은 총액(세금·팁 포함)을 입력하세요.</p>
+<p id="paymentSubtotal" class="pay-sub"></p>
+<p id="payBig" class="pay-big">$0.00</p>
+<p id="payTotalLine" class="hint"></p>
+<p class="pay-label">팁</p>
+<div id="tipQuick" class="tipquick" aria-label="팁 빠른 입력"></div>
+<label class="pay-tipinput">팁 직접 입력 ($) <input id="tipAmount" inputmode="decimal" type="number" min="0" max="99999.99" step="0.01" placeholder="0.00"></label>
+<p class="pay-label">결제 방법</p>
+<div class="seg" id="methodSeg"><button type="button" data-m="현금">💵 현금</button><button type="button" data-m="카드">💳 카드</button></div>
+<select id="method" class="sr-only" aria-label="결제수단" tabindex="-1"><option value="">선택</option><option>현금</option><option>카드</option></select>
+<div id="cashBox" hidden>
+<p class="pay-label">받은 금액</p>
+<div id="cashQuick" class="tipquick" aria-label="받은 금액 빠른 선택"></div>
+<label id="receivedRow">받은 금액 직접 입력 ($) <input id="cashReceived" inputmode="decimal" type="number" min="0.01" max="999999.99" step="0.01"></label>
+</div>
+<p id="changeBox" class="change wait" role="status" aria-live="polite" hidden></p>
+<details class="pay-adv" id="payAdv"><summary>금액·영업일 수정</summary>
+<label><span id="paidLabel">결제 금액 · 팁 제외 ($)</span> <input id="paidAmount" inputmode="decimal" type="number" min="0.01" max="999999.99" step="0.01" required></label>
 <label>영업일 (주문한 날) <input id="payBizDate" type="date" required></label>
 <p id="bizHint" class="hint"></p>
-<label>결제수단 <select id="method" required><option value="">선택</option><option>현금</option><option>카드</option></select></label>
-<label><span id="paidLabel">실제 결제액 ($)</span> <input id="paidAmount" inputmode="decimal" type="number" min="0.01" max="999999.99" step="0.01" required></label>
-<label id="receivedRow" hidden>받은 금액 ($) <input id="cashReceived" inputmode="decimal" type="number" min="0.01" max="999999.99" step="0.01"></label>
-<label>팁 ($) <input id="tipAmount" inputmode="decimal" type="number" min="0" max="99999.99" step="0.01" placeholder="0.00"></label>
-<div id="tipQuick" class="tipquick" aria-label="팁 빠른 입력"></div>
-<p id="payTotalLine" class="hint"></p>
-<p id="changeBox" class="change wait" role="status" aria-live="polite" hidden></p>
+</details>
+<p class="hint" id="payHint"></p>
 <p id="payError" role="alert"></p>
-<button type="submit" id="paySubmit">저장하고 테이블 비우기</button> <button id="cancelPayment" type="button">취소</button>
+<div class="pay-actions"><button type="submit" id="paySubmit">결제 완료</button><button id="cancelPayment" type="button">취소</button></div>
 </form></dialog>
 <dialog id="history" class="option" aria-labelledby="historyTitle"><h2 id="historyTitle">결제 기록 · 일일 마감</h2>
 <div class="tools"><input type="date" id="historyDate" aria-label="날짜"><label><input type="checkbox" id="historyAll"> 전체 기간</label></div>
@@ -594,10 +627,12 @@ el('pay').onclick=()=>{
  el('paidAmount').value=(total/100).toFixed(2);
  buildTipButtons();
  updatePaymentUi();
- el('paymentTitle').textContent=(activeTable+1)+'번 테이블 결제 완료';
+ el('paymentTitle').textContent=(activeTable+1)+'번 테이블 결제';
  {
   const startedAt=opened[activeTable];
   el('payBizDate').value=bizDay(startedAt||new Date().toISOString());
+  // 주문 받은 날이 오늘이 아니거나 기록이 없으면 영업일 칸을 펼쳐서 보여 줍니다.
+  el('payAdv').open=!startedAt||bizDay(startedAt)!==bizDay(new Date().toISOString());
   el('bizHint').textContent=startedAt?'이 테이블은 '+new Date(startedAt).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'})+'에 주문을 받았습니다. 매출은 이 날짜로 기록됩니다.':'주문 받은 시각이 기록되지 않은 테이블입니다. 어제 이전에 받은 주문이면 날짜를 바꿔 주세요.';
  }
  el('paymentSubtotal').textContent='메뉴 합계 '+money(sub)+(gratuity?' + 자동 팁 '+money(gratuity):'')+' + 세금 '+money(tax)+' = '+money(total);
@@ -609,6 +644,8 @@ const toCents=value=>value===''?NaN:Math.round(Number(value)*100);
 const tipOf=()=>{const t=toCents(el('tipAmount').value);return Number.isFinite(t)&&t>0?t:0;};
 function updateChange(){
  const charge=toCents(el('paidAmount').value),tip=tipOf();
+ el('payBig').textContent=charge>0?money(charge+tip):'$0.00';
+ if(el('method').value==='현금')buildCashQuick();
  el('payTotalLine').textContent=charge>0?'손님 총 지불액 '+money(charge+tip)+(tip?' (결제 '+money(charge)+' + 팁 '+money(tip)+')':''):'';
  const box=el('changeBox'),got=toCents(el('cashReceived').value);
  if(!(charge>0)||!(got>0)){box.textContent='받은 금액을 입력하면 거스름돈이 표시됩니다.';box.className='change wait';return;}
@@ -626,17 +663,42 @@ function buildTipButtons(){
   return button(pct+'% '+money(cents),()=>setTip(cents));
  }));
 }
+function buildCashQuick(){
+ const box=el('cashQuick');
+ const charge=toCents(el('paidAmount').value);
+ if(!(charge>0)){box.replaceChildren();return;}
+ const total=charge+tipOf();
+ const ups=[];
+ for(const step of [500,1000,2000,5000,10000]){const v=Math.ceil(total/step)*step;if(v>total&&!ups.includes(v))ups.push(v);}
+ for(const fixed of [5000,10000])if(fixed>total&&!ups.includes(fixed))ups.push(fixed);
+ ups.sort((x,y)=>x-y);
+ const picks=[total,...ups.slice(0,4)];
+ box.replaceChildren(...picks.map((cents,i)=>button(i===0?'정확히 '+money(cents):money(cents),()=>{
+  el('cashReceived').value=(cents/100).toFixed(2);
+  updateChange();
+  el('paySubmit').focus();
+ })));
+}
 function updatePaymentUi(){
- const cash=el('method').value==='현금';
- el('receivedRow').hidden=!cash;el('changeBox').hidden=!cash;
+ const method=el('method').value;
+ const cash=method==='현금';
+ el('payError').textContent='';
+ el('cashBox').hidden=!cash;el('changeBox').hidden=!cash;
  el('cashReceived').required=cash;
+ for(const btn of el('methodSeg').children)btn.setAttribute('aria-pressed',String(btn.dataset.m===method));
  el('paidLabel').textContent=(cash?'청구 금액':'결제 금액')+' · 팁 제외 ($)';
- el('payHint').textContent=cash?'청구 금액을 확인하고 받은 현금을 입력한 뒤 Enter를 누르세요. 팁은 손님이 나중에 놓고 가면 결제 후 "팁 입력"에서 추가하세요.':'Royal에서 받은 금액(세금 포함, 팁 제외)을 확인하고 팁은 아래에 따로 입력하세요.';
+ el('paySubmit').textContent=cash?'현금 결제 완료':method==='카드'?'카드 결제 완료':'결제 완료';
+ el('payHint').textContent=cash?'팁은 손님이 나중에 놓고 가면 결제 후 "팁 입력"에서 추가할 수 있습니다.':method==='카드'?'Royal에서 카드를 승인받은 뒤 결제 완료를 누르세요.':'결제 방법을 선택하세요.';
  updateChange();
 }
+for(const btn of el('methodSeg').children)btn.onclick=()=>{
+ el('method').value=btn.dataset.m;
+ el('method').onchange();
+};
 el('method').onchange=()=>{
  updatePaymentUi();
  if(el('method').value==='현금')el('cashReceived').focus();
+ else if(el('method').value==='카드')el('paySubmit').focus();
 };
 el('paidAmount').oninput=updateChange;
 el('tipAmount').oninput=updateChange;
@@ -659,7 +721,8 @@ el('paymentForm').onsubmit=event=>{
  if(!order.size)return;
  const method=el('method').value;
  const amount=Math.round(Number(el('paidAmount').value)*100);
- if(!['현금','카드'].includes(method)||!Number.isSafeInteger(amount)||amount<=0||amount>99999999)return;
+ if(!['현금','카드'].includes(method)){el('payError').textContent='결제 방법(현금 또는 카드)을 선택하세요.';return;}
+ if(!Number.isSafeInteger(amount)||amount<=0||amount>99999999){el('payError').textContent='결제 금액을 확인하세요.';return;}
  const tip=tipOf();
  if(tip>9999999){el('payError').textContent='팁 금액을 확인하세요.';return;}
  let received=0,change=0;
