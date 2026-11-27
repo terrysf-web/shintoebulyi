@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127231543"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127232442"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -66,6 +66,7 @@ dialog#doneDlg{border-radius:22px;box-shadow:0 24px 70px rgba(16,24,40,.3)}
 <section class="lane lane-pending"><h2>조리 중 <span id="pendingCount"></span> <span class="lane-hint">새 주문이 왼쪽에 들어옵니다</span></h2><div id="pending" class="grid"></div></section>
 <section class="lane lane-done"><h2>완료 <span class="lane-hint">테이블을 두 번 누르면 내용을 봅니다</span></h2><div id="done" class="chips"></div></section>
 </main>
+<dialog id="diagDlg"><h2>연결 진단</h2><pre id="diagText" style="white-space:pre-wrap;font:14px/1.6 ui-monospace,Menlo,monospace"></pre><div style="display:flex;gap:8px"><button type="button" id="diagRefresh">새로 보기</button><button type="button" id="diagReconnect">연결 새로 맺기</button><button type="button" id="diagClose">닫기</button></div></dialog>
 <dialog id="doneDlg"><div class="card done" id="doneBody"></div><div class="actions" style="display:flex;gap:8px;margin-top:12px"><button type="button" id="doneUndo">되돌리기</button><button type="button" id="doneClose" class="ok">닫기</button></div></dialog>
 <div id="printArea"></div>
 <div id="gate" class="gate"><form id="loginForm"><h2>신토불이 주방</h2><p id="gateMsg">로그인 확인 중…</p>
@@ -101,7 +102,14 @@ function tlabel(ticket,full){
 }
 // 카운터/폰에서 '나감'으로 표시한 내용을 테이블 문서에서 읽어 옵니다.
 const tableServed=new Map();   // 테이블 번호 -> Map(메뉴이름 -> {served,qty})
+const DIAG={sub:{},write:null,poll:null,err:null};
+const ago=t=>t?Math.max(0,Math.round((Date.now()-t)/1000))+'초 전':'아직 없음';
+function diagText(){
+ const build=(document.querySelector('meta[name=build]')||{}).content||'?';
+ return ['앱 버전: '+build,'인터넷: '+(navigator.onLine?'연결됨':'끊김'),'── 서버에서 마지막으로 받은 시각 ──','주문서: '+ago(DIAG.sub.tickets),'테이블: '+ago(DIAG.sub.tables),'── 보내기 ──','마지막 저장: '+(DIAG.write?(DIAG.write.ok?'성공 ':'실패('+DIAG.write.err+') ')+ago(DIAG.write.at):'아직 없음'),'── 확인용 조회 ──','마지막: '+(DIAG.poll?(DIAG.poll.err?'오류('+DIAG.poll.err+') ':'정상 ')+ago(DIAG.poll.at):'아직 없음'),'마지막 오류: '+(DIAG.err?DIAG.err.code+' '+ago(DIAG.err.at):'없음')].join('\n');
+}
 function onTables(map){
+ DIAG.sub.tables=Date.now();
  for(const [id,json] of Object.entries(map)){
   const idx=Number(String(id).replace('t',''));
   if(!Number.isInteger(idx))continue;
@@ -130,7 +138,7 @@ function setItemDone(ticket,item,done){
  const next={...ticket,cd,done:all,doneAt:all?new Date().toISOString():null};
  tickets.set(ticket.id,next);render();
  if(el('doneDlg').open&&doneTicket&&doneTicket.id===ticket.id){doneTicket=next;fill(el('doneBody'),next);}
- adapter.write({tickets:{[ticket.id]:JSON.stringify(next)}}).catch(()=>status('저장 실패 · 다시 눌러 주세요',true));
+ kwrite({tickets:{[ticket.id]:JSON.stringify(next)}}).catch(()=>status('저장 실패 · 다시 눌러 주세요',true));
 }
 function fill(container,ticket,plain){
  container.replaceChildren();
@@ -233,7 +241,7 @@ function setDone(ticket,done){
  const next={...ticket,done,doneAt:done?new Date().toISOString():null};
  if(!done)next.cd={};   // 되돌리면 메뉴별 완료 표시도 처음 상태로
  tickets.set(ticket.id,next);render();
- adapter.write({tickets:{[ticket.id]:JSON.stringify(next)}}).catch(()=>status('저장 실패 · 다시 눌러 주세요',true));
+ kwrite({tickets:{[ticket.id]:JSON.stringify(next)}}).catch(()=>status('저장 실패 · 다시 눌러 주세요',true));
 }
 function card(ticket,fresh){
  const node=document.createElement('section');
@@ -253,6 +261,11 @@ function showDone(ticket){
  if(el('doneDlg').open)return;
  doneTicket=ticket;fill(el('doneBody'),ticket);el('doneDlg').showModal();
 }
+el('status').style.cursor='pointer';
+el('status').addEventListener('click',()=>{el('diagText').textContent=diagText();el('diagDlg').showModal();});
+el('diagRefresh').onclick=()=>{el('diagText').textContent=diagText();};
+el('diagReconnect').onclick=()=>{el('diagText').textContent='연결을 새로 맺는 중…';(adapter&&adapter.reconnect?adapter.reconnect():Promise.resolve()).catch(()=>{}).finally(()=>setTimeout(()=>{resubscribe();el('diagText').textContent=diagText();},2500));};
+el('diagClose').onclick=()=>el('diagDlg').close();
 el('doneClose').onclick=()=>el('doneDlg').close();
 el('doneUndo').onclick=()=>{if(doneTicket)setDone(doneTicket,false);el('doneDlg').close();};
 function chip(ticket){
@@ -276,7 +289,9 @@ function render(){
  el('done').replaceChildren(...(done.length?done.map(chip):[Object.assign(document.createElement('p'),{className:'empty',textContent:'완료한 주문이 없습니다.'})]));
 }
 const ackSent=new Set();
+function kwrite(o){return adapter.write(o).then(x=>{DIAG.write={ok:true,at:Date.now()};return x;},e=>{DIAG.write={ok:false,err:e.code||e.message||'?',at:Date.now()};throw e;});}
 function onTickets(map){
+ DIAG.sub.tickets=Date.now();
  const first=seen===null;
  if(first)seen=new Set();
  const incoming=[];
@@ -290,7 +305,7 @@ function onTickets(map){
    ackSent.add(id);
    const next={...t,ack:Date.now()};
    tickets.set(id,next);
-   adapter.write({tickets:{[id]:JSON.stringify(next)}}).catch(()=>{ackSent.delete(id);});
+   kwrite({tickets:{[id]:JSON.stringify(next)}}).catch(()=>{ackSent.delete(id);});
   }
  }
  freshIds=new Set(incoming.map(t=>t.id));
@@ -339,7 +354,7 @@ function resubscribe(){
  unsub=adapter.subscribe({
   tickets:onTickets,
   tables:onTables,
-  error:e=>status('연결 오류 ('+(e.code||e.message)+')',true)
+  error:e=>{DIAG.err={code:e.code||e.message||'?',at:Date.now()};status('연결 오류 ('+(e.code||e.message)+')',true);}
  });
 }
 el('resync').onclick=resubscribe;
@@ -349,10 +364,11 @@ async function pollTickets(){
  if(!adapter||!subscribed||seen===null||!adapter.poll||document.visibilityState!=='visible'||!navigator.onLine)return;
  try{
   const r=await adapter.poll(['tickets','tables'],Math.max(0,pollSince-30000));
+  DIAG.poll={at:Date.now()};
   pollSince=Math.max(pollSince,r.tickets.max||0,(r.tables&&r.tables.max)||0);
   if(Object.keys(r.tickets.map).length)onTickets(r.tickets.map);
   if(r.tables&&Object.keys(r.tables.map).length)onTables(r.tables.map);
- }catch(e){if(e&&e.code)status('연결 오류 ('+e.code+')',true);}
+ }catch(e){DIAG.poll={at:Date.now(),err:(e&&(e.code||e.message))||'?'};if(e&&e.code)status('연결 오류 ('+e.code+')',true);}
 }
 setInterval(pollTickets,5000);
 async function start(){
