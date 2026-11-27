@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127230521"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127230729"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -275,6 +275,7 @@ function render(){
  el('pending').replaceChildren(...(pending.length?pending.map(t=>card(t,freshIds.has(t.id))):[Object.assign(document.createElement('p'),{className:'empty',textContent:'조리할 주문이 없습니다.'})]));
  el('done').replaceChildren(...(done.length?done.map(chip):[Object.assign(document.createElement('p'),{className:'empty',textContent:'완료한 주문이 없습니다.'})]));
 }
+const ackSent=new Set();
 function onTickets(map){
  const first=seen===null;
  if(first)seen=new Set();
@@ -284,6 +285,13 @@ function onTickets(map){
   if(!t||t.id!==id||!Array.isArray(t.items))continue;
   tickets.set(id,t);
   if(!seen.has(id)){seen.add(id);if(!first&&!t.done)incoming.push(t);}
+  // 주방이 받았다는 확인(ack)을 주문서에 남깁니다. 카운터의 '전달 확인 안 된 주문서' 경고가 이걸로 풀립니다.
+  if(!t.ack&&!ackSent.has(id)&&Date.now()-new Date(t.time).getTime()<10*60*1000&&adapter){
+   ackSent.add(id);
+   const next={...t,ack:Date.now()};
+   tickets.set(id,next);
+   adapter.write({tickets:{[id]:JSON.stringify(next)}}).catch(()=>{ackSent.delete(id);});
+  }
  }
  freshIds=new Set(incoming.map(t=>t.id));
  render();
