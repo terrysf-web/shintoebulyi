@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127224822"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127225348"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -17,7 +17,8 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 .card{background:#fff;border:2px solid #d4574c;border-radius:12px;padding:12px}.card.done{border-color:#d9ded5;opacity:.7}
 .card.fresh{animation:flash 1.2s ease 2}@keyframes flash{50%{background:#fff3e0}}
-.card p{margin:4px 0}.t-head{font-size:22px;font-weight:700}.t-served{font-size:15px;font-weight:800;color:#175cd3;background:#e8f1ff;display:inline-block;border-radius:8px;padding:1px 8px}.t-sub{font-size:13px;color:#4e6559}
+.card p{margin:4px 0}.t-head{font-size:22px;font-weight:700}.t-itemact{display:flex;gap:6px;margin:2px 0 4px}.t-donebtn{min-height:38px;padding:2px 16px;border-radius:999px;border:1px solid #fdb022;background:#fffaeb;color:#b54708;font-weight:800;font-size:15px}.t-donebtn.on{background:#12b76a;border-color:#12b76a;color:#fff}.t-undo{min-height:38px;min-width:38px;border-radius:999px;font-size:16px;padding:0}
+.t-served{font-size:15px;font-weight:800;color:#175cd3;background:#e8f1ff;display:inline-block;border-radius:8px;padding:1px 8px}.t-sub{font-size:13px;color:#4e6559}
 .t-item{font-size:20px;font-weight:700;margin-top:10px!important}.t-memo{font-size:16px;font-weight:700;color:#943e21}
 .t-rule{border-top:2px dashed #9aa79d;margin:8px 0;height:0}.extra{background:#b3261e;color:#fff;border-radius:6px;padding:1px 8px;font-size:14px}
 .card .actions{display:flex;gap:8px;margin-top:12px}.card .actions button{flex:1}
@@ -107,17 +108,27 @@ function onTables(map){
   try{
    const data=JSON.parse(json);const m=new Map();
    for(const [,line] of (Array.isArray(data.lines)?data.lines:[])){
-    if(line&&typeof line.ko==='string')m.set(line.ko,{served:Math.min(line.served||0,line.quantity||0),qty:line.quantity||0});
+    if(line&&typeof line.ko==='string')m.set(line.ko,{served:Math.min(line.served||0,line.quantity||0),qty:line.quantity||0,at:line.servedAt||0});
    }
    tableServed.set(idx+1,m);
   }catch{}
  }
  if(typeof render==='function'&&subscribed)render();
 }
+// 카운터에서 '나감'으로 표시한 내용(읽기 전용)
 function servedOf(ticket,item){
  const m=tableServed.get(ticket.table);
  const v=m&&m.get(item.ko);
  return v&&v.served>0?v:null;
+}
+// 주방에서 메뉴별로 '완료'를 누릅니다(카운터의 '나감'과는 별개).
+function setItemDone(ticket,item,done){
+ const cd={...(ticket.cd||{})};
+ if(done)cd[item.ko]=true;else delete cd[item.ko];
+ const next={...ticket,cd};
+ tickets.set(ticket.id,next);render();
+ if(el('doneDlg').open&&doneTicket&&doneTicket.id===ticket.id){doneTicket=next;fill(el('doneBody'),next);}
+ adapter.write({tickets:{[ticket.id]:JSON.stringify(next)}}).catch(()=>status('저장 실패 · 다시 눌러 주세요',true));
 }
 function fill(container,ticket,plain){
  container.replaceChildren();
@@ -128,8 +139,18 @@ function fill(container,ticket,plain){
  const rule=document.createElement('p');rule.className='t-rule';container.append(rule);
  for(const item of ticket.items){
   add(item.qty+' × '+item.ko+(item.s?' 🌶':'')+(item.total>item.qty?' (총 '+item.total+')':''),'t-item');
-  const sv=plain?null:servedOf(ticket,item);
-  if(sv)add(sv.served>=sv.qty?'✓ 테이블에 나감':'🍽 '+sv.served+'/'+sv.qty+' 나감','t-served');
+  if(!plain){
+   const done=!!(ticket.cd&&ticket.cd[item.ko]);
+   const wrap=document.createElement('div');wrap.className='t-itemact';
+   const b=document.createElement('button');b.type='button';b.className='t-donebtn'+(done?' on':'');
+   b.textContent=done?'✅ 완료':'🍳 완료';
+   b.onclick=ev=>{ev.stopPropagation();if(!done)setItemDone(ticket,item,true);};
+   wrap.append(b);
+   if(done){const u=document.createElement('button');u.type='button';u.className='t-undo';u.textContent='↩';u.setAttribute('aria-label','완료 취소');u.onclick=ev=>{ev.stopPropagation();setItemDone(ticket,item,false);};wrap.append(u);}
+   container.append(wrap);
+   const sv=servedOf(ticket,item);
+   if(sv)add(sv.served>=sv.qty?'✓ 테이블에 나감':'🍽 '+sv.served+'/'+sv.qty+' 나감','t-served');
+  }
   if(item.en)add(item.en,'t-sub');
   if(item.note)add(item.note,'t-sub');
   if(item.t)add('⏱ '+item.t+'분 소요','t-sub');
@@ -316,13 +337,13 @@ let pollSince=Date.now();
 async function pollTickets(){
  if(!adapter||!subscribed||seen===null||!adapter.poll||document.visibilityState!=='visible'||!navigator.onLine)return;
  try{
-  const r=await adapter.poll(['tickets','tables'],Math.max(0,pollSince-120000));
+  const r=await adapter.poll(['tickets','tables'],Math.max(0,pollSince-30000));
   pollSince=Math.max(pollSince,r.tickets.max||0,(r.tables&&r.tables.max)||0);
   if(Object.keys(r.tickets.map).length)onTickets(r.tickets.map);
   if(r.tables&&Object.keys(r.tables.map).length)onTables(r.tables.map);
  }catch{}
 }
-setInterval(pollTickets,8000);
+setInterval(pollTickets,4000);
 async function start(){
  if(!(cfg.firebase&&cfg.firebase.apiKey)){showGate(true,'동기화 설정이 없습니다. config.js를 확인하세요.',false);return;}
  if(adapter)return;
