@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127234839"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127235145"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -640,6 +640,11 @@ const servers=Array(SLOTS).fill('');
 const opened=Array(SLOTS).fill('');
 const cancels=Array.from({length:SLOTS},()=>[]);
 const togos=Array(SLOTS).fill(null);   // {name,phone,pickup:'HH:MM',ready}
+// 테이블마다 '이 기기에서 마지막으로 바꾼 시각'을 기억합니다. 서버에 못 올린 변경(예: 결제 후 비운 테이블)이
+// 다시 열었을 때 서버의 옛 주문으로 덮어써지지 않게 하기 위해서입니다.
+const tableAt=Array(SLOTS).fill(0);
+const lastSig=Array(SLOTS).fill('');
+const tableSig=i=>JSON.stringify([[...orders[i]],parties[i],servers[i],opened[i],cancels[i],togos[i]]);
 function cleanTogo(t){
  if(!t||typeof t!=='object')return null;
  const str=(x,n)=>typeof x==='string'?x.trim().slice(0,n):'';
@@ -672,9 +677,11 @@ try {
  if(Array.isArray(saved?.servers)&&saved.servers.length<=servers.length)saved.servers.forEach((n,i)=>{servers[i]=typeof n==='string'?n.slice(0,12):'';});
  if(Array.isArray(saved?.parties)&&saved.parties.length<=parties.length)saved.parties.forEach((n,i)=>{parties[i]=Number.isInteger(n)&&n>=0?n:0;});
  if(Array.isArray(saved?.togos))saved.togos.slice(0,SLOTS).forEach((t,i)=>{togos[i]=cleanTogo(t);});
+ if(Array.isArray(saved?.tableAt))saved.tableAt.slice(0,SLOTS).forEach((v,i)=>{tableAt[i]=Number.isFinite(v)?v:0;});
 } catch {
  el('storageWarning').hidden=false;
 }
+for(let i=0;i<SLOTS;i++)lastSig[i]=tableSig(i);
 function saveOrders(){
  const ok=persistLocal();
  if(syncHook)syncHook();
@@ -682,7 +689,8 @@ function saveOrders(){
 }
 function persistLocal(){
  try {
-  localStorage.setItem(storageKey,JSON.stringify({activeTable,orders:orders.map(order=>[...order]),parties,servers,opened,cancels,togos,settings,paidOrders}));
+  for(let i=0;i<SLOTS;i++){const sg=tableSig(i);if(sg!==lastSig[i]){lastSig[i]=sg;tableAt[i]=Date.now();}}
+  localStorage.setItem(storageKey,JSON.stringify({activeTable,orders:orders.map(order=>[...order]),parties,servers,opened,cancels,togos,tableAt,settings,paidOrders}));
   el('storageWarning').hidden=true;
   return true;
  } catch {
@@ -2368,7 +2376,7 @@ const Sync=(()=>{
     clearTimeout(retry);retry=setTimeout(flush,5000);
    });
  }
- function applyTable(i,json){
+ function applyTable(i,json,at){
   const data=JSON.parse(json);
   orders[i]=new Map(Array.isArray(data.lines)?data.lines:[]);
   parties[i]=Number.isInteger(data.party)&&data.party>=0?data.party:0;
@@ -2376,8 +2384,9 @@ const Sync=(()=>{
   opened[i]=typeof data.opened==='string'?data.opened.slice(0,40):'';
   togos[i]=cleanTogo(data.togo);
   cancels[i]=Array.isArray(data.cancels)?data.cancels.filter(c=>c&&typeof c.ko==='string'&&Number.isInteger(c.qty)&&c.qty>0).slice(0,30):[];
+  lastSig[i]=tableSig(i);tableAt[i]=Number.isFinite(at)?at:0;   // 서버에서 받은 내용은 '이 기기의 변경'이 아님
  }
- function onTables(map){
+ function onTables(map,meta){
   DIAG.sub.tables=Date.now();
   let changed=false;
   const first=!ready.tables;
@@ -2388,9 +2397,13 @@ const Sync=(()=>{
     if(remote===sent.tables[id])continue;
     const unsent=sent.tables[id]===undefined?local!==emptyTable:local!==sent.tables[id];
     if(unsent)continue;
+   }else if(remote!==local&&meta&&tableAt[i]>(meta[id]||0)){
+    // 처음 연결했는데 이 기기의 변경이 서버 내용보다 최근이면(밀려서 못 올린 변경), 서버 것으로 덮어쓰지 않고 올립니다.
+    sent.tables[id]=remote;
+    continue;
    }
    try{
-    if(remote!==local){applyTable(i,remote);changed=true;}
+    if(remote!==local){applyTable(i,remote,meta?meta[id]:undefined);changed=true;}
     sent.tables[id]=remote;
    }catch{}
   }

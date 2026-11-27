@@ -36,8 +36,9 @@ function create(config, options = {}) {
       if (handlers.tables) {
         stops.push(onSnapshot(collection(db, 'tables'), snap => {
           const out = {};
-          snap.forEach(d => { out[d.id] = d.data().data; seen(d.data().updatedAt); });
-          handlers.tables(out);
+          const meta = {};
+          snap.forEach(d => { out[d.id] = d.data().data; meta[d.id] = d.data().updatedAt; seen(d.data().updatedAt); });
+          handlers.tables(out, meta);
         }, fail));
       }
       if (handlers.payments) {
