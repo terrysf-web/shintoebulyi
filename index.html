@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127232903"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127233626"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -201,6 +201,15 @@ aside h2{font-size:20px;font-weight:700}
 }
 .order-table #modeFooter{display:none}
 .order-mode.order-home #sendKitchen,.order-mode.order-home #cartToggle{display:none!important}
+.order-mode #kNotices{display:none}
+#kNotices{position:fixed;right:14px;bottom:14px;display:flex;flex-direction:column;gap:10px;z-index:70;width:min(360px,calc(100vw - 28px));max-height:80vh;overflow:auto}
+.knote{background:#fff;border:3px solid #fdb022;border-radius:16px;box-shadow:0 12px 32px rgba(16,24,40,.28);padding:10px 12px;cursor:pointer}
+.knote.all{border-color:#12b76a}
+.knote-bar{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.knote-bar strong{font-size:15px}.knote-bar button{min-height:34px;min-width:34px;padding:0;border-radius:999px}
+.knote-body p{margin:2px 0}.knote-body .t-head{font-size:19px;font-weight:800}.knote-body .t-sub{color:#667085;font-size:13px}.knote-body .t-item{font-weight:700}
+.knote-body .t-item.knote-done{color:#067647}.knote-body .t-item.knote-done::after{content:' ✅'}
+.knote-body .t-rule{border-top:1px dashed #cbd5e1;margin:6px 0}
 .staff-chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
 .staff-chips button{min-height:46px;padding:4px 18px;border-radius:999px;font-weight:700;font-size:16px}
 .staff-chips button.on{background:#111418;color:#fff;border-color:#111418}
@@ -469,6 +478,7 @@ html:not(.order-mode) .oh-tools{display:none}
 <div id="guestGrid" class="guest-grid"></div>
 <label class="guest-more">7명 이상이면 숫자를 입력하세요 <input id="guestInput" type="number" min="7" max="99" inputmode="numeric" placeholder="예: 8"></label>
 <div class="guest-actions"><button type="button" id="guestOk" class="ok">확인</button><button type="button" id="guestSkip">인원 없이 시작</button><button type="button" id="guestCancel">취소</button></div></dialog>
+<div id="kNotices" aria-live="polite"></div>
 <dialog id="diagDlg" class="option"><h2>동기화 진단</h2><pre id="diagText" style="white-space:pre-wrap;font:13px/1.6 ui-monospace,Menlo,monospace;margin:8px 0"></pre><div class="tools"><button type="button" id="diagRefresh">새로 보기</button><button type="button" id="diagReconnect">연결 새로 맺기</button><button type="button" id="diagReset">보내지 못한 대기열 비우기</button><button type="button" id="diagClose">닫기</button></div><p class="hint">전송이 계속 멈춰 있을 때만 쓰세요. 서버에 있는 주문과 이 화면의 기록은 그대로이고, 이 기기에 쌓인 보내기 대기열만 비우고 앱을 다시 엽니다.</p></dialog>
 <dialog id="staffDlg" class="option" aria-labelledby="staffTitle"><h2 id="staffTitle"></h2><div id="staffChips" class="staff-chips"></div><div class="tools"><button type="button" id="staffClose">닫기</button></div></dialog>
 <dialog id="nameDlg" class="option" aria-labelledby="nameTitle"><form id="nameForm"><h2 id="nameTitle">주문받는 사람 이름</h2>
@@ -1826,6 +1836,28 @@ function diagText(){
 function openDiag(){el('diagText').textContent=diagText();el('diagDlg').showModal();}
 // ---- 주방 진행 상태(주방에서 ✓ 완료를 누르면 카운터에도 표시) ----
 const kTickets=new Map();   // id -> {table,time,done}
+const kNoticeQueue=[];
+// 주방에서 완료를 누르면 카운터 화면에 그 주문서가 자동으로 뜹니다(눌러서 테이블 열기, ✕로 닫기).
+function showKitchenNotice(ticket,newly,done){
+ const box=el('kNotices');
+ const old=box.querySelector('[data-id="'+ticket.id+'"]');if(old)old.remove();
+ const card=document.createElement('div');card.className='knote'+(done?' all':'');card.dataset.id=ticket.id;
+ const bar=document.createElement('div');bar.className='knote-bar';
+ const title=document.createElement('strong');
+ title.textContent=done?'✅ 주방 완료 · 전체':'🍳 주방 완료 · '+newly.join(', ');
+ const x=document.createElement('button');x.type='button';x.textContent='✕';x.setAttribute('aria-label','닫기');
+ x.onclick=ev=>{ev.stopPropagation();card.remove();};
+ bar.append(title,x);
+ const body=document.createElement('div');body.className='knote-body';
+ renderTicket(body,ticket);
+ // 완료된 메뉴 표시
+ const cd=ticket.cd||{};
+ body.querySelectorAll('.t-item').forEach((p,i)=>{const it=ticket.items[i];if(it&&(cd[it.ko]||done))p.classList.add('knote-done');});
+ card.append(bar,body);
+ card.onclick=()=>{const i=ticket.table-1;card.remove();if(orders[i]){if(orderView==='table')goHome();openTable(i);}};
+ box.prepend(card);
+ while(box.children.length>4)box.lastChild.remove();
+}
 let kInit=false;
 function kitchenState(i){
  const since=opened[i]||(togos[i]&&togos[i].since)||'';
@@ -1860,11 +1892,19 @@ function onKitchenTickets(map){
    const allCd=kos.length>0&&t.cd&&kos.every(k=>t.cd[k]);
    if(t.ack&&typeof unacked!=='undefined'&&unacked.has(id)){unacked.delete(id);if(typeof updateTicketWarn==='function')updateTicketWarn();}
    const doneNow=!!t.done||!!allCd;
+   // 주방에서 새로 '완료'한 메뉴 찾기 → 카운터에 주문서를 자동으로 띄웁니다
+   if(kInit&&!ORDER_MODE&&Array.isArray(t.items)){
+    const before=prev&&prev.cd?prev.cd:{};
+    const newly=t.items.map(x=>x.ko).filter(k=>t.cd&&t.cd[k]&&!before[k]);
+    const becameDone=doneNow&&!(prev&&prev.done);
+    if(newly.length||becameDone)kNoticeQueue.push({ticket:t,newly,done:doneNow});
+   }
    kTickets.set(id,{table:t.table,time:t.time||'',done:doneNow,no:t.togo&&t.togo.no,cd:t.cd||null});
    if(kInit&&!ORDER_MODE&&doneNow&&prev&&!prev.done)fresh.push(t);
   }catch{}
  }
  kInit=true;
+ while(kNoticeQueue.length){const n=kNoticeQueue.shift();showKitchenNotice(n.ticket,n.newly,n.done);}
  if(fresh.length){const t=fresh[fresh.length-1];flashNotice('✅ '+(t.table>TABLE_COUNT?'TOGO'+(t.togo&&t.togo.no?' #'+t.togo.no:''):t.table+'번')+' 조리 완료');}
  if(typeof orderView!=='undefined'){renderTableHome();updateOrderBar();}
 }
