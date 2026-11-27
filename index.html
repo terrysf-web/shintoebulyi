@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127222800"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127222911"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -219,6 +219,7 @@ html:not(.order-mode) #homeBody{flex:1;min-height:0;display:flex;gap:12px;margin
 html:not(.order-mode) #homeBody #homeGrid{flex:1;min-width:0;margin-top:0}
 html:not(.order-mode) #togoBar{flex:none;width:300px;margin:0;display:flex;flex-direction:column;min-height:0;padding:10px;border:3px solid #e6cf75;border-radius:22px;background:#fffbe6}
 html:not(.order-mode) #togoList{flex:1;display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0}
+.tg-top{flex-wrap:wrap}.tg-top strong,.tg-top .hint{white-space:nowrap}.tg-top #togoNew{flex:1 1 100%;order:3;margin-left:0}#togoSort{margin-left:auto;white-space:nowrap;min-height:36px;padding:2px 12px;font-size:13px;font-weight:700;border-radius:999px;background:#fff;border-color:#e6cf75}
 html:not(.order-mode) .tg-none{margin:12px 4px;color:#8a6a00;font-size:14px}
 html:not(.order-mode) .tgo{width:auto;flex:0 0 auto;min-height:92px;padding:8px 14px;border-radius:16px;justify-content:center;gap:2px}
 html:not(.order-mode) .tgo .tg-head strong{font-size:26px}
@@ -362,7 +363,7 @@ html:not(.order-mode) .oh-tools{display:none}
 <p id="homeSummary" class="hint"></p>
 <button type="button" id="homeTip" hidden></button>
 <div id="homeBody"><div id="homeGrid"></div>
-<div id="togoBar"><div class="tg-top"><strong>🥡 TOGO</strong><span id="togoCount" class="hint"></span><button type="button" id="togoNew">🥡 New TOGO</button></div><div id="togoList"></div></div></div>
+<div id="togoBar"><div class="tg-top"><strong>🥡 TOGO</strong><span id="togoCount" class="hint"></span><button type="button" id="togoSort"></button><button type="button" id="togoNew">🥡 New TOGO</button></div><div id="togoList"></div></div></div>
 <p id="homeFoot" class="hint"></p>
 </section>
 <div id="orderBar" hidden><button type="button" id="backHome">← 테이블</button><strong id="barTable"></strong><button type="button" id="barParty" class="bar-chip"></button><button type="button" id="barReady" class="bar-chip" hidden></button><button type="button" id="barServer" class="bar-chip"></button></div>
@@ -1806,9 +1807,29 @@ function renderTableHome(){
  el('homeSummary').textContent='사용 중 '+used+' / '+TABLE_COUNT+'  ·  테이블을 누르면 주문 화면으로 갑니다';
  renderTogoStrip();
 }
+const TOGO_SORTS=[['no','번호순'],['new','최신순'],['time','픽업시간순']];
+let togoSort='no';
+try{const v=localStorage.getItem('stby-togo-sort');if(TOGO_SORTS.some(x=>x[0]===v))togoSort=v;}catch{}
+function togoSlotsSorted(){
+ const slots=[];
+ for(let i=TABLE_COUNT;i<SLOTS;i++)slots.push(i);
+ const no=i=>(togos[i]&&togos[i].no)||1000+i;
+ const tm=i=>{const m=/^(\d{1,2}):(\d{2})$/.exec((togos[i]&&togos[i].pickup)||'');return m?Number(m[1])*60+Number(m[2]):1e6;};
+ if(togoSort==='new')slots.sort((a,b)=>no(b)-no(a));
+ else if(togoSort==='time')slots.sort((a,b)=>tm(a)-tm(b)||no(a)-no(b));
+ else slots.sort((a,b)=>no(a)-no(b));
+ return slots;
+}
+el('togoSort').onclick=()=>{
+ const k=TOGO_SORTS.findIndex(x=>x[0]===togoSort);
+ togoSort=TOGO_SORTS[(k+1)%TOGO_SORTS.length][0];
+ try{localStorage.setItem('stby-togo-sort',togoSort);}catch{}
+ renderTogoStrip();
+};
 function renderTogoStrip(){
  const kids=[];let free=-1;
- for(let i=TABLE_COUNT;i<SLOTS;i++){
+ el('togoSort').textContent='↕ '+TOGO_SORTS.find(x=>x[0]===togoSort)[1];
+ for(const i of togoSlotsSorted()){
   const cart=orders[i];
   if(!cart.size&&!togos[i]&&!cancels[i].length){if(free<0)free=i;continue;}
   const t=togos[i]||{name:'',phone:'',pickup:'',ready:false,no:0,paid:false};
