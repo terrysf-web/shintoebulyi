@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127201243"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127201354"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -184,8 +184,8 @@ aside h2{font-size:20px;font-weight:700}
 .order-table #orderHome{display:none}
 .order-table #orderHeading{display:none}
 html:not(.order-mode) .oh-tools{display:none}
-.option .guest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
-.guest-grid button{min-height:64px;font-size:22px;font-weight:800;border-radius:14px}
+.option .guest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.guest-grid button{min-height:72px;font-size:26px;font-weight:800;border-radius:14px}
 .guest-grid button[aria-pressed=true]{background:var(--ink);color:#fff}
 .option label.guest-more{font-size:14px;color:var(--muted);margin:6px 0}
 .option .guest-actions{margin:12px 0 0}
@@ -282,7 +282,7 @@ html:not(.order-mode) .oh-tools{display:none}
 <dialog id="guestDlg" class="option" aria-labelledby="guestTitle"><h2 id="guestTitle"></h2>
 <p class="hint">손님 인원을 눌러 주세요.</p>
 <div id="guestGrid" class="guest-grid"></div>
-<label class="guest-more">12명보다 많으면 직접 입력 <input id="guestInput" type="number" min="1" max="99" inputmode="numeric"></label>
+<label class="guest-more">7명 이상이면 숫자를 입력하세요 <input id="guestInput" type="number" min="7" max="99" inputmode="numeric" placeholder="예: 8"></label>
 <div class="guest-actions"><button type="button" id="guestOk" class="ok">확인</button><button type="button" id="guestSkip">인원 없이 시작</button><button type="button" id="guestCancel">취소</button></div></dialog>
 <dialog id="nameDlg" class="option" aria-labelledby="nameTitle"><form id="nameForm"><h2 id="nameTitle">주문받는 사람 이름</h2>
 <p class="hint">주방 주문서에 표시됩니다. 이 기기에 저장됩니다.</p>
@@ -1330,7 +1330,7 @@ function askGuests(i){
  guestFor=i;guestPick=0;
  el('guestTitle').textContent=(i+1)+'번 테이블 · 몇 분이세요?';
  el('guestInput').value='';
- el('guestGrid').replaceChildren(...Array.from({length:12},(_,n)=>button(String(n+1),()=>startTable(guestFor,n+1))));
+ el('guestGrid').replaceChildren(...Array.from({length:6},(_,n)=>button(String(n+1),()=>startTable(guestFor,n+1))));
  el('guestDlg').showModal();
 }
 el('guestOk').onclick=()=>{
