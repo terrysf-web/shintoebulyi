@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127080706"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#193b30"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127081822"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -61,6 +61,99 @@ aside>*{flex:none}
 .order-mode aside{padding:10px 12px}
 .order-mode aside{padding:12px}
 }
+</style>
+<style id="theme">
+/* ===== Square 스타일 테마 (기존 규칙 위에 덮어씁니다) ===== */
+:root{--bg:#f4f5f7;--surface:#fff;--line:#e4e7ec;--text:#14171a;--muted:#667085;--blue:#006aff;--blue-d:#0050c8;--blue-l:#e8f1ff;--red:#d92d20;--red-l:#fdecea;--ink:#111418;--shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.08)}
+body{background:var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+header{background:#fff;color:var(--text);border-bottom:1px solid var(--line);padding:10px 20px}
+header strong{font-size:18px;font-weight:700;letter-spacing:-.01em}
+header span,#syncStatus{color:var(--muted)}
+#syncStatus.warn{color:#b54708}
+button{border:1px solid #d0d5dd;border-radius:10px;background:#fff;font-weight:600;color:var(--text);transition:background .12s,transform .06s}
+button:hover{background:#f5f6f8}
+button:active{transform:scale(.98)}
+button:disabled{opacity:.45}
+button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+header button{background:#f2f4f7;color:var(--text);border-color:transparent}
+header button:hover{background:#e7eaee}
+input,textarea,select{border:1px solid #d0d5dd;border-radius:10px;background:#fff;color:var(--text)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+h2{letter-spacing:-.01em}
+.hint{color:var(--muted)}
+
+/* 테이블 */
+.table-picker h2{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+.table-zone{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.table-zone h3{color:var(--muted);font-size:12px;font-weight:600}
+.table-key{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:none;color:var(--text)}
+.table-key small{color:var(--muted)}
+.table-key[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.table-key[aria-pressed=true] small{color:#dbeafe}
+.table-key.has-order:not([aria-pressed=true]){background:var(--red-l);border-color:#f7c7c2;color:#912018}
+.table-key.has-order:not([aria-pressed=true]) small{color:#b42318}
+.table-key.has-order[aria-pressed=true]{background:var(--red);border-color:var(--red);color:#fff}
+.table-key.has-order[aria-pressed=true] small{color:#ffe4e1}
+
+/* 메뉴 */
+#search{border-radius:12px;box-shadow:var(--shadow);border-color:var(--line);padding:13px 14px}
+#tabs button{border-radius:999px;border:0;background:#e9ecf0;color:#344054;padding:8px 18px}
+#tabs button:hover{background:#dfe3e8}
+#tabs button[aria-pressed=true]{background:var(--ink);color:#fff}
+.tile{border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--shadow);color:var(--text)}
+.tile:hover{background:#fff;box-shadow:0 3px 10px rgba(16,24,40,.12)}
+.tile strong{font-size:16px;font-weight:650}
+.tile .en{color:var(--muted);font-size:12px}
+.tile small{color:var(--text);font-weight:650;font-size:14px}
+.tile .badges{font-size:11px;font-weight:650;color:var(--red)}
+.tile[data-cat="0"]{background:#eef4ff;border-color:#d6e4ff}
+.tile[data-cat="1"]{background:#fff3e8;border-color:#ffe0c2}
+.tile[data-cat="2"]{background:#fdeeee;border-color:#f8d2d2}
+.tile[data-cat="3"]{background:#f5eefe;border-color:#e4d3fa}
+.tile[data-cat="4"]{background:#e9f7ef;border-color:#c8ead7}
+.tile[data-cat="5"]{background:#f1f2f4;border-color:#e0e3e8}
+.tile[data-cat]:hover{filter:brightness(.97)}
+.tile:active{transform:scale(.98)}
+
+/* 주문 패널 */
+aside{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+aside h2{font-size:20px;font-weight:700}
+.row{border-bottom:1px solid #eef0f3}
+.row .name small{color:var(--muted)}
+.qty button{border-radius:999px;min-height:38px}
+.party{background:#f4f6f8;border-radius:12px}
+.sum{color:var(--muted)}
+.total{font-size:22px;font-weight:700}
+.pay{background:var(--ink);color:#fff;border:0;border-radius:12px;font-size:17px;min-height:54px;font-weight:700}
+.pay:hover{background:#000}
+.kitchen{background:var(--blue);color:#fff;border:0;border-radius:12px;font-weight:700}
+.kitchen:hover{background:var(--blue-d)}
+.notice{background:#fffaeb;border:1px solid #fedf89;color:#7a2e0e;border-radius:12px}
+.closing{border-top-color:var(--line)}
+
+/* 창 */
+.option{border-radius:22px;box-shadow:0 24px 70px rgba(16,24,40,.3);border:0}
+.option::backdrop{background:rgba(16,24,40,.45);backdrop-filter:blur(2px)}
+.rcard{background:#f7f8fa;border:1px solid var(--line);border-radius:14px}
+.rcard h3{color:var(--muted);font-weight:600}
+.change.ok{background:#ecfdf3;color:#067647}
+.change.short{background:#fef3f2;color:#b42318}
+.change.wait{background:#f4f6f8;color:var(--muted)}
+.tipquick button{border-radius:999px}
+.gate{background:var(--bg)}
+.gate form{border:0;border-radius:22px;box-shadow:0 20px 60px rgba(16,24,40,.15)}
+.updatebar{background:var(--ink)}
+.updatebar button{background:#fff}
+.ticketwarn{background:var(--red)}
+.ok{background:#067647;color:#fff;border-color:#067647}
+
+.option form:not([method]) button[type=submit]{background:var(--blue);color:#fff;border:0;min-height:48px;padding:10px 22px;font-weight:700}
+.option form:not([method]) button[type=submit]:hover{background:var(--blue-d)}
+.option form:not([method]) button[type=submit]:disabled{opacity:.5}
+/* 주문 전용(전화기) */
+.order-mode .name-chip{background:#f2f4f7}
+.order-mode #sendKitchen{background:var(--blue);box-shadow:0 8px 24px rgba(0,106,255,.35)}
+.order-mode #kitchenNotice:not(:empty){background:var(--ink)}
 </style>
 <header><strong>Shin Toe Bul Yi</strong><div class="hbtns"><button type="button" id="makeCounterHdr" hidden>카운터 화면으로</button><span id="syncStatus" hidden></span><button type="button" id="openTips">💵 팁 입력</button><button type="button" id="reloadApp" aria-label="새로고침">↻ 새로고침</button><button type="button" id="openSettings">⚙ 설정</button><button type="button" id="viewHistory">결제 기록 · 마감</button></div></header>
 <section class="table-picker" aria-labelledby="tableHeading"><h2 id="tableHeading">테이블 선택</h2><nav id="tables" aria-label="테이블 1번부터 9번까지"></nav><p id="storageWarning" class="hint" role="status" hidden>이 브라우저는 파일의 주문 저장을 허용하지 않습니다. 화면을 닫으면 주문이 사라질 수 있습니다.</p></section><main><section aria-label="메뉴"><input id="search" type="search" placeholder="메뉴 이름(한/영) 또는 번호로 검색" aria-label="메뉴 검색"><nav id="tabs" aria-label="메뉴 분류"></nav><div id="menu"></div></section>
@@ -327,6 +420,9 @@ function favoriteItems(){
  }
  return [...counts].sort((a,b)=>b[1]-a[1]).slice(0,12).map(([id])=>byId.get(id));
 }
+const CAT_INDEX=new Map();
+Object.values(groups).forEach((items,idx)=>items.forEach(item=>CAT_INDEX.set(item.id,idx)));
+const catIndexOf=id=>CAT_INDEX.has(id)?CAT_INDEX.get(id):5;
 function renderMenu(){
  const query=el('search').value.trim().toLowerCase();
  const favs=favoriteItems();
@@ -340,6 +436,7 @@ function renderMenu(){
  el('menu').replaceChildren(...items.map(item=>{
   const {n,ko,en,price}=item;
   const node=button('',()=>pick(item));node.className='tile';node.disabled=price===null;
+  node.dataset.cat=String(catIndexOf(item.id));
   const title=document.createElement('strong');title.textContent=ko;
   const sub=document.createElement('span');sub.className='en';sub.textContent=en;
   const detail=document.createElement('small');

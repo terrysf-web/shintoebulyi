@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127080706"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261127081822"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -27,6 +27,29 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 .gate input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;margin:8px 0;font:inherit}.gate [role=alert]{color:#943e21}
 #printArea{display:none}
 @media print{@page{size:80mm auto;margin:3mm}body>*:not(#printArea){display:none!important}#printArea{display:block!important;color:#000;background:#fff}#printArea .t-sub{color:#000}#printArea .t-memo{color:#000}}
+/* ===== Square 스타일 테마 ===== */
+:root{--line:#e4e7ec;--text:#14171a;--muted:#667085;--ink:#111418}
+body{background:#f4f5f7;color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+header{background:#fff;color:var(--text);border-bottom:1px solid var(--line)}
+header strong{font-weight:700;letter-spacing:-.01em}
+header button{background:#f2f4f7;color:var(--text);border:0;border-radius:10px;font-weight:600}
+header button:hover{background:#e7eaee}
+header label{color:#344054}
+#status{color:var(--muted)}#status.warn{color:#b54708}
+button{border-radius:10px;font-weight:600}
+.card{border:1px solid var(--line);border-top:6px solid #d92d20;border-radius:14px;box-shadow:0 1px 3px rgba(16,24,40,.1)}
+.card.done{border-top-color:#98a2b3}
+.card.has-cancel{border:1px solid #d92d20;border-top:6px solid #d92d20;background:#fff5f4}
+.t-head{font-weight:700;letter-spacing:-.01em}
+.extra{background:#d92d20}
+.t-rule{border-top-color:#d0d5dd}
+.lane-pending{border-color:#d92d20}.lane-done{border-color:#98a2b3}
+.lane h2{font-weight:700}
+.chip{border-radius:12px;border:1px solid var(--line);border-left:6px solid #98a2b3;box-shadow:0 1px 2px rgba(16,24,40,.06)}
+.ok{background:#067647;color:#fff;border:0}
+dialog#doneDlg{border-radius:22px;box-shadow:0 24px 70px rgba(16,24,40,.3)}
+.gate form{border:0;border-radius:22px;box-shadow:0 20px 60px rgba(16,24,40,.15)}
+#sound.soundoff{background:#ffb300}
 </style>
 <header><strong>주방 주문</strong><div class="hbtns"><span id="status">연결 중…</span>
 <label><input type="checkbox" id="auto"> 새 주문 자동 인쇄</label>
