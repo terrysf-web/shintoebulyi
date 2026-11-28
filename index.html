@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128012742"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128013231"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -425,6 +425,7 @@ html:not(.order-mode) .oh-tools{display:none}
 <label>자주 쓰는 요청 (메모 버튼, 한 줄에 하나)<textarea id="memoChipsInput" rows="5" maxlength="300" style="width:100%;font:inherit;padding:8px;border:1px solid #aebbb0;border-radius:10px"></textarea></label>
 <label>영수증 가게 주소 <input id="shopAddressInput" maxlength="90" autocomplete="off" placeholder="예: 123 Main St, San Francisco, CA 94110"></label>
 <label>영수증 전화번호 <input id="shopPhoneInput" maxlength="30" inputmode="tel" autocomplete="off" placeholder="예: (415) 555-0123"></label>
+<label>영수증 용지 폭 (이 기기) <select id="receiptMmSel" style="width:100%;padding:12px;border-radius:10px;border:1px solid #aebbb0"><option value="80">80mm (일반 영수증 프린터)</option><option value="58">58mm (작은 영수증 프린터)</option></select></label>
 <label class="settings-row"><input id="riceHintOn" type="checkbox" style="width:auto"> 공깃밥 추가 안내 보이기 (이 기기)</label>
 <label>주문 받는 사람 (카운터, 한 줄에 한 명)<textarea id="staffInput" rows="3" maxlength="120" style="width:100%;font:inherit;padding:8px;border:1px solid #aebbb0;border-radius:10px"></textarea></label>
 <p id="settingsError" role="alert"></p>
@@ -1260,6 +1261,14 @@ const recordGrat=r=>Number.isFinite(r.gratuity)?r.gratuity:0;
 const recordTax=r=>Number.isFinite(r.tax)?r.tax:0;
 const recordTip=r=>Number.isFinite(r.tip)?r.tip:0;
 // ---- 영수증 ----
+// 영수증 용지 폭(이 기기에 저장): 80mm(기본) 또는 58mm
+const receiptMm=()=>{try{return localStorage.getItem('stby-receipt-mm')==='58'?58:80;}catch{return 80;}};
+function applyPrintPageSize(){
+ let st=document.getElementById('printPageStyle');
+ if(!st){st=document.createElement('style');st.id='printPageStyle';document.head.append(st);}
+ st.textContent='@media print{@page{size:'+receiptMm()+'mm auto;margin:3mm}}';
+}
+applyPrintPageSize();
 // 영수증은 미국 손님용이라 영어로, 메뉴는 영어와 한글을 함께 적습니다.
 const rcMethod=m=>({'카드':'Card','현금':'Cash'}[m]||m);
 function receiptModel(rec){
@@ -1312,7 +1321,7 @@ function renderReceipt(box,rec){
 }
 // ---- 영수증 PDF (프린터 없이 저장·공유) ----
 function receiptCanvas(rec){
- const W=576,PAD=28,FONT='"Helvetica Neue","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif';
+ const W=receiptMm()===58?416:576,PAD=receiptMm()===58?20:28,FONT='"Helvetica Neue","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif';
  const items=[];
  for(const it of receiptModel(rec)){
   if(it.t==='shop')items.push({t:'c',text:it.text,size:32,bold:true,h:48});
@@ -1328,9 +1337,23 @@ function receiptCanvas(rec){
  const c=document.createElement('canvas');c.width=W;
  const ctx=c.getContext('2d');
  const font=(size,bold)=>(bold?'700 ':'400 ')+size+'px '+FONT;
- const wrap=(text,size,bold,maxW)=>{ctx.font=font(size,bold);const out=[];let cur='';for(const ch of text){if(ctx.measureText(cur+ch).width>maxW&&cur){out.push(cur);cur=ch;}else cur+=ch;}out.push(cur);return out;};
+ const wrap=(text,size,bold,maxW)=>{
+  ctx.font=font(size,bold);
+  const out=[];let cur='';
+  const push=tok=>{   // 단어 단위로 줄바꿈, 한 단어가 너무 길면 글자 단위
+   const trial=cur?cur+' '+tok:tok;
+   if(ctx.measureText(trial).width<=maxW){cur=trial;return;}
+   if(cur)out.push(cur);
+   cur='';
+   if(ctx.measureText(tok).width<=maxW){cur=tok;return;}
+   for(const ch of tok){if(ctx.measureText(cur+ch).width>maxW&&cur){out.push(cur);cur=ch;}else cur+=ch;}
+  };
+  for(const tok of text.split(' '))push(tok);
+  out.push(cur);return out;
+ };
  for(const it of items){
-  if(it.t==='row'){ctx.font=font(it.size,it.bold);const rw=ctx.measureText(it.r).width;it.lines=wrap(it.l,it.size,it.bold,W-PAD*2-rw-24);it.h=it.lines.length*(it.size+10)+4;}
+  if(it.t==='c'){it.lines=wrap(it.text,it.size,it.bold,W-PAD*2);it.h=it.lines.length*(it.size+10)+8;}
+  else if(it.t==='row'){ctx.font=font(it.size,it.bold);const rw=ctx.measureText(it.r).width;it.lines=wrap(it.l,it.size,it.bold,W-PAD*2-rw-24);it.h=it.lines.length*(it.size+10)+4;}
   else if(it.t==='item'){
    ctx.font=font(it.size,true);const rw=ctx.measureText(it.r).width;
    it.lines=wrap(it.en,it.size,true,W-PAD*2-rw-24);
@@ -1343,7 +1366,7 @@ function receiptCanvas(rec){
  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);ctx.textBaseline='top';
  let y=PAD;
  for(const it of items){
-  if(it.t==='c'){ctx.font=font(it.size,it.bold);ctx.fillStyle=it.color||'#111';ctx.textAlign='center';ctx.fillText(it.text,W/2,y+4);}
+  if(it.t==='c'){ctx.font=font(it.size,it.bold);ctx.fillStyle=it.color||'#111';ctx.textAlign='center';it.lines.forEach((ln,k)=>ctx.fillText(ln,W/2,y+4+k*(it.size+10)));}
   else if(it.t==='r'){ctx.strokeStyle='#888';ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(PAD,y+12);ctx.lineTo(W-PAD,y+12);ctx.stroke();ctx.setLineDash([]);}
   else if(it.t==='n'){ctx.font=font(it.size,false);ctx.fillStyle='#8a4b00';ctx.textAlign='left';ctx.fillText(it.text,PAD,y+2);}
   else if(it.t==='item'){
@@ -1364,7 +1387,7 @@ function receiptCanvas(rec){
 // 이미지 한 장짜리 PDF를 직접 만듭니다(외부 라이브러리 없음, 오프라인 가능).
 function pdfFromCanvas(c){
  const jpeg=Uint8Array.from(atob(c.toDataURL('image/jpeg',0.92).split(',')[1]),ch=>ch.charCodeAt(0));
- const wpt=226.8,hpt=Math.round(c.height*wpt/c.width*100)/100;   // 80mm 폭
+ const wpt=Math.round(receiptMm()*2.8346*10)/10,hpt=Math.round(c.height*wpt/c.width*100)/100;   // 용지 폭(80mm 또는 58mm)
  const enc=new TextEncoder();
  const parts=[],offsets=[];let pos=0;
  const push=u=>{parts.push(u);pos+=u.length;};
@@ -1400,7 +1423,7 @@ function openReceipt(rec,fromList){
  receiptFrom=fromList;
  renderReceipt(el('receiptBody'),rec);
  el('rcBack').hidden=!fromList;
- el('rcPrint').onclick=()=>{renderReceipt(el('printArea'),rec);window.print();};
+ el('rcPrint').onclick=()=>{applyPrintPageSize();renderReceipt(el('printArea'),rec);window.print();};
  el('rcPdf').onclick=async()=>{el('rcPdf').disabled=true;try{await saveReceiptPdf(rec);}finally{el('rcPdf').disabled=false;}};
  el('receiptListDlg').close();
  if(!el('receiptDlg').open)el('receiptDlg').showModal();
@@ -1695,6 +1718,7 @@ el('openSettings').onclick=()=>{
  el('staffInput').value=settings.staff.join('\n');
  el('riceHintOn').checked=!riceHintOff;
  el('shopAddressInput').value=settings.shopAddress;el('shopPhoneInput').value=settings.shopPhone;
+ el('receiptMmSel').value=String(receiptMm());
  el('settingsDlg').showModal();
 };
 el('settingsCancel').onclick=()=>el('settingsDlg').close();
@@ -1704,6 +1728,7 @@ el('settingsForm').onsubmit=event=>{
  if(!Number.isFinite(rate)||rate<0||rate>25){el('settingsError').textContent='세율은 0~25% 사이로 입력하세요.';return;}
  const previous=settings;
  const chipLines=el('memoChipsInput').value.split('\n').map(t=>t.trim().slice(0,14)).filter(Boolean).slice(0,12);
+ try{localStorage.setItem('stby-receipt-mm',el('receiptMmSel').value==='58'?'58':'80');}catch{}applyPrintPageSize();
  riceHintOff=!el('riceHintOn').checked;try{localStorage.setItem('stby-rice-hint-off',riceHintOff?'1':'0');}catch{}
  const staffLines=[...new Set(el('staffInput').value.split('\n').map(t=>t.trim().slice(0,12)).filter(Boolean))].slice(0,8);
  settings={...settings,staff:staffLines,shopAddress:el('shopAddressInput').value.trim().slice(0,90),shopPhone:el('shopPhoneInput').value.trim().slice(0,30),favsAt:Date.now(),taxRate:rate,taxGratuity:el('taxGratuity').checked,memoChips:chipLines.length?[...new Set(chipLines)]:[...DEFAULT_SETTINGS.memoChips]};
