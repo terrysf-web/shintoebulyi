@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128000321"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128000947"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -1003,6 +1003,7 @@ function serveAllToggle(){
 }
 function renderCart(){
  const cart=orders[activeTable];
+ el('serveAll').textContent=isTogo(activeTable)?'📦 전체 포장됨':'🍽 전체 나감';
  el('orderHeading').textContent=isTogo(activeTable)?'🥡 '+slotLabel(activeTable)+' 주문':(activeTable+1)+(ORDER_MODE?'번':'번 테이블')+' 주문';
  renderTables();
  el('lines').replaceChildren();
@@ -1032,7 +1033,7 @@ function renderCart(){
    if(sv>=quantity)row.classList.add('served');
    row.classList.add('tap');
    row.onclick=ev=>{if(ev.target.closest('.qty'))return;tapServe(key);};
-   if(sv>0){const st=document.createElement('small');st.className='srv-state';st.textContent=sv>=quantity?'✓ 테이블에 나감':'🍽 '+sv+'/'+quantity+' 나감';title.append(st);}
+   if(sv>0){const st=document.createElement('small');st.className='srv-state';st.textContent=isTogo(activeTable)?(sv>=quantity?'📦 포장됨':'📦 '+sv+'/'+quantity+' 포장됨'):(sv>=quantity?'✓ 테이블에 나감':'🍽 '+sv+'/'+quantity+' 나감');title.append(st);}
   }
   row.append(title,controls);el('lines').append(row);
  }
@@ -1934,11 +1935,13 @@ function onKitchenTickets(map){
  while(kNoticeQueue.length){
   const n=kNoticeQueue.shift();
   // 카운터가 테이블 현황 화면이고 다른 창이 열려 있지 않으면 그 테이블 주문 페이지로 바로 이동, 바쁠 땐 팝업으로 알립니다.
-  const idle=!ORDER_MODE&&orderView==='home'&&!document.querySelector('dialog[open]')&&orders[n.ticket.table-1];
+  // 카운터에서는 어느 화면이든 그 테이블로 이동합니다. 단, 결제·설정 같은 창이 열려 있을 때는 엉뚱한 테이블에 결제되지 않도록 팝업만 띄웁니다.
+  const idle=!ORDER_MODE&&!document.querySelector('dialog[open]')&&orders[n.ticket.table-1];
   if(idle&&!kNoticeQueue.length){
    const i=n.ticket.table-1;
    document.getElementById('kNotices').querySelectorAll('.knote[data-id="'+n.ticket.id+'"]').forEach(x=>x.remove());
    flashNotice((n.done?'✅ 주방 완료 · ':'🍳 주방 완료 · '+n.newly.join(', ')+' · ')+slotLabel(i));
+   if(orderView==='table'&&activeTable!==i)goHome();
    openTable(i);
   }else showKitchenNotice(n.ticket,n.newly,n.done);
  }
@@ -2026,7 +2029,7 @@ function renderTogoStrip(){
   const ks=kitchenState(i);
   if(ks==='done'&&!unsent)card.classList.add('cooked');
   const si=servedInfo(i);
-  const kline=si.total&&si.served>=si.total?'🍽 전달 완료':si.served>0?'🍽 '+si.served+'/'+si.total+' 나감':ks==='done'?'✅ 조리 완료':ks==='partial'?'🍳 일부 완료':ks==='cooking'?'🍳 조리 중':'';
+  const kline=si.total&&si.served>=si.total?'📦 포장 완료':si.served>0?'📦 '+si.served+'/'+si.total+' 포장됨':ks==='done'?'✅ 조리 완료':ks==='partial'?'🍳 일부 완료':ks==='cooking'?'🍳 조리 중':'';
   state.textContent=t.paid?'💳 결제 완료 · '+(t.ready?'📦 포장 완료':kline||'픽업 대기'):unsent?'미전송 '+unsent:t.ready?'📦 포장 완료':kline?(ks==='done'?kline+' · 포장하세요':kline):'⏳ 대기';
   card.append(head,info,state);
   card.onclick=()=>{
