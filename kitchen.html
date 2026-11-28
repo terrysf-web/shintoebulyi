@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128054355"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128054506"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -119,8 +119,8 @@ dialog#doneDlg{border-radius:22px;box-shadow:0 24px 70px rgba(16,24,40,.3)}
 <main class="kboard">
 <section class="klane lane-pending kwide"><h2>조리 중 <span id="pendingCount"></span> <span class="lane-hint">먼저 들어온 주문이 왼쪽, 새 주문은 뒤에 붙습니다</span></h2><div id="pending" class="grid"></div></section>
 <div class="kdonewrap">
-<section class="kcard ktable"><h1>🍽 테이블 완료</h1><div id="doneT" class="tfloor"></div></section>
-<section class="kcard ktogo"><h1>🥡 TOGO 완료</h1><div id="doneG" class="dwrap"></div></section>
+<section class="kcard ktable"><h1>🍽 테이블 조리 완료</h1><div id="doneT" class="tfloor"></div></section>
+<section class="kcard ktogo"><h1>🥡 TOGO 조리 완료</h1><div id="doneG" class="dwrap"></div></section>
 </div>
 </main>
 <dialog id="diagDlg"><h2>연결 진단</h2><pre id="diagText" style="white-space:pre-wrap;font:14px/1.6 ui-monospace,Menlo,monospace"></pre><div style="display:flex;gap:8px"><button type="button" id="diagRefresh">새로 보기</button><button type="button" id="diagReconnect">연결 새로 맺기</button><button type="button" id="diagReset">다시 시작</button><button type="button" id="diagClose">닫기</button></div></dialog>
@@ -470,7 +470,7 @@ function render(){
  el('pendingCount').textContent=pending.length?'('+pending.length+')':'';
  el('pending').replaceChildren(...(pending.length?pending.map(t=>card(t,freshIds.has(t.id))):[emptyP('조리할 주문이 없습니다.')]));
  el('doneT').replaceChildren(...tableFloor(dT));
- el('doneG').replaceChildren(...(dG.length?doneGroups(dG):[emptyP('완료한 TOGO가 없습니다.')]));
+ el('doneG').replaceChildren(...(dG.length?doneGroups(dG):[emptyP('조리 완료한 TOGO가 없습니다.')]));
 }
 const ackSent=new Set();
 function kwrite(o){return adapter.write(o).then(x=>{DIAG.write={ok:true,at:Date.now()};return x;},e=>{DIAG.write={ok:false,err:e.code||e.message||'?',at:Date.now()};throw e;});}
