@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="build" content="20261128062513"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="build" content="20261128062859"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>html,body,button,a,summary,label{touch-action:manipulation}input,textarea,select{font-size:max(16px,1em)}
 
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
@@ -631,11 +631,18 @@ html:not(.order-mode) .oh-tools{display:none}
 <label class="purge-row"><input type="radio" name="purgeScope" value="all"> <span id="purgeAllText">전체 기록 (새로 시작)</span></label>
 <p id="purgeInfo" class="hint"></p>
 <div id="purgePwBox" hidden><p id="purgePwHint" class="hint"></p>
-<label>전체 삭제 비밀번호 <input id="purgePw" type="password" autocomplete="off" inputmode="text"></label>
+<label>삭제 비밀번호 <input id="purgePw" type="password" autocomplete="off" inputmode="text"></label>
 <label id="purgePw2Row" hidden>비밀번호 확인 <input id="purgePw2" type="password" autocomplete="off"></label></div>
 <label>확인을 위해 <b>삭제</b> 라고 입력하세요 <input id="purgeConfirm" autocomplete="off"></label>
 <p id="purgeMsg" class="hint"></p>
+<p><button type="button" id="purgeChangePw" hidden>🔑 삭제 비밀번호 바꾸기</button></p>
 <div class="tools"><button type="button" id="purgeGo" class="danger-btn" disabled>삭제하기</button><button type="button" id="purgeCancel">취소</button></div></dialog>
+<dialog id="purgePwDlg" class="option" aria-labelledby="purgePwTitle"><h2 id="purgePwTitle">🔑 삭제 비밀번호 바꾸기</h2>
+<label>현재 비밀번호 <input id="ppOld" type="password" autocomplete="off"></label>
+<label>새 비밀번호 (4자리 이상) <input id="ppNew" type="password" autocomplete="off"></label>
+<label>새 비밀번호 확인 <input id="ppNew2" type="password" autocomplete="off"></label>
+<p id="ppMsg" class="hint"></p>
+<div class="tools"><button type="button" id="ppSave">바꾸기</button><button type="button" id="ppCancel">취소</button></div></dialog>
 <script src="config.js"></script>
 <script>
 // 새로고침용으로 붙은 ?_=숫자 는 주소창에서 바로 지웁니다.
@@ -1778,11 +1785,12 @@ function refreshPurge(){
  const t=purgeTargets();
  el('purgeDayText').textContent=(el('historyDate').value||'선택한 날짜')+' 하루';
  el('purgeInfo').textContent=t.list.length?t.list.length+'건 · 결제 '+money(t.list.reduce((n,r)=>n+(r.voided?0:r.amount),0))+' · 팁 '+money(t.tips)+' 삭제됩니다.':'삭제할 기록이 없습니다.';
- const needPw=t.all;
+ const needPw=true;   // 하루 삭제도 전체 삭제도 같은 '삭제 비밀번호'를 씁니다
  el('purgePwBox').hidden=!needPw;
+ el('purgeChangePw').hidden=!settings.purgePinHash;
  const setup=!settings.purgePinHash;
  el('purgePw2Row').hidden=!setup;
- el('purgePwHint').textContent=setup?'전체 삭제 전용 비밀번호를 처음 한 번 정하세요(4자리 이상). 사장 비밀번호와 다르게 하는 것을 권합니다. 모든 기기에 적용됩니다.':'전체 삭제 전용 비밀번호를 입력하세요.';
+ el('purgePwHint').textContent=setup?'삭제 비밀번호를 처음 한 번 정하세요(4자리 이상). 사장 비밀번호와 다르게 하는 것을 권합니다. 모든 기기에 적용됩니다.':'삭제 비밀번호를 입력하세요.';
  const pwOk=!needPw||(setup?(el('purgePw').value.length>=4&&el('purgePw').value===el('purgePw2').value):el('purgePw').value.length>0);
  el('purgeGo').disabled=!(t.list.length&&el('purgeConfirm').value.trim()==='삭제'&&pwOk);
 }
@@ -1794,15 +1802,27 @@ el('purgeOpen').onclick=()=>requireOwner(()=>{
 document.querySelectorAll('input[name=purgeScope]').forEach(r=>r.onchange=refreshPurge);
 el('purgeConfirm').oninput=refreshPurge;el('purgePw').oninput=refreshPurge;el('purgePw2').oninput=refreshPurge;
 el('purgeCancel').onclick=()=>el('purgeDlg').close();
+el('purgeChangePw').onclick=()=>{['ppOld','ppNew','ppNew2'].forEach(id=>el(id).value='');el('ppMsg').textContent='';el('purgePwDlg').showModal();el('ppOld').focus();};
+el('ppCancel').onclick=()=>el('purgePwDlg').close();
+el('ppSave').onclick=async()=>{
+ const old=el('ppOld').value,nw=el('ppNew').value;
+ if(await hashPin(old)!==settings.purgePinHash){el('ppMsg').textContent='현재 비밀번호가 맞지 않습니다.';el('ppOld').select();return;}
+ if(nw.length<4){el('ppMsg').textContent='새 비밀번호는 4자리 이상으로 정하세요.';return;}
+ if(nw!==el('ppNew2').value){el('ppMsg').textContent='새 비밀번호 두 번이 다릅니다.';return;}
+ settings={...settings,purgePinHash:await hashPin(nw)};
+ saveOrders();
+ el('ppMsg').textContent='바꿨습니다. 모든 기기에 적용됩니다.';
+ setTimeout(()=>{el('purgePwDlg').close();refreshPurge();},900);
+};
 el('purgeGo').onclick=async()=>{
  const t=purgeTargets();if(!t.list.length)return;
  const ids=t.list.map(r=>r.id);
  const next={...settings};
- if(t.all){
+ {
   const pw=el('purgePw').value;
   const hash=await hashPin(pw);
   if(!settings.purgePinHash){next.purgePinHash=hash;}
-  else if(hash!==settings.purgePinHash){el('purgeMsg').textContent='전체 삭제 비밀번호가 맞지 않습니다.';el('purgePw').select();return;}
+  else if(hash!==settings.purgePinHash){el('purgeMsg').textContent='삭제 비밀번호가 맞지 않습니다.';el('purgePw').select();return;}
  }
  if(t.all){next.purgeAt=Date.now();}
  else next.purgedDays=[...new Set([...settings.purgedDays,t.day])];
