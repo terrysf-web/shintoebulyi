@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128024126"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128024411"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -50,7 +50,7 @@ button{border-radius:10px;font-weight:600}
 .dgroup{background:#fff;border:1px solid #d0d5dd;border-left:6px solid #98a2b3;border-radius:12px;padding:8px 10px;box-shadow:0 1px 3px rgba(16,24,40,.08);min-width:120px}
 .dgroup.togo{background:#fff8dc;border-color:#f0c93a;border-left-color:#f5a300}
 .dg-title{display:flex;align-items:center;gap:6px;font-size:16px;margin-bottom:6px}
-.dg-count{font-size:12px;font-weight:700;color:#475467;background:#eef2f6;border-radius:999px;padding:1px 7px}
+.dg-start{font-size:11.5px;font-weight:600;color:#667085}.dg-count{font-size:12px;font-weight:700;color:#475467;background:#eef2f6;border-radius:999px;padding:1px 7px}
 .dg-chips{display:flex;flex-wrap:wrap;gap:6px}
 .tchip{min-height:42px;padding:4px 12px;border:1px solid #cfd6df;border-radius:10px;background:#f8fafc;font-weight:700;font-size:14px;touch-action:manipulation}
 .tchip small{display:block;font-size:11px;color:#b54708}
@@ -280,17 +280,33 @@ el('doneClose').onclick=()=>el('doneDlg').close();
 el('doneUndo').onclick=()=>{if(doneTicket)setDone(doneTicket,false);el('doneDlg').close();};
 // 완료한 주문서를 테이블별로 묶어서 보여 줍니다(가장 최근에 끝낸 테이블이 앞).
 function doneGroups(list){
- const groups=new Map();
+ // 손님(자리) 단위로 묶습니다. 새 주문서는 '자리 시작 시각'(seat)이 같으면 같은 손님이고,
+ // 예전 주문서는 같은 테이블에서 90분 넘게 떨어져 있으면 다른 손님으로 봅니다.
+ const byTable=new Map();
  for(const t of list){
   const key=t.table>9?'T'+(t.togo&&t.togo.no?t.togo.no:t.table):'N'+t.table;
-  if(!groups.has(key))groups.set(key,{head:t,items:[]});
-  groups.get(key).items.push(t);
+  if(!byTable.has(key))byTable.set(key,[]);
+  byTable.get(key).push(t);
  }
- return [...groups.values()].map(g=>{
+ const groups=[];
+ for(const arr of byTable.values()){
+  arr.sort((a,b)=>a.time<b.time?-1:1);
+  let cur=null;
+  for(const t of arr){
+   const ms=new Date(t.time).getTime();
+   const same=cur&&(t.seat?cur.seat===t.seat:(!cur.seat&&ms-cur.lastMs<90*60000));
+   if(same){cur.items.push(t);cur.lastMs=ms;}
+   else{cur={head:t,seat:t.seat||'',items:[t],lastMs:ms};groups.push(cur);}
+  }
+ }
+ const stamp=g=>g.items.reduce((m,t)=>{const v=t.doneAt||t.time;return v>m?v:m;},'');
+ groups.sort((a,b)=>stamp(a)<stamp(b)?1:-1);
+ return groups.map(g=>{
   const box=document.createElement('div');box.className='dgroup'+(g.head.table>9?' togo':'');
   const title=document.createElement('strong');title.className='dg-title';
   title.textContent=g.head.table>9?'🥡 '+(g.head.togo&&g.head.togo.no?'TOGO #'+g.head.togo.no:'TOGO')+(g.head.togo&&g.head.togo.name?' · '+g.head.togo.name:''):g.head.table+'번';
-  if(g.items.length>1){const n=document.createElement('span');n.className='dg-count';n.textContent='×'+g.items.length;title.append(n);}
+  if(g.items.length>1){const n=document.createElement('span');n.className='dg-count';n.textContent='주문 '+g.items.length;title.append(n);}
+  if(g.head.table<=9){const st=document.createElement('span');st.className='dg-start';st.textContent=new Date(g.seat||g.head.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'})+' 입석';title.append(st);}
   const row=document.createElement('div');row.className='dg-chips';
   for(const t of g.items)row.append(timeChip(t));
   box.append(title,row);
