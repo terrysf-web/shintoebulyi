@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128024411"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128024450"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -46,7 +46,12 @@ button{border-radius:10px;font-weight:600}
 .card.togo.done{background:#fbf6dd;border-top-color:#c9b46a}
 .card.togo.has-cancel{background:#fff4c2;border:2px solid #d92d20;border-top:6px solid #d92d20}
 .chip.togo{background:#fff4c2;border-color:#f0c93a;border-left-color:#f5a300}
-#done{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
+#done{display:flex;flex-direction:column;gap:14px}
+.dsec{border-radius:14px;padding:8px 10px 10px;border:1px solid #d0d5dd;background:#f8fafc}
+.dsec.tgo{background:#fff9e0;border-color:#f0c93a}
+.dsec-h{font-size:14px;font-weight:800;color:#344054;margin:0 0 8px}
+.dsec.tgo .dsec-h{color:#8a6a00}
+.dsec-body{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
 .dgroup{background:#fff;border:1px solid #d0d5dd;border-left:6px solid #98a2b3;border-radius:12px;padding:8px 10px;box-shadow:0 1px 3px rgba(16,24,40,.08);min-width:120px}
 .dgroup.togo{background:#fff8dc;border-color:#f0c93a;border-left-color:#f5a300}
 .dg-title{display:flex;align-items:center;gap:6px;font-size:16px;margin-bottom:6px}
@@ -279,6 +284,23 @@ el('diagClose').onclick=()=>el('diagDlg').close();
 el('doneClose').onclick=()=>el('doneDlg').close();
 el('doneUndo').onclick=()=>{if(doneTicket)setDone(doneTicket,false);el('doneDlg').close();};
 // 완료한 주문서를 테이블별로 묶어서 보여 줍니다(가장 최근에 끝낸 테이블이 앞).
+// 위쪽은 일반 테이블, 아래쪽은 TOGO(포장)로 나눠서 보여 줍니다.
+function doneSections(list){
+ const all=doneGroups(list);
+ const tables=all.filter(g=>!g.classList.contains('togo'));
+ const togos=all.filter(g=>g.classList.contains('togo'));
+ const out=[];
+ const sec=(label,groups,cls)=>{
+  if(!groups.length)return;
+  const wrap=document.createElement('div');wrap.className='dsec '+cls;
+  const h=document.createElement('div');h.className='dsec-h';h.textContent=label+' ('+groups.length+')';
+  const body=document.createElement('div');body.className='dsec-body';body.append(...groups);
+  wrap.append(h,body);out.push(wrap);
+ };
+ sec('🍽 테이블',tables,'tbl');
+ sec('🥡 TOGO',togos,'tgo');
+ return out;
+}
 function doneGroups(list){
  // 손님(자리) 단위로 묶습니다. 새 주문서는 '자리 시작 시각'(seat)이 같으면 같은 손님이고,
  // 예전 주문서는 같은 테이블에서 90분 넘게 떨어져 있으면 다른 손님으로 봅니다.
@@ -339,7 +361,7 @@ function render(){
  const done=list.filter(t=>t.done).sort((a,b)=>(a.doneAt||a.time)<(b.doneAt||b.time)?1:-1).slice(0,80);
  el('pendingCount').textContent=pending.length?'('+pending.length+')':'';
  el('pending').replaceChildren(...(pending.length?pending.map(t=>card(t,freshIds.has(t.id))):[Object.assign(document.createElement('p'),{className:'empty',textContent:'조리할 주문이 없습니다.'})]));
- el('done').replaceChildren(...(done.length?doneGroups(done):[Object.assign(document.createElement('p'),{className:'empty',textContent:'완료한 주문이 없습니다.'})]));
+ el('done').replaceChildren(...(done.length?doneSections(done):[Object.assign(document.createElement('p'),{className:'empty',textContent:'완료한 주문이 없습니다.'})]));
 }
 const ackSent=new Set();
 function kwrite(o){return adapter.write(o).then(x=>{DIAG.write={ok:true,at:Date.now()};return x;},e=>{DIAG.write={ok:false,err:e.code||e.message||'?',at:Date.now()};throw e;});}
