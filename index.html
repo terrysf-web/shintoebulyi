@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128001810"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128002329"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -496,7 +496,7 @@ html:not(.order-mode) .oh-tools{display:none}
 <div id="rlList" class="pricelist"></div>
 <div class="tools"><button type="button" id="rlClose">닫기</button></div></dialog>
 <dialog id="receiptDlg" class="option" aria-label="영수증"><div id="receiptBody" class="receipt"></div>
-<div class="tools"><button type="button" id="rcPrint">🖨 인쇄</button><button type="button" id="rcBack">← 목록</button><button type="button" id="rcClose">닫기</button></div></dialog>
+<div class="tools"><button type="button" id="rcPdf">📄 PDF 저장</button><button type="button" id="rcPrint">🖨 인쇄</button><button type="button" id="rcBack">← 목록</button><button type="button" id="rcClose">닫기</button></div></dialog>
 <dialog id="diagDlg" class="option"><h2>동기화 진단</h2><pre id="diagText" style="white-space:pre-wrap;font:13px/1.6 ui-monospace,Menlo,monospace;margin:8px 0"></pre><div class="tools"><button type="button" id="diagRefresh">새로 보기</button><button type="button" id="diagReconnect">연결 새로 맺기</button><button type="button" id="diagReset">보내지 못한 대기열 비우기</button><button type="button" id="diagClose">닫기</button></div><p class="hint">전송이 계속 멈춰 있을 때만 쓰세요. 서버에 있는 주문과 이 화면의 기록은 그대로이고, 이 기기에 쌓인 보내기 대기열만 비우고 앱을 다시 엽니다.</p></dialog>
 <dialog id="staffDlg" class="option" aria-labelledby="staffTitle"><h2 id="staffTitle"></h2><div id="staffChips" class="staff-chips"></div><div class="tools"><button type="button" id="staffClose">닫기</button></div></dialog>
 <dialog id="nameDlg" class="option" aria-labelledby="nameTitle"><form id="nameForm"><h2 id="nameTitle">주문받는 사람 이름</h2>
@@ -1279,12 +1279,99 @@ function renderReceipt(box,rec){
  if(rec.received){pair('받은 금액',money(rec.received));pair('거스름돈',money(rec.change||0));}
  if(rec.voided)add('— 결제 취소됨 —','rc-void');
 }
+// ---- 영수증 PDF (프린터 없이 저장·공유) ----
+function receiptCanvas(rec){
+ const W=576,PAD=28,FONT='"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif';
+ const items=[];
+ const center=(text,size,bold,color)=>items.push({t:'c',text,size,bold,color:color||'#111',h:size+16});
+ const rule=()=>items.push({t:'r',h:26});
+ const row=(l,rv,size,bold)=>items.push({t:'row',l,r:rv,size:size||26,bold,h:0});
+ const note=(text)=>items.push({t:'n',text,size:22,h:30});
+ center('Shin Toe Bul Yi',32,true);
+ center(rec.table>TABLE_COUNT?'TOGO'+(rec.togoNo?' #'+rec.togoNo:'')+(rec.togo&&rec.togo!=='TOGO'?' · '+rec.togo:''):recLabel(rec)+' 테이블',36,true);
+ center(new Date(rec.time).toLocaleString('ko-KR',{year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'})+(rec.party?' · '+rec.party+'명':'')+(rec.server?' · 주문 '+rec.server:''),22,false,'#555');
+ rule();
+ for(const [key,line] of rec.items){row(lineKo(key,line)+' × '+line.quantity,money(line.price*line.quantity),26,true);if(line.memo)note('📝 '+line.memo);}
+ rule();
+ row('메뉴 합계',money(recordSub(rec)));
+ if(recordGrat(rec))row('자동 팁',money(recordGrat(rec)));
+ row('세금',money(recordTax(rec)));
+ row('결제 금액',money(rec.amount),34,true);
+ if(recordTip(rec))row('팁',money(recordTip(rec)));
+ row('결제 수단',rec.method);
+ if(rec.received){row('받은 금액',money(rec.received));row('거스름돈',money(rec.change||0));}
+ if(rec.voided)center('— 결제 취소됨 —',30,true,'#b42318');
+ const c=document.createElement('canvas');c.width=W;
+ const ctx=c.getContext('2d');
+ const font=(size,bold)=>(bold?'700 ':'400 ')+size+'px '+FONT;
+ // 긴 메뉴 이름은 줄바꿈
+ const wrap=(text,size,bold,maxW)=>{ctx.font=font(size,bold);const out=[];let cur='';for(const ch of text){if(ctx.measureText(cur+ch).width>maxW&&cur){out.push(cur);cur=ch;}else cur+=ch;}out.push(cur);return out;};
+ for(const it of items){
+  if(it.t==='row'){
+   ctx.font=font(it.size,it.bold);
+   const rw=ctx.measureText(it.r).width;
+   it.lines=wrap(it.l,it.size,it.bold,W-PAD*2-rw-24);
+   it.h=it.lines.length*(it.size+10)+4;
+  }
+ }
+ const H=PAD*2+items.reduce((a,i)=>a+i.h,0)+10;
+ c.height=H;
+ ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);ctx.textBaseline='top';
+ let y=PAD;
+ for(const it of items){
+  if(it.t==='c'){ctx.font=font(it.size,it.bold);ctx.fillStyle=it.color;ctx.textAlign='center';ctx.fillText(it.text,W/2,y+4);}
+  else if(it.t==='r'){ctx.strokeStyle='#888';ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(PAD,y+12);ctx.lineTo(W-PAD,y+12);ctx.stroke();ctx.setLineDash([]);}
+  else if(it.t==='n'){ctx.font=font(it.size,false);ctx.fillStyle='#8a4b00';ctx.textAlign='left';ctx.fillText(it.text,PAD,y+2);}
+  else{
+   ctx.font=font(it.size,it.bold);ctx.fillStyle='#111';ctx.textAlign='left';
+   it.lines.forEach((ln,k)=>ctx.fillText(ln,PAD,y+2+k*(it.size+10)));
+   ctx.textAlign='right';ctx.fillText(it.r,W-PAD,y+2);
+  }
+  y+=it.h;
+ }
+ return c;
+}
+// 이미지 한 장짜리 PDF를 직접 만듭니다(외부 라이브러리 없음, 오프라인 가능).
+function pdfFromCanvas(c){
+ const jpeg=Uint8Array.from(atob(c.toDataURL('image/jpeg',0.92).split(',')[1]),ch=>ch.charCodeAt(0));
+ const wpt=226.8,hpt=Math.round(c.height*wpt/c.width*100)/100;   // 80mm 폭
+ const enc=new TextEncoder();
+ const parts=[],offsets=[];let pos=0;
+ const push=u=>{parts.push(u);pos+=u.length;};
+ const str=t=>push(enc.encode(t));
+ str('%PDF-1.4\n');
+ const obj=(n,body)=>{offsets[n]=pos;str(n+' 0 obj\n'+body+'\nendobj\n');};
+ obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+ obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+ obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+wpt+' '+hpt+'] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R >>');
+ const content='q '+wpt+' 0 0 '+hpt+' 0 0 cm /Im0 Do Q';
+ obj(4,'<< /Length '+content.length+' >>\nstream\n'+content+'\nendstream');
+ offsets[5]=pos;str('5 0 obj\n<< /Type /XObject /Subtype /Image /Width '+c.width+' /Height '+c.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpeg.length+' >>\nstream\n');push(jpeg);str('\nendstream\nendobj\n');
+ const xref=pos;
+ str('xref\n0 6\n0000000000 65535 f \n'+[1,2,3,4,5].map(n=>String(offsets[n]).padStart(10,'0')+' 00000 n \n').join(''));
+ str('trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF');
+ const out=new Uint8Array(pos);let o=0;for(const u of parts){out.set(u,o);o+=u.length;}
+ return out;
+}
+async function saveReceiptPdf(rec){
+ const bytes=pdfFromCanvas(receiptCanvas(rec));
+ const d=new Date(rec.time);
+ const name='receipt-'+(rec.table>TABLE_COUNT?'TOGO'+(rec.togoNo||''):'table'+rec.table)+'-'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'-'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'.pdf';
+ const file=new File([bytes],name,{type:'application/pdf'});
+ // 아이패드에서는 공유 창이 열려 '파일에 저장'을 고를 수 있습니다.
+ try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});return 'shared';}}catch(e){if(e&&e.name==='AbortError')return 'cancel';}
+ const url=URL.createObjectURL(file);
+ const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),30000);
+ return 'download';
+}
 let receiptFrom=null;
 function openReceipt(rec,fromList){
  receiptFrom=fromList;
  renderReceipt(el('receiptBody'),rec);
  el('rcBack').hidden=!fromList;
  el('rcPrint').onclick=()=>{renderReceipt(el('printArea'),rec);window.print();};
+ el('rcPdf').onclick=async()=>{el('rcPdf').disabled=true;try{await saveReceiptPdf(rec);}finally{el('rcPdf').disabled=false;}};
  el('receiptListDlg').close();
  if(!el('receiptDlg').open)el('receiptDlg').showModal();
 }
