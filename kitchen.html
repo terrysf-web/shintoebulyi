@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128025617"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128025852"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -97,6 +97,18 @@ dialog#doneDlg .card.done{opacity:1}
 dialog#doneDlg{border-radius:22px;box-shadow:0 24px 70px rgba(16,24,40,.3)}
 .gate form{border:0;border-radius:22px;box-shadow:0 20px 60px rgba(16,24,40,.15)}
 #sound.soundoff{background:#ffb300}
+/* 완료 영역은 작게: 위 상자=테이블 1~9번(왼쪽→오른쪽 한 줄), 아래 상자=TOGO 번호순(왼쪽→오른쪽) */
+.kdonewrap{gap:8px}
+.kcard{padding:6px 10px 8px;border-width:2px;border-radius:14px;box-shadow:0 4px 10px rgba(16,24,40,.15)}
+.kcard h1{font-size:14px;margin:0 0 6px}
+.tfloor{grid-template-columns:repeat(9,minmax(0,1fr));grid-template-rows:none;gap:6px;margin:0;max-width:none}
+.tcard{min-height:50px;padding:4px 8px;border-width:2px;border-radius:10px;box-shadow:0 2px 0 #cfd7e2}
+.tcard strong{font-size:17px}.tcard small{font-size:11px}
+.tcard.has{box-shadow:0 3px 0 #5fb883}
+.dwrap{gap:6px}
+.dgroup{min-width:0;min-height:0;padding:4px 10px;border-radius:10px}
+.dgroup .dg-title{font-size:15px;margin:0}.dg-start{font-size:11px}
+@media(max-width:700px){.tfloor{grid-template-columns:repeat(5,minmax(0,1fr))}}
 </style>
 <header><strong>주방 주문</strong><div class="hbtns"><span id="status">연결 중…</span>
 <label><input type="checkbox" id="auto"> 새 주문 자동 인쇄</label>
@@ -106,7 +118,7 @@ dialog#doneDlg{border-radius:22px;box-shadow:0 24px 70px rgba(16,24,40,.3)}
 <main class="kboard">
 <section class="klane lane-pending kwide"><h2>조리 중 <span id="pendingCount"></span> <span class="lane-hint">먼저 들어온 주문이 왼쪽, 새 주문은 뒤에 붙습니다</span></h2><div id="pending" class="grid"></div></section>
 <div class="kdonewrap">
-<section class="kcard ktable"><h1>🍽 테이블 완료 <span class="lane-hint">카드를 누르면 주문지를 봅니다</span></h1><div id="doneT" class="tfloor"></div></section>
+<section class="kcard ktable"><h1>🍽 테이블 완료</h1><div id="doneT" class="tfloor"></div></section>
 <section class="kcard ktogo"><h1>🥡 TOGO 완료</h1><div id="doneG" class="dwrap"></div></section>
 </div>
 </main>
@@ -385,12 +397,11 @@ function tableFloor(list){
  for(let n=1;n<=9;n++){
   const mine=list.filter(t=>t.table===n);
   const b=document.createElement('button');b.type='button';b.className='tcard'+(mine.length?' has':'');
-  b.style.gridColumn=FLOOR_POS[n][0];b.style.gridRow=FLOOR_POS[n][1];
   const num=document.createElement('strong');num.textContent=n+'번';
   const sub=document.createElement('small');
   if(mine.length){
    const last=mine.reduce((m,t)=>{const v=t.doneAt||t.time;return v>m?v:m;},'');
-   sub.textContent='완료 '+mine.length+'건 · '+KT(last);
+   sub.textContent=mine.length>1?mine.length+'건 · '+KT(last):KT(last);
    b.onclick=()=>showDoneGroups(partyGroups(mine));
   }else sub.textContent='—';
   b.append(num,sub);out.push(b);
@@ -398,7 +409,7 @@ function tableFloor(list){
  return out;
 }
 function doneGroups(list){
- return partyGroups(list).map(g=>{
+ return partyGroups(list).sort((a,b)=>((a.head.togo&&a.head.togo.no)||a.head.table)-((b.head.togo&&b.head.togo.no)||b.head.table)).map(g=>{
   const box=document.createElement('button');box.type='button';box.className='dgroup'+(g.head.table>9?' togo':'');
   const title=document.createElement('strong');title.className='dg-title';
   title.textContent=g.head.table>9?'🥡 #'+(g.head.togo&&g.head.togo.no?g.head.togo.no:'')+(g.head.togo&&g.head.togo.name?' '+g.head.togo.name:''):g.head.table+'번';
