@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128024450"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128024712"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -46,7 +46,18 @@ button{border-radius:10px;font-weight:600}
 .card.togo.done{background:#fbf6dd;border-top-color:#c9b46a}
 .card.togo.has-cancel{background:#fff4c2;border:2px solid #d92d20;border-top:6px solid #d92d20}
 .chip.togo{background:#fff4c2;border-color:#f0c93a;border-left-color:#f5a300}
-#done{display:flex;flex-direction:column;gap:14px}
+/* 테이블 앱처럼 큰 카드 두 개: 왼쪽 테이블, 오른쪽 TOGO */
+main.kboard{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,32%);gap:16px;align-items:start;max-width:1500px}
+.kcard{border-radius:22px;padding:12px 16px 16px;border:3px solid;box-shadow:0 10px 22px rgba(16,24,40,.18)}
+.kcard h1{margin:0 0 4px;font-size:20px}
+.ktable{background:#dde5ee;border-color:#6b7a8d}
+.ktogo{background:#f6e8b0;border-color:#a8841a}
+.klane{border-top:5px solid;margin-top:12px;padding-top:4px}
+.ktable .klane.lane-pending{border-color:#d92d20}.ktogo .klane.lane-pending{border-color:#d9822b}
+.klane.lane-done{border-color:#98a2b3}.ktogo .klane.lane-done{border-color:#c9a54a}
+.dwrap{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
+.ktogo .grid{grid-template-columns:1fr}
+@media(max-width:900px){main.kboard{grid-template-columns:1fr}}
 .dsec{border-radius:14px;padding:8px 10px 10px;border:1px solid #d0d5dd;background:#f8fafc}
 .dsec.tgo{background:#fff9e0;border-color:#f0c93a}
 .dsec-h{font-size:14px;font-weight:800;color:#344054;margin:0 0 8px}
@@ -76,9 +87,13 @@ dialog#doneDlg{border-radius:22px;box-shadow:0 24px 70px rgba(16,24,40,.3)}
 <button type="button" id="resync">↻ 다시 연결</button>
 <button type="button" id="sound" class="soundoff">🔕 소리 꺼짐 · 화면을 눌러 켜기</button>
 <button type="button" id="logout">로그아웃</button></div></header>
-<main>
-<section class="lane lane-pending"><h2>조리 중 <span id="pendingCount"></span> <span class="lane-hint">새 주문이 왼쪽에 들어옵니다</span></h2><div id="pending" class="grid"></div></section>
-<section class="lane lane-done"><h2>완료 <span class="lane-hint">테이블을 두 번 누르면 내용을 봅니다</span></h2><div id="done" class="chips"></div></section>
+<main class="kboard">
+<section class="kcard ktable"><h1>🍽 테이블 <span id="pendingCountT"></span></h1>
+<div class="klane lane-pending"><h2>조리 중 <span class="lane-hint">새 주문이 왼쪽에 들어옵니다</span></h2><div id="pendingT" class="grid"></div></div>
+<div class="klane lane-done"><h2>완료 <span class="lane-hint">시각을 두 번 누르면 내용을 봅니다</span></h2><div id="doneT" class="dwrap"></div></div></section>
+<section class="kcard ktogo"><h1>🥡 TOGO <span id="pendingCountG"></span></h1>
+<div class="klane lane-pending"><h2>조리 중</h2><div id="pendingG" class="grid"></div></div>
+<div class="klane lane-done"><h2>완료</h2><div id="doneG" class="dwrap"></div></div></section>
 </main>
 <dialog id="diagDlg"><h2>연결 진단</h2><pre id="diagText" style="white-space:pre-wrap;font:14px/1.6 ui-monospace,Menlo,monospace"></pre><div style="display:flex;gap:8px"><button type="button" id="diagRefresh">새로 보기</button><button type="button" id="diagReconnect">연결 새로 맺기</button><button type="button" id="diagReset">다시 시작</button><button type="button" id="diagClose">닫기</button></div></dialog>
 <dialog id="doneDlg"><div class="card done" id="doneBody"></div><div class="actions" style="display:flex;gap:8px;margin-top:12px"><button type="button" id="doneUndo">되돌리기</button><button type="button" id="doneClose" class="ok">닫기</button></div></dialog>
@@ -359,9 +374,16 @@ function render(){
  // 새 주문이 왼쪽, 오래된 주문일수록 오른쪽
  const pending=list.filter(t=>!t.done).sort((a,b)=>a.time<b.time?1:a.time>b.time?-1:0);
  const done=list.filter(t=>t.done).sort((a,b)=>(a.doneAt||a.time)<(b.doneAt||b.time)?1:-1).slice(0,80);
- el('pendingCount').textContent=pending.length?'('+pending.length+')':'';
- el('pending').replaceChildren(...(pending.length?pending.map(t=>card(t,freshIds.has(t.id))):[Object.assign(document.createElement('p'),{className:'empty',textContent:'조리할 주문이 없습니다.'})]));
- el('done').replaceChildren(...(done.length?doneSections(done):[Object.assign(document.createElement('p'),{className:'empty',textContent:'완료한 주문이 없습니다.'})]));
+ const isTg=t=>t.table>9;
+ const pT=pending.filter(t=>!isTg(t)),pG=pending.filter(isTg);
+ const dT=done.filter(t=>!isTg(t)),dG=done.filter(isTg);
+ const emptyP=text=>Object.assign(document.createElement('p'),{className:'empty',textContent:text});
+ el('pendingCountT').textContent=pT.length?'('+pT.length+')':'';
+ el('pendingCountG').textContent=pG.length?'('+pG.length+')':'';
+ el('pendingT').replaceChildren(...(pT.length?pT.map(t=>card(t,freshIds.has(t.id))):[emptyP('조리할 주문이 없습니다.')]));
+ el('pendingG').replaceChildren(...(pG.length?pG.map(t=>card(t,freshIds.has(t.id))):[emptyP('조리할 TOGO가 없습니다.')]));
+ el('doneT').replaceChildren(...(dT.length?doneGroups(dT):[emptyP('완료한 주문이 없습니다.')]));
+ el('doneG').replaceChildren(...(dG.length?doneGroups(dG):[emptyP('완료한 TOGO가 없습니다.')]));
 }
 const ackSent=new Set();
 function kwrite(o){return adapter.write(o).then(x=>{DIAG.write={ok:true,at:Date.now()};return x;},e=>{DIAG.write={ok:false,err:e.code||e.message||'?',at:Date.now()};throw e;});}
