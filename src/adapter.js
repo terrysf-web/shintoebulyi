@@ -64,6 +64,20 @@ function create(config, options = {}) {
       }
       return () => stops.forEach(stop => stop());
     },
+    // 문서 삭제(기록 삭제 메뉴용): { payments:[id,…], tickets:[id,…] }
+    remove({ payments = [], tickets = [] }) {
+      const now = Math.max(Date.now(), lastSeen + 1);
+      seen(now);
+      const jobs = [];
+      const all = [...payments.map(id => doc(db, 'payments', id)), ...tickets.map(id => doc(db, 'tickets', id))];
+      for (let i = 0; i < all.length; i += 400) {
+        const batch = writeBatch(db);
+        all.slice(i, i + 400).forEach(ref => batch.delete(ref));
+        batch.set(doc(db, 'config', 'rev'), { n: now, updatedAt: now });
+        jobs.push(batch.commit());
+      }
+      return Promise.all(jobs);
+    },
     write({ tables = {}, payments = {}, settings = null, tickets = {} }) {
       const batch = writeBatch(db);
       const now = Math.max(Date.now(), lastSeen + 1);

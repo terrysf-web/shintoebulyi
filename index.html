@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128054843"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128055634"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -8,7 +8,7 @@
 .table-picker #tables{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.table-zone{background:#fff;border:1px solid #d9ded5;border-radius:10px;padding:8px}.table-zone h3{margin:0 0 6px;font-size:14px}.table-zone .table-key{width:100%;margin-bottom:5px;min-height:48px}.table-zone .table-key:last-child{margin-bottom:0}
 .pay{background:#245543;color:white;width:100%;margin-bottom:10px}.pay:hover{background:#193b30}.pay:disabled{opacity:.5}.history{max-height:55vh;overflow:auto;min-width:min(520px,80vw)}.history p{padding:6px 0}.history details{padding:9px;border-bottom:1px solid #ddd}.history .void{text-decoration:line-through;color:#888}.option label{display:block;margin:12px 0}.option select{font:inherit;padding:6px}.option form p{margin:8px 0}.option [role=alert]{color:#943e21}
 #exportText{width:min(640px,80vw);font:13px ui-monospace,monospace;padding:8px;border:1px solid #aebbb0;border-radius:10px}#closeout{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:12px 0}#closeout .report-head{grid-column:1/-1;font-weight:700;font-size:17px}.rcard{background:#f1f5ef;border-radius:10px;padding:10px 14px}.rcard h3{margin:0 0 6px;font-size:13px;color:#4e6559;text-transform:none}.rcard table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.rcard th{text-align:left;font-weight:400;padding:5px 0}.rcard td{text-align:right;padding:5px 0}.rcard tr.grand th,.rcard tr.grand td{font-weight:700;border-top:1px solid #aebbb0;padding-top:7px}.rcard tr.diff th,.rcard tr.diff td{color:#943e21;font-size:14px}#historyList{display:block;margin:12px 0}#tipList{display:block;max-height:55vh;overflow:auto;margin:10px 0;min-width:min(560px,80vw)}#tipTable{width:100%;border-collapse:collapse}#tipTable td{padding:6px 8px 6px 0;border-bottom:1px solid #e2e7de;vertical-align:middle}#tipTable tr.focus td{background:#fff3e0}#tipTable input{width:100px;padding:8px}#tipTable small{display:block;color:#6a7d72;font-size:12px}.tip-saved{color:#245543;font-size:13px}#priceList{display:block;max-height:50vh;overflow:auto;margin:10px 0;min-width:min(560px,80vw)}#priceTable{width:100%;border-collapse:collapse}#priceTable th{text-align:left;font-size:13px;color:#4e6559;padding:12px 0 4px}#priceTable td{padding:5px 6px 5px 0;border-bottom:1px solid #e2e7de;vertical-align:middle}#priceTable td.def{color:#6a7d72;font-size:13px;white-space:nowrap}#priceTable td small{display:block;color:#6a7d72;font-size:12px}#priceTable input{width:110px;padding:8px}#priceTable input.changed{background:#fff3e0;border-color:#e8c48f}.tipquick{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.tipquick button{min-height:40px;padding:6px 10px;font-size:14px}.staff-row{display:flex;align-items:center;gap:8px;margin:8px 0}.staff-row input{width:90px}.staff-result{font-size:20px;font-weight:700;margin-top:6px}#history{width:min(720px,94vw)}.htabs{margin:8px 0 0}.htabs button{min-height:44px;padding:8px 14px}.rcard.wide{grid-column:1/-1}.hours th{width:3.2em;white-space:nowrap}.hours .bar-cell{width:100%;padding:5px 8px}.hours td:last-child{white-space:nowrap}.hbar{display:block;height:10px;background:#245543;border-radius:5px}.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}.tools input{width:auto}.tools label{margin:0;display:flex;gap:6px;align-items:center}.items-sum{font-size:13px;color:#4e6559;margin-top:6px}
-[hidden]{display:none!important}.t-cancel{color:#b3261e;text-decoration:line-through}.closebar{margin:6px 0}.closebar p{margin:0}.closed-ok{color:#245543;font-weight:700}.closed-warn{color:#943e21}.closed-no{color:#4e6559}.ok{background:#245543;color:#fff;border-color:#245543}.srv{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px!important}.party.need{outline:3px solid #b3261e;outline-offset:2px}.ticketwarn{position:fixed;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom));z-index:60;background:#b3261e;color:#fff;border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 4px 14px #0004}.ticketwarn button{min-height:38px;padding:4px 12px;color:#202922;white-space:nowrap}.updatebar{position:fixed;top:0;left:0;right:0;z-index:200;background:#b3261e;color:#fff;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));display:flex;gap:10px;align-items:center;justify-content:center}.updatebar button{min-height:36px;padding:4px 12px;color:#202922}.kitchen{width:100%;margin-bottom:6px;background:#b3261e;color:#fff;border-color:#b3261e;font-weight:700}.kitchen:hover{background:#8f1d17}.kitchen:disabled{opacity:.45}#kitchenNotice{min-height:1.2em;margin-bottom:8px}#printArea{display:none}.ticket p{margin:4px 0}.ticket .t-head{font-size:20px;font-weight:700}.ticket .t-item{font-size:20px;font-weight:700;margin-top:10px}.ticket .t-sub{font-size:13px;color:#555}.ticket .t-memo{font-size:16px;font-weight:700}.ticket .t-rule{border-top:2px dashed #000;margin:8px 0;height:0}#ticketPreview{display:block;font-family:ui-monospace,monospace;min-width:260px}@media print{@page{size:80mm auto;margin:3mm}body>*:not(#printArea){display:none!important}#printArea{display:block!important;color:#000;background:#fff}.ticket .t-sub{color:#000}}#syncStatus{align-self:center;font-size:13px;color:#d8e7dd}#syncStatus.warn{color:#ffd9a8}.gate{position:fixed;inset:0;background:#f6f4ee;z-index:100;display:flex;align-items:center;justify-content:center}.gate form{background:#fff;border:1px solid #d9ded5;border-radius:14px;padding:24px;width:min(380px,90vw)}.gate [role=alert]{color:#943e21}.change{margin:10px 0;padding:10px 12px;border-radius:10px;text-align:center;font-size:28px;font-weight:700}.change.ok{background:#e4efe3;color:#193b30}.change.short{background:#fbdcd8;color:#7a1810}.change.wait{background:#f1f5ef;color:#4e6559;font-size:14px;font-weight:400}.option{max-height:90vh;overflow:auto}
+[hidden]{display:none!important}.t-cancel{color:#b3261e;text-decoration:line-through}.danger-btn{background:#fef3f2;color:#b42318;border:1px solid #fda29b}.purge-row{display:block;padding:8px 2px;font-weight:700}.closebar{margin:6px 0}.closebar p{margin:0}.closed-ok{color:#245543;font-weight:700}.closed-warn{color:#943e21}.closed-no{color:#4e6559}.ok{background:#245543;color:#fff;border-color:#245543}.srv{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px!important}.party.need{outline:3px solid #b3261e;outline-offset:2px}.ticketwarn{position:fixed;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom));z-index:60;background:#b3261e;color:#fff;border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 4px 14px #0004}.ticketwarn button{min-height:38px;padding:4px 12px;color:#202922;white-space:nowrap}.updatebar{position:fixed;top:0;left:0;right:0;z-index:200;background:#b3261e;color:#fff;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));display:flex;gap:10px;align-items:center;justify-content:center}.updatebar button{min-height:36px;padding:4px 12px;color:#202922}.kitchen{width:100%;margin-bottom:6px;background:#b3261e;color:#fff;border-color:#b3261e;font-weight:700}.kitchen:hover{background:#8f1d17}.kitchen:disabled{opacity:.45}#kitchenNotice{min-height:1.2em;margin-bottom:8px}#printArea{display:none}.ticket p{margin:4px 0}.ticket .t-head{font-size:20px;font-weight:700}.ticket .t-item{font-size:20px;font-weight:700;margin-top:10px}.ticket .t-sub{font-size:13px;color:#555}.ticket .t-memo{font-size:16px;font-weight:700}.ticket .t-rule{border-top:2px dashed #000;margin:8px 0;height:0}#ticketPreview{display:block;font-family:ui-monospace,monospace;min-width:260px}@media print{@page{size:80mm auto;margin:3mm}body>*:not(#printArea){display:none!important}#printArea{display:block!important;color:#000;background:#fff}.ticket .t-sub{color:#000}}#syncStatus{align-self:center;font-size:13px;color:#d8e7dd}#syncStatus.warn{color:#ffd9a8}.gate{position:fixed;inset:0;background:#f6f4ee;z-index:100;display:flex;align-items:center;justify-content:center}.gate form{background:#fff;border:1px solid #d9ded5;border-radius:14px;padding:24px;width:min(380px,90vw)}.gate [role=alert]{color:#943e21}.change{margin:10px 0;padding:10px 12px;border-radius:10px;text-align:center;font-size:28px;font-weight:700}.change.ok{background:#e4efe3;color:#193b30}.change.short{background:#fbdcd8;color:#7a1810}.change.wait{background:#f1f5ef;color:#4e6559;font-size:14px;font-weight:400}.option{max-height:90vh;overflow:auto}
 @media(min-width:641px){
 html,body{height:100%}
 body{display:flex;flex-direction:column;overflow:hidden}
@@ -617,8 +617,16 @@ html:not(.order-mode) .oh-tools{display:none}
 <nav id="historyTabs" class="htabs" aria-label="리포트 보기"></nav>
 <div id="closeout" class="closeout"></div>
 <div id="historyList" class="history"></div>
-<div class="tools"><button type="button" id="exportCsv">CSV 내보내기</button><button type="button" id="exportJson">전체 백업(JSON)</button></div>
+<div class="tools"><button type="button" id="exportCsv">CSV 내보내기</button><button type="button" id="exportJson">전체 백업(JSON)</button><button type="button" id="purgeOpen" class="danger-btn">🗑 기록 삭제</button></div>
 <form method="dialog"><button>닫기</button></form></dialog>
+<dialog id="purgeDlg" class="option" aria-labelledby="purgeTitle"><h2 id="purgeTitle">🗑 판매·팁 기록 삭제</h2>
+<p class="hint">삭제한 기록은 되돌릴 수 없습니다. 먼저 <b>전체 백업(JSON)</b>을 받아 두세요. 모든 기기에서 함께 지워집니다.</p>
+<label class="purge-row"><input type="radio" name="purgeScope" value="day" checked> <span id="purgeDayText">선택한 날짜</span></label>
+<label class="purge-row"><input type="radio" name="purgeScope" value="all"> <span id="purgeAllText">전체 기록 (새로 시작)</span></label>
+<p id="purgeInfo" class="hint"></p>
+<label>확인을 위해 <b>삭제</b> 라고 입력하세요 <input id="purgeConfirm" autocomplete="off"></label>
+<p id="purgeMsg" class="hint"></p>
+<div class="tools"><button type="button" id="purgeGo" class="danger-btn" disabled>삭제하기</button><button type="button" id="purgeCancel">취소</button></div></dialog>
 <script src="config.js"></script>
 <script>
 // 새로고침용으로 붙은 ?_=숫자 는 주소창에서 바로 지웁니다.
@@ -670,7 +678,7 @@ function cleanClosed(value){
  }
  return out;
 }
-const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',favs:null,favsAt:0,shopAddress:'2001 Taraval St, San Francisco, CA',shopPhone:'(415) 566-9221',staff:['Joan','Sean'],tileColors:{},menu:{off:{},names:{},custom:[],order:{}},closedDays:{},memoChips:['덜 맵게','맵게','포장','양파 빼고','먼저 주세요']};
+const DEFAULT_SETTINGS={taxRate:8.625,taxGratuity:true,staffCount:0,tipCut:20,prices:{},pinHash:'',favs:null,favsAt:0,shopAddress:'2001 Taraval St, San Francisco, CA',shopPhone:'(415) 566-9221',staff:['Joan','Sean'],tileColors:{},menu:{off:{},names:{},custom:[],order:{}},closedDays:{},purgedDays:[],purgeAt:0,memoChips:['덜 맵게','맵게','포장','양파 빼고','먼저 주세요']};
 function cleanMenu(v){
  const out={off:{},names:{},custom:[],order:{}};
  if(!v||typeof v!=='object')return out;
@@ -690,7 +698,7 @@ function cleanMenu(v){
  return out;
 }
 function normalizeSettings(raw){
- const out={...DEFAULT_SETTINGS,staff:[...DEFAULT_SETTINGS.staff],prices:{},closedDays:{},memoChips:[...DEFAULT_SETTINGS.memoChips]};
+ const out={...DEFAULT_SETTINGS,staff:[...DEFAULT_SETTINGS.staff],prices:{},closedDays:{},purgedDays:[],memoChips:[...DEFAULT_SETTINGS.memoChips]};
  if(!raw||typeof raw!=='object')return out;
  if(Number.isFinite(raw.taxRate)&&raw.taxRate>=0&&raw.taxRate<=25)out.taxRate=raw.taxRate;
  out.taxGratuity=raw.taxGratuity!==false;
@@ -707,6 +715,8 @@ function normalizeSettings(raw){
  if(raw.tileColors&&typeof raw.tileColors==='object')for(const [id,c] of Object.entries(raw.tileColors).slice(0,200))if(id.length<=16&&/^[0-7]$/.test(String(c)))out.tileColors[id]=String(c);
  out.pinHash=typeof raw.pinHash==='string'&&raw.pinHash.length<=128?raw.pinHash:'';
  out.closedDays=cleanClosed(raw.closedDays);
+ if(Array.isArray(raw.purgedDays))out.purgedDays=[...new Set(raw.purgedDays.filter(d=>typeof d==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d)))].slice(0,800);
+ out.purgeAt=Number.isFinite(raw.purgeAt)&&raw.purgeAt>0?raw.purgeAt:0;
  if(Array.isArray(raw.memoChips)){
   const chips=raw.memoChips.filter(c=>typeof c==='string').map(c=>c.trim().slice(0,14)).filter(Boolean).slice(0,12);
   if(chips.length)out.memoChips=[...new Set(chips)];
@@ -714,6 +724,23 @@ function normalizeSettings(raw){
  return out;
 }
 let settings=normalizeSettings(null);
+// 삭제한 기록: 삭제한 날짜(purgedDays)와 '전체 삭제 시각'(purgeAt)이 모든 기기에 퍼져, 오래된 기기가 지운 기록을 되살리지 못하게 합니다.
+const isPurged=r=>{
+ if(!r)return false;
+ if(settings.purgeAt&&Date.parse(r.time)<=settings.purgeAt)return true;
+ return settings.purgedDays.length>0&&settings.purgedDays.includes(r.bizDate||bizDay(r.time));
+};
+function applyPurge(){
+ const before=paidOrders.length;
+ paidOrders=paidOrders.filter(r=>!isPurged(r));
+ let closedChanged=false;
+ const closed={...settings.closedDays};
+ for(const day of Object.keys(closed)){
+  if(settings.purgedDays.includes(day)||(settings.purgeAt&&new Date(day+'T23:59:59').getTime()<=settings.purgeAt)){delete closed[day];closedChanged=true;}
+ }
+ if(closedChanged)settings={...settings,closedDays:closed};
+ return before-paidOrders.length;
+}
 let syncHook=null;
 for(const item of groups['음료 · 주류'])item.d=1;
 const GRATUITY_RATE=0.18,GRATUITY_MIN_PARTY=6;
@@ -1728,6 +1755,46 @@ function renderCloseBar(){
   }
  }
 }
+// ---- 판매·팁 기록 삭제 (사장 비밀번호 필요) ----
+function purgeTargets(){
+ const all=document.querySelector('input[name=purgeScope]:checked').value==='all';
+ const day=el('historyDate').value;
+ const list=paidOrders.filter(r=>all||recordDay(r)===day);
+ const tips=list.reduce((n,r)=>n+recordTip(r),0);
+ return {all,day,list,tips};
+}
+function refreshPurge(){
+ const t=purgeTargets();
+ el('purgeDayText').textContent=(el('historyDate').value||'선택한 날짜')+' 하루';
+ el('purgeInfo').textContent=t.list.length?t.list.length+'건 · 결제 '+money(t.list.reduce((n,r)=>n+(r.voided?0:r.amount),0))+' · 팁 '+money(t.tips)+' 삭제됩니다.':'삭제할 기록이 없습니다.';
+ el('purgeGo').disabled=!(t.list.length&&el('purgeConfirm').value.trim()==='삭제');
+}
+el('purgeOpen').onclick=()=>requireOwner(()=>{
+ el('purgeConfirm').value='';el('purgeMsg').textContent='';
+ document.querySelector('input[name=purgeScope][value=day]').checked=true;
+ refreshPurge();el('purgeDlg').showModal();
+});
+document.querySelectorAll('input[name=purgeScope]').forEach(r=>r.onchange=refreshPurge);
+el('purgeConfirm').oninput=refreshPurge;
+el('purgeCancel').onclick=()=>el('purgeDlg').close();
+el('purgeGo').onclick=async()=>{
+ const t=purgeTargets();if(!t.list.length)return;
+ const ids=t.list.map(r=>r.id);
+ const next={...settings};
+ if(t.all){next.purgeAt=Date.now();}
+ else next.purgedDays=[...new Set([...settings.purgedDays,t.day])];
+ settings=next;
+ applyPurge();
+ // 전체 삭제는 주방 주문서(조리 기록)도 함께 지웁니다.
+ const tkIds=t.all?[...kTickets.keys()]:[];
+ if(t.all)kTickets.clear();
+ saveOrders();
+ el('purgeMsg').textContent='삭제 중…';el('purgeGo').disabled=true;
+ try{await Sync.removeDocs({payments:ids,tickets:tkIds});}catch{}
+ el('purgeMsg').textContent=t.list.length+'건을 삭제했습니다.';
+ renderHistory();renderCart();
+ setTimeout(()=>{if(el('purgeDlg').open)el('purgeDlg').close();},900);
+};
 function renderHistory(){
  renderCloseBar();
  const records=visibleRecords();
@@ -2834,6 +2901,7 @@ const Sync=(()=>{
    let rec;
    try{rec=JSON.parse(json);}catch{continue;}
    if(!rec||typeof rec!=='object'||!Array.isArray(rec.items)||rec.id!==id)continue;
+   if(isPurged(rec))continue;
    const index=paidOrders.findIndex(r=>r.id===id);
    if(index<0){paidOrders.push(rec);sent.payments[id]=json;changed=true;continue;}
    const localJson=JSON.stringify(paidOrders[index]);
@@ -2858,7 +2926,7 @@ const Sync=(()=>{
    const unsent=!first&&local!==sent.settings;
    if(!unsent){
     if(json!==local){
-     try{const incoming=normalizeSettings(JSON.parse(json));if(settings.favsAt>incoming.favsAt){incoming.favs=settings.favs;incoming.tileColors=settings.tileColors;incoming.menu=settings.menu;incoming.staff=settings.staff;incoming.shopAddress=settings.shopAddress;incoming.shopPhone=settings.shopPhone;incoming.favsAt=settings.favsAt;}settings=incoming;persistLocal();renderMenu();renderCart();if(el('history').open)renderHistory();}catch{}
+     try{const incoming=normalizeSettings(JSON.parse(json));if(settings.favsAt>incoming.favsAt){incoming.favs=settings.favs;incoming.tileColors=settings.tileColors;incoming.menu=settings.menu;incoming.staff=settings.staff;incoming.shopAddress=settings.shopAddress;incoming.shopPhone=settings.shopPhone;incoming.favsAt=settings.favsAt;}incoming.purgedDays=[...new Set([...incoming.purgedDays,...settings.purgedDays])];incoming.purgeAt=Math.max(incoming.purgeAt,settings.purgeAt);settings=incoming;applyPurge();persistLocal();renderMenu();renderCart();if(el('history').open)renderHistory();}catch{}
     }
     // 받은 설정을 적용했다고 해서 되돌려 쓰지 않습니다(예전 버전 기기와 서로 덮어쓰며 무한히 쓰는 것을 막음).
     sent.settings=settingsJson();
@@ -3002,6 +3070,10 @@ const Sync=(()=>{
   if(!enabled||!adapter||!user)return Promise.reject(new Error('not-signed-in'));
   return adapter.write({tickets:{[ticket.id]:JSON.stringify(ticket)}}).then(x=>{DIAG.ticketSend={ok:true,at:Date.now()};return x;},e=>{DIAG.ticketSend={ok:false,err:e.code||e.message||'?',at:Date.now()};throw e;});
  }
+ function removeDocs(o){
+  if(!enabled||!adapter||!user||!adapter.remove)return Promise.resolve();
+  return adapter.remove(o);
+ }
  function resetCache(){
   if(!enabled||!adapter||!adapter.resetCache)return Promise.resolve();
   return adapter.resetCache().catch(()=>{});
@@ -3010,7 +3082,7 @@ const Sync=(()=>{
   if(!enabled||!adapter||!user||!adapter.reconnect)return Promise.resolve();
   return adapter.reconnect().catch(()=>{});
  }
- return {enabled,start,sendTicket,hardReconnect,resetCache};
+ return {enabled,start,sendTicket,removeDocs,hardReconnect,resetCache};
 })();
 // ---------- 새 버전 알림 ----------
 (function(){
@@ -3035,6 +3107,7 @@ const Sync=(()=>{
  };
 })();
 el('search').oninput=renderMenu;
+try{if(applyPurge())persistLocal();}catch{}
 renderMenu();renderCart();
 Sync.start();
 if(ORDER_MODE&&!Sync.enabled&&!staffName)askName(true);
