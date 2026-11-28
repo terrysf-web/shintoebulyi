@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128002329"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128004415"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -216,7 +216,7 @@ aside h2{font-size:20px;font-weight:700}
 .receipt .rc{margin:2px 0}.rc-shop{text-align:center;font-weight:800;font-size:18px}.rc-table{text-align:center;font-size:20px;font-weight:800}
 .rc-sub{text-align:center;color:#667085;font-size:13px}.rc-rule{border-top:1px dashed #98a2b3;margin:8px 0}
 .rc-row{display:flex;justify-content:space-between;gap:12px;margin:3px 0}.rc-row span:first-child{flex:1}.rc-item{font-weight:700}
-.rc-memo{color:#943e21;font-size:13px}.rc-total{font-size:18px;font-weight:800;border-top:1px solid #111;padding-top:6px;margin-top:6px}
+.rc-memo{color:#943e21;font-size:13px}.rc-ko{color:#667085;font-size:12.5px;margin:-1px 0 4px!important}.rc-total{font-size:18px;font-weight:800;border-top:1px solid #111;padding-top:6px;margin-top:6px}
 .rc-void{text-align:center;color:#b42318;font-weight:800;margin-top:8px}
 .rl-row{display:grid;grid-template-columns:1fr auto;gap:2px 12px;width:100%;text-align:left;min-height:56px;margin:0 0 8px;padding:8px 12px;border-radius:12px}
 .rl-row strong{font-size:17px}.rl-row .rl-amt{grid-row:1/3;grid-column:2;align-self:center;font-weight:800;font-size:18px}.rl-row span:nth-child(2){color:#667085;font-size:13px}.rl-row.void{opacity:.6;text-decoration:line-through}
@@ -1256,62 +1256,80 @@ const recordGrat=r=>Number.isFinite(r.gratuity)?r.gratuity:0;
 const recordTax=r=>Number.isFinite(r.tax)?r.tax:0;
 const recordTip=r=>Number.isFinite(r.tip)?r.tip:0;
 // ---- 영수증 ----
+// 영수증은 미국 손님용이라 영어로, 메뉴는 영어와 한글을 함께 적습니다.
+const rcMethod=m=>({'카드':'Card','현금':'Cash'}[m]||m);
+function receiptModel(rec){
+ const m=[];
+ const when=new Date(rec.time).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+ m.push({t:'shop',text:'Shin Toe Bul Yi'});
+ m.push({t:'title',text:rec.table>TABLE_COUNT?'TOGO'+(rec.togoNo?' #'+rec.togoNo:'')+(rec.togo&&rec.togo!=='TOGO'?' · '+rec.togo:''):'Table '+rec.table});
+ m.push({t:'sub',text:when+(rec.party?' · Party of '+rec.party:'')+(rec.server?' · Server: '+rec.server:'')});
+ m.push({t:'rule'});
+ for(const [key,line] of rec.items){
+  const ko=lineKo(key,line);
+  m.push({t:'item',en:line.en||ko,ko:line.en?ko:'',qty:line.quantity,amt:money(line.price*line.quantity)});
+  if(line.memo)m.push({t:'memo',text:'Note: '+line.memo});
+ }
+ m.push({t:'rule'});
+ m.push({t:'row',l:'Subtotal',r:money(recordSub(rec))});
+ if(recordGrat(rec))m.push({t:'row',l:'Gratuity (18%)',r:money(recordGrat(rec))});
+ m.push({t:'row',l:'Tax',r:money(recordTax(rec))});
+ m.push({t:'row',l:'Total',r:money(rec.amount),big:true});
+ if(recordTip(rec))m.push({t:'row',l:'Tip',r:money(recordTip(rec))});
+ m.push({t:'row',l:'Paid by',r:rcMethod(rec.method)});
+ if(rec.received){m.push({t:'row',l:'Cash received',r:money(rec.received)});m.push({t:'row',l:'Change',r:money(rec.change||0)});}
+ if(rec.voided)m.push({t:'void',text:'— VOIDED —'});
+ m.push({t:'rule'});
+ m.push({t:'foot',text:'Thank you! 감사합니다'});
+ return m;
+}
 function renderReceipt(box,rec){
  box.replaceChildren();
  const add=(text,cls)=>{const p=document.createElement('p');p.className='rc '+(cls||'');p.textContent=text;box.append(p);return p;};
- const pair=(l,rv,cls)=>{const d=document.createElement('div');d.className='rc-row '+(cls||'');const a=document.createElement('span');a.textContent=l;const b=document.createElement('span');b.textContent=rv;d.append(a,b);box.append(d);};
- add('Shin Toe Bul Yi','rc-shop');
- add(rec.table>TABLE_COUNT?'🥡 '+recLabel(rec)+(rec.togo&&rec.togo!=='TOGO'?' · '+rec.togo:''):recLabel(rec)+' 테이블','rc-table');
- add(new Date(rec.time).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'})+(rec.party?' · '+rec.party+'명':'')+(rec.server?' · 주문 '+rec.server:''),'rc-sub');
- const rule=()=>{const h=document.createElement('p');h.className='rc-rule';box.append(h);};
- rule();
- for(const [key,line] of rec.items){
-  pair(lineKo(key,line)+' × '+line.quantity,money(line.price*line.quantity),'rc-item');
-  if(line.memo)add('📝 '+line.memo,'rc-memo');
+ for(const it of receiptModel(rec)){
+  if(it.t==='shop')add(it.text,'rc-shop');
+  else if(it.t==='title')add(it.text,'rc-table');
+  else if(it.t==='sub')add(it.text,'rc-sub');
+  else if(it.t==='foot')add(it.text,'rc-sub');
+  else if(it.t==='void')add(it.text,'rc-void');
+  else if(it.t==='memo')add(it.text,'rc-memo');
+  else if(it.t==='rule'){const h=document.createElement('p');h.className='rc-rule';box.append(h);}
+  else if(it.t==='item'){
+   const d=document.createElement('div');d.className='rc-row rc-item';
+   const a=document.createElement('span');a.textContent=it.en+' × '+it.qty;const b=document.createElement('span');b.textContent=it.amt;d.append(a,b);box.append(d);
+   if(it.ko)add(it.ko,'rc-ko');
+  }else{
+   const d=document.createElement('div');d.className='rc-row'+(it.big?' rc-total':'');
+   const a=document.createElement('span');a.textContent=it.l;const b=document.createElement('span');b.textContent=it.r;d.append(a,b);box.append(d);
+  }
  }
- rule();
- pair('메뉴 합계',money(recordSub(rec)));
- if(recordGrat(rec))pair('자동 팁',money(recordGrat(rec)));
- pair('세금',money(recordTax(rec)));
- pair('결제 금액',money(rec.amount),'rc-total');
- if(recordTip(rec))pair('팁',money(recordTip(rec)));
- pair('결제 수단',rec.method);
- if(rec.received){pair('받은 금액',money(rec.received));pair('거스름돈',money(rec.change||0));}
- if(rec.voided)add('— 결제 취소됨 —','rc-void');
 }
 // ---- 영수증 PDF (프린터 없이 저장·공유) ----
 function receiptCanvas(rec){
- const W=576,PAD=28,FONT='"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif';
+ const W=576,PAD=28,FONT='"Helvetica Neue","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif';
  const items=[];
- const center=(text,size,bold,color)=>items.push({t:'c',text,size,bold,color:color||'#111',h:size+16});
- const rule=()=>items.push({t:'r',h:26});
- const row=(l,rv,size,bold)=>items.push({t:'row',l,r:rv,size:size||26,bold,h:0});
- const note=(text)=>items.push({t:'n',text,size:22,h:30});
- center('Shin Toe Bul Yi',32,true);
- center(rec.table>TABLE_COUNT?'TOGO'+(rec.togoNo?' #'+rec.togoNo:'')+(rec.togo&&rec.togo!=='TOGO'?' · '+rec.togo:''):recLabel(rec)+' 테이블',36,true);
- center(new Date(rec.time).toLocaleString('ko-KR',{year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'})+(rec.party?' · '+rec.party+'명':'')+(rec.server?' · 주문 '+rec.server:''),22,false,'#555');
- rule();
- for(const [key,line] of rec.items){row(lineKo(key,line)+' × '+line.quantity,money(line.price*line.quantity),26,true);if(line.memo)note('📝 '+line.memo);}
- rule();
- row('메뉴 합계',money(recordSub(rec)));
- if(recordGrat(rec))row('자동 팁',money(recordGrat(rec)));
- row('세금',money(recordTax(rec)));
- row('결제 금액',money(rec.amount),34,true);
- if(recordTip(rec))row('팁',money(recordTip(rec)));
- row('결제 수단',rec.method);
- if(rec.received){row('받은 금액',money(rec.received));row('거스름돈',money(rec.change||0));}
- if(rec.voided)center('— 결제 취소됨 —',30,true,'#b42318');
+ for(const it of receiptModel(rec)){
+  if(it.t==='shop')items.push({t:'c',text:it.text,size:32,bold:true,h:48});
+  else if(it.t==='title')items.push({t:'c',text:it.text,size:36,bold:true,h:52});
+  else if(it.t==='sub')items.push({t:'c',text:it.text,size:21,color:'#555',h:34});
+  else if(it.t==='foot')items.push({t:'c',text:it.text,size:24,color:'#333',h:40});
+  else if(it.t==='void')items.push({t:'c',text:it.text,size:30,bold:true,color:'#b42318',h:46});
+  else if(it.t==='memo')items.push({t:'n',text:it.text,size:22,h:30});
+  else if(it.t==='rule')items.push({t:'r',h:26});
+  else if(it.t==='item')items.push({t:'item',en:it.en+' × '+it.qty,ko:it.ko,r:it.amt,size:26});
+  else items.push({t:'row',l:it.l,r:it.r,size:it.big?34:26,bold:!!it.big});
+ }
  const c=document.createElement('canvas');c.width=W;
  const ctx=c.getContext('2d');
  const font=(size,bold)=>(bold?'700 ':'400 ')+size+'px '+FONT;
- // 긴 메뉴 이름은 줄바꿈
  const wrap=(text,size,bold,maxW)=>{ctx.font=font(size,bold);const out=[];let cur='';for(const ch of text){if(ctx.measureText(cur+ch).width>maxW&&cur){out.push(cur);cur=ch;}else cur+=ch;}out.push(cur);return out;};
  for(const it of items){
-  if(it.t==='row'){
-   ctx.font=font(it.size,it.bold);
-   const rw=ctx.measureText(it.r).width;
-   it.lines=wrap(it.l,it.size,it.bold,W-PAD*2-rw-24);
-   it.h=it.lines.length*(it.size+10)+4;
+  if(it.t==='row'){ctx.font=font(it.size,it.bold);const rw=ctx.measureText(it.r).width;it.lines=wrap(it.l,it.size,it.bold,W-PAD*2-rw-24);it.h=it.lines.length*(it.size+10)+4;}
+  else if(it.t==='item'){
+   ctx.font=font(it.size,true);const rw=ctx.measureText(it.r).width;
+   it.lines=wrap(it.en,it.size,true,W-PAD*2-rw-24);
+   it.koLines=it.ko?wrap(it.ko,22,false,W-PAD*2-rw-24):[];
+   it.h=it.lines.length*(it.size+8)+it.koLines.length*28+8;
   }
  }
  const H=PAD*2+items.reduce((a,i)=>a+i.h,0)+10;
@@ -1319,10 +1337,16 @@ function receiptCanvas(rec){
  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);ctx.textBaseline='top';
  let y=PAD;
  for(const it of items){
-  if(it.t==='c'){ctx.font=font(it.size,it.bold);ctx.fillStyle=it.color;ctx.textAlign='center';ctx.fillText(it.text,W/2,y+4);}
+  if(it.t==='c'){ctx.font=font(it.size,it.bold);ctx.fillStyle=it.color||'#111';ctx.textAlign='center';ctx.fillText(it.text,W/2,y+4);}
   else if(it.t==='r'){ctx.strokeStyle='#888';ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(PAD,y+12);ctx.lineTo(W-PAD,y+12);ctx.stroke();ctx.setLineDash([]);}
   else if(it.t==='n'){ctx.font=font(it.size,false);ctx.fillStyle='#8a4b00';ctx.textAlign='left';ctx.fillText(it.text,PAD,y+2);}
-  else{
+  else if(it.t==='item'){
+   ctx.fillStyle='#111';ctx.textAlign='left';ctx.font=font(it.size,true);
+   it.lines.forEach((ln,k)=>ctx.fillText(ln,PAD,y+2+k*(it.size+8)));
+   ctx.textAlign='right';ctx.fillText(it.r,W-PAD,y+2);
+   ctx.textAlign='left';ctx.font=font(22,false);ctx.fillStyle='#555';
+   it.koLines.forEach((ln,k)=>ctx.fillText(ln,PAD,y+4+it.lines.length*(it.size+8)+k*28));
+  }else{
    ctx.font=font(it.size,it.bold);ctx.fillStyle='#111';ctx.textAlign='left';
    it.lines.forEach((ln,k)=>ctx.fillText(ln,PAD,y+2+k*(it.size+10)));
    ctx.textAlign='right';ctx.fillText(it.r,W-PAD,y+2);
