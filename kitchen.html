@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128041904"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128042250"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -18,6 +18,7 @@ main{padding:16px 20px;max-width:1400px;margin:auto}h2{font-size:18px;margin:16p
 .card{background:#fff;border:2px solid #d4574c;border-radius:12px;padding:12px}.card.done{border-color:#d9ded5;opacity:.7}
 .card.fresh{animation:flash 1.2s ease 2}@keyframes flash{50%{background:#fff3e0}}
 .card p{margin:4px 0}.t-head{font-size:22px;font-weight:700}.t-itemact{display:flex;gap:6px;margin:2px 0 4px}.t-donebtn{min-height:38px;padding:2px 16px;border-radius:999px;border:1px solid #fdb022;background:#fffaeb;color:#b54708;font-weight:800;font-size:15px}.t-donebtn.on{background:#12b76a;border-color:#12b76a;color:#fff}.t-undo{min-height:38px;min-width:38px;border-radius:999px;font-size:16px;padding:0}
+.t-cxtag{display:inline-block;background:#d92d20;color:#fff;border-radius:6px;padding:0 8px;font-size:14px;font-weight:800;text-decoration:none!important;vertical-align:middle}
 .t-served{font-size:15px;font-weight:800;color:#175cd3;background:#e8f1ff;display:inline-block;border-radius:8px;padding:1px 8px}.t-sub{font-size:13px;color:#4e6559}
 .t-item{font-size:20px;font-weight:700;margin-top:10px!important}.t-memo{font-size:16px;font-weight:700;color:#943e21}
 .t-rule{border-top:2px dashed #9aa79d;margin:8px 0;height:0}.extra{background:#b3261e;color:#fff;border-radius:6px;padding:1px 8px;font-size:14px}
@@ -190,7 +191,8 @@ function setItemDone(ticket,item,done){
  const cd={...(ticket.cd||{})};
  if(done)cd[item.ko]=true;else delete cd[item.ko];
  // 메뉴를 전부 완료하면 주문서도 자동으로 완료(아래 '완료' 줄로 내려감)됩니다.
- const all=ticket.items.length>0&&ticket.items.every(it=>cd[it.ko]);
+ const liveItems=ticket.items.filter(it=>!((ticket.cx&&ticket.cx[it.ko]||0)>=it.qty));
+ const all=ticket.items.length>0&&liveItems.every(it=>cd[it.ko]);
  const next={...ticket,cd,done:all,doneAt:all?new Date().toISOString():null};
  tickets.set(ticket.id,next);render();
  if(el('doneDlg').open&&doneTicket&&doneTicket.id===ticket.id){doneTicket=next;fill(el('doneBody'),next);}
@@ -204,8 +206,11 @@ function fill(container,ticket,plain){
  add(new Date(ticket.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'})+(ticket.party?' · '+ticket.party+'명':'')+(ticket.staff?' · 주문 '+ticket.staff:'')+(ticket.togo&&ticket.togo.pickup?' · ⏰ 픽업 '+fmtPickup(ticket.togo.pickup):''),'t-sub');
  const rule=document.createElement('p');rule.className='t-rule';container.append(rule);
  for(const item of ticket.items){
-  add(item.qty+' × '+item.ko+(item.s?' 🌶':'')+(item.total>item.qty?' (총 '+item.total+')':''),'t-item');
-  if(!plain){
+  const cx=(ticket.cx&&ticket.cx[item.ko])||0;
+  const gone=cx>=item.qty;
+  const row=add(item.qty+' × '+item.ko+(item.s?' 🌶':'')+(item.total>item.qty?' (총 '+item.total+')':''),gone?'t-item t-cancel':'t-item');
+  if(cx>0){const tag=document.createElement('span');tag.className='t-cxtag';tag.textContent=gone?'취소':'일부 취소 '+cx;row.append(' ',tag);}
+  if(!plain&&!gone){
    const done=!!(ticket.cd&&ticket.cd[item.ko]);
    const wrap=document.createElement('div');wrap.className='t-itemact';
    const b=document.createElement('button');b.type='button';b.className='t-donebtn'+(done?' on':'');
@@ -301,7 +306,7 @@ function setDone(ticket,done){
 }
 function card(ticket,fresh){
  const node=document.createElement('section');
- node.className='card'+(ticket.table>9?' togo':'')+(ticket.done?' done':'')+(fresh?' fresh':'')+(ticket.cancels&&ticket.cancels.length?' has-cancel':'');
+ node.className='card'+(ticket.table>9?' togo':'')+(ticket.done?' done':'')+(fresh?' fresh':'')+(((ticket.cancels&&ticket.cancels.length)||(ticket.cx&&Object.keys(ticket.cx).length))?' has-cancel':'');
  const body=document.createElement('div');fill(body,ticket);
  const actions=document.createElement('div');actions.className='actions';
  const doneBtn=document.createElement('button');doneBtn.type='button';
@@ -456,6 +461,8 @@ function render(){
 }
 const ackSent=new Set();
 function kwrite(o){return adapter.write(o).then(x=>{DIAG.write={ok:true,at:Date.now()};return x;},e=>{DIAG.write={ok:false,err:e.code||e.message||'?',at:Date.now()};throw e;});}
+let cancelAlert=false;
+const cxSeen=new Map();
 function onTickets(map){
  DIAG.sub.tickets=Date.now();
  const first=seen===null;
@@ -464,6 +471,7 @@ function onTickets(map){
  for(const [id,json] of Object.entries(map)){
   let t;try{t=JSON.parse(json);}catch{continue;}
   if(!t||t.id!==id||!Array.isArray(t.items))continue;
+  {const sum=Object.values(t.cx||{}).reduce((a,b)=>a+b,0);const prev=cxSeen.get(id);cxSeen.set(id,sum);if(!first&&prev!==undefined&&sum>prev)cancelAlert=true;}
   tickets.set(id,t);
   if(!seen.has(id)){seen.add(id);if(!first&&!t.done)incoming.push(t);}
   // 주방이 받았다는 확인(ack)을 주문서에 남깁니다. 카운터의 '전달 확인 안 된 주문서' 경고가 이걸로 풀립니다.
@@ -475,6 +483,7 @@ function onTickets(map){
   }
  }
  freshIds=new Set(incoming.map(t=>t.id));
+ if(cancelAlert){cancelAlert=false;alarm();}
  render();
  if(incoming.length){
   alarm();

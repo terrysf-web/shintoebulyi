@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128041904"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128042250"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -730,11 +730,36 @@ function cleanTogo(t){
  const str=(x,n)=>typeof x==='string'?x.trim().slice(0,n):'';
  return {since:typeof t.since==='string'?t.since.slice(0,40):'',name:str(t.name,20),phone:str(t.phone,20),pickup:/^\d{1,2}:\d{2}$/.test(t.pickup||'')?t.pickup:'',ready:!!t.ready,no:Number.isInteger(t.no)&&t.no>0&&t.no<10000?t.no:0,day:/^\d{4}-\d{2}-\d{2}$/.test(t.day||'')?t.day:'',paid:!!t.paid,paidAmt:Number.isInteger(t.paidAmt)&&t.paidAmt>=0?t.paidAmt:0};
 }
+function pushCancel(i,name,en,qty){
+ const hit=cancels[i].find(c=>c.ko===name);
+ if(hit)hit.qty+=qty;else cancels[i].push({ko:name,en:en||'',qty});
+}
 function addCancel(i,line,qty){
  if(line.d||!(qty>0))return;
  const name=line.ko||'';
- const hit=cancels[i].find(c=>c.ko===name);
- if(hit)hit.qty+=qty;else cancels[i].push({ko:name,en:line.en||'',qty});
+ // 먼저 주방에 이미 보낸 같은 주문서에 '취소'(줄긋기)로 표시합니다. 찾지 못한 만큼만 별도 취소 알림으로 보냅니다.
+ const rest=crossOutOnTicket(i,name,line.en||'',qty);
+ if(rest>0)pushCancel(i,name,line.en||'',rest);
+}
+function crossOutOnTicket(i,ko,en,qty){
+ const since=opened[i]||'';
+ if(!since||typeof kTickets==='undefined'||typeof Sync==='undefined'||!Sync.enabled)return qty;
+ const list=[...kTickets.values()].filter(t=>t.table===i+1&&t.raw&&(t.time||'')>=since).sort((a,b)=>a.time<b.time?1:-1);
+ let rest=qty;
+ for(const t of list){
+  if(rest<=0)break;
+  const it=(t.raw.items||[]).find(x=>x.ko===ko);
+  if(!it)continue;
+  const have=(t.raw.cx&&t.raw.cx[ko])||0;
+  const room=it.qty-have;
+  if(room<=0)continue;
+  const take=Math.min(room,rest);
+  const next={...t.raw,cx:{...(t.raw.cx||{}),[ko]:have+take},cxAt:Date.now()};
+  t.raw=next;
+  Sync.sendTicket(next).catch(()=>{ pushCancel(i,ko,en,take); saveOrders(); renderCart(); });   // 못 보내면 예전 방식(취소 알림)으로
+  rest-=take;
+ }
+ return rest;
 }
 function touchOpened(i){if(!opened[i])opened[i]=new Date().toISOString();}
 function claimTable(i){const n=currentServer();if(n&&!servers[i])servers[i]=n;}
@@ -2199,9 +2224,10 @@ function onKitchenTickets(map){
   try{
    const t=JSON.parse(json);
    const prev=kTickets.get(id);
-   const kos=Array.isArray(t.items)?t.items.map(x=>x.ko):[];
+   const live=Array.isArray(t.items)?t.items.filter(x=>!(t.cx&&(t.cx[x.ko]||0)>=x.qty)):[];
+   const kos=live.map(x=>x.ko);
    // 주방이 메뉴를 하나씩 다 '완료'했으면, 주문서 전체 ✓를 안 눌렀어도 조리 완료로 봅니다.
-   const allCd=kos.length>0&&t.cd&&kos.every(k=>t.cd[k]);
+   const allCd=Array.isArray(t.items)&&t.items.length>0&&(kos.length===0||(t.cd&&kos.every(k=>t.cd[k])));
    if(t.ack&&typeof unacked!=='undefined'&&unacked.has(id)){unacked.delete(id);if(typeof saveUnacked==='function')saveUnacked();if(typeof updateTicketWarn==='function')updateTicketWarn();}
    const doneNow=!!t.done||!!allCd;
    // 주방에서 새로 '완료'한 메뉴 찾기 → 카운터에 주문서를 자동으로 띄웁니다
@@ -2211,7 +2237,7 @@ function onKitchenTickets(map){
     const becameDone=doneNow&&!(prev&&prev.done);
     if(newly.length||becameDone)kNoticeQueue.push({ticket:t,newly,done:doneNow});
    }
-   kTickets.set(id,{table:t.table,time:t.time||'',done:doneNow,no:t.togo&&t.togo.no,cd:t.cd||null,kos});
+   kTickets.set(id,{table:t.table,time:t.time||'',done:doneNow,no:t.togo&&t.togo.no,cd:t.cd||null,kos,raw:t});
    if(kInit&&!ORDER_MODE&&doneNow&&prev&&!prev.done)fresh.push(t);
   }catch{}
  }
@@ -2541,7 +2567,7 @@ el('sendKitchen').onclick=()=>{
  const ticket={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),table:tableIndex+1,time:new Date().toISOString(),party:parties[tableIndex],seat:opened[tableIndex]||'',staff:servers[tableIndex]||staffLabel(),extra,items,cancels:cancelList,done:false};
  if(isTogo(tableIndex)&&togos[tableIndex])ticket.togo={name:togos[tableIndex].name,pickup:togos[tableIndex].pickup,no:togos[tableIndex].no};
  for(const line of cart.values())if(!line.d)line.sent=line.quantity;
- kTickets.set(ticket.id,{table:ticket.table,time:ticket.time,done:false});
+ kTickets.set(ticket.id,{table:ticket.table,time:ticket.time,done:false,raw:ticket});
  cancels[tableIndex]=[];
  saveOrders();renderCart();
  lastTicket=ticket;
