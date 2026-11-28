@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128025138"><title>Shin Toe Bul Yi 주방</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128025517"><title>Shin Toe Bul Yi 주방</title>
 <style>
 [hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}
 header{background:#193b30;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -47,7 +47,18 @@ button{border-radius:10px;font-weight:600}
 .card.togo.has-cancel{background:#fff4c2;border:2px solid #d92d20;border-top:6px solid #d92d20}
 .chip.togo{background:#fff4c2;border-color:#f0c93a;border-left-color:#f5a300}
 /* 테이블 앱처럼 큰 카드 두 개: 왼쪽 테이블, 오른쪽 TOGO */
-main.kboard{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,32%);gap:16px;align-items:start;max-width:1500px}
+main.kboard{display:block;max-width:1500px}
+.kwide{border-top:6px solid #d92d20;padding-top:6px;margin:4px 0 18px}
+.kwide .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.kdonewrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,34%);gap:16px;align-items:start}
+.tfloor{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(4,auto);gap:12px;margin-top:8px}
+.tcard{min-height:74px;text-align:left;padding:8px 14px;border-radius:14px;border:2.5px solid #b8c3d0;background:#eef2f6;color:#98a2b3;box-shadow:0 4px 0 #cfd7e2}
+.tcard strong{display:block;font-size:22px}
+.tcard small{font-size:12.5px}
+.tcard.has{background:linear-gradient(180deg,#f2fbf5 0%,#c9eed6 100%);border-color:#12803f;color:#05603a;box-shadow:0 5px 0 #5fb883,0 10px 14px rgba(6,70,40,.25);cursor:pointer}
+.tcard.has:active{transform:translateY(4px);box-shadow:0 1px 0 #5fb883}
+.dparty{margin:10px 0 6px;font-weight:800;color:#344054}
+.ktogo .dgroup{width:100%}
 .kcard{border-radius:22px;padding:12px 16px 16px;border:3px solid;box-shadow:0 10px 22px rgba(16,24,40,.18)}
 .kcard h1{margin:0 0 4px;font-size:20px}
 .ktable{background:#dde5ee;border-color:#6b7a8d}
@@ -57,7 +68,7 @@ main.kboard{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,32%);g
 .klane.lane-done{border-color:#98a2b3}.ktogo .klane.lane-done{border-color:#c9a54a}
 .dwrap{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
 .ktogo .grid{grid-template-columns:1fr}
-@media(max-width:900px){main.kboard{grid-template-columns:1fr}}
+@media(max-width:900px){.kdonewrap{grid-template-columns:1fr}}
 .dsec{border-radius:14px;padding:8px 10px 10px;border:1px solid #d0d5dd;background:#f8fafc}
 .dsec.tgo{background:#fff9e0;border-color:#f0c93a}
 .dsec-h{font-size:14px;font-weight:800;color:#344054;margin:0 0 8px}
@@ -93,12 +104,11 @@ dialog#doneDlg{border-radius:22px;box-shadow:0 24px 70px rgba(16,24,40,.3)}
 <button type="button" id="sound" class="soundoff">🔕 소리 꺼짐 · 화면을 눌러 켜기</button>
 <button type="button" id="logout">로그아웃</button></div></header>
 <main class="kboard">
-<section class="kcard ktable"><h1>🍽 테이블 <span id="pendingCountT"></span></h1>
-<div class="klane lane-pending"><h2>조리 중 <span class="lane-hint">새 주문이 왼쪽에 들어옵니다</span></h2><div id="pendingT" class="grid"></div></div>
-<div class="klane lane-done"><h2>완료 <span class="lane-hint">카드를 누르면 주문지를 봅니다</span></h2><div id="doneT" class="dwrap"></div></div></section>
-<section class="kcard ktogo"><h1>🥡 TOGO <span id="pendingCountG"></span></h1>
-<div class="klane lane-pending"><h2>조리 중</h2><div id="pendingG" class="grid"></div></div>
-<div class="klane lane-done"><h2>완료</h2><div id="doneG" class="dwrap"></div></div></section>
+<section class="klane lane-pending kwide"><h2>조리 중 <span id="pendingCount"></span> <span class="lane-hint">새 주문이 왼쪽에 들어옵니다</span></h2><div id="pending" class="grid"></div></section>
+<div class="kdonewrap">
+<section class="kcard ktable"><h1>🍽 테이블 완료 <span class="lane-hint">카드를 누르면 주문지를 봅니다</span></h1><div id="doneT" class="tfloor"></div></section>
+<section class="kcard ktogo"><h1>🥡 TOGO 완료</h1><div id="doneG" class="dwrap"></div></section>
+</div>
 </main>
 <dialog id="diagDlg"><h2>연결 진단</h2><pre id="diagText" style="white-space:pre-wrap;font:14px/1.6 ui-monospace,Menlo,monospace"></pre><div style="display:flex;gap:8px"><button type="button" id="diagRefresh">새로 보기</button><button type="button" id="diagReconnect">연결 새로 맺기</button><button type="button" id="diagReset">다시 시작</button><button type="button" id="diagClose">닫기</button></div></dialog>
 <dialog id="doneDlg"><div class="card done" id="doneBody"></div><div class="actions" style="display:flex;gap:8px;margin-top:12px"><button type="button" id="doneUndo">되돌리기</button><button type="button" id="doneClose" class="ok">닫기</button></div></dialog>
@@ -291,17 +301,24 @@ function card(ticket,fresh){
 }
 let freshIds=new Set();
 let doneTicket=null;
-function showDoneGroup(tickets){
+function showDoneGroups(groups){
  if(el('doneDlg').open)return;
  const body=el('doneBody');body.replaceChildren();
- for(const t of tickets){
-  const sec=document.createElement('div');sec.className='dsheet';
-  const inner=document.createElement('div');fill(inner,t,true);   // 읽기용(완료·나감 버튼 없음)
-  const bar=document.createElement('div');bar.className='dsheet-bar';
-  const u=document.createElement('button');u.type='button';u.textContent='↩ 되돌리기';
-  u.onclick=()=>{setDone(t,false);el('doneDlg').close();};
-  bar.append(u);sec.append(inner,bar);body.append(sec);
- }
+ groups.forEach((g,gi)=>{
+  if(groups.length>1||g.head.table<=9){
+   const h=document.createElement('p');h.className='dparty';
+   h.textContent=(g.head.table>9?'🥡 TOGO #'+((g.head.togo&&g.head.togo.no)||'')+(g.head.togo&&g.head.togo.name?' · '+g.head.togo.name:''):g.head.table+'번 테이블 · 손님')+' · '+KT(g.seat||g.head.time)+' 시작';
+   body.append(h);
+  }
+  for(const t of g.items.slice().reverse()){
+   const sec=document.createElement('div');sec.className='dsheet';
+   const inner=document.createElement('div');fill(inner,t,true);   // 읽기용
+   const bar=document.createElement('div');bar.className='dsheet-bar';
+   const u=document.createElement('button');u.type='button';u.textContent='↩ 되돌리기';
+   u.onclick=()=>{setDone(t,false);el('doneDlg').close();};
+   bar.append(u);sec.append(inner,bar);body.append(sec);
+  }
+ });
  doneTicket=null;el('doneUndo').hidden=true;
  el('doneDlg').showModal();
 }
@@ -336,9 +353,9 @@ function doneSections(list){
  sec('🥡 TOGO',togos,'tgo');
  return out;
 }
-function doneGroups(list){
- // 손님(자리) 단위로 묶습니다. 새 주문서는 '자리 시작 시각'(seat)이 같으면 같은 손님이고,
- // 예전 주문서는 같은 테이블에서 90분 넘게 떨어져 있으면 다른 손님으로 봅니다.
+// 같은 손님(자리)끼리 묶습니다. 새 주문서는 seat(자리 시작 시각)이 같으면 같은 손님,
+// 예전 주문서는 같은 테이블에서 90분 넘게 떨어지면 다른 손님으로 봅니다.
+function partyGroups(list){
  const byTable=new Map();
  for(const t of list){
   const key=t.table>9?'T'+(t.togo&&t.togo.no?t.togo.no:t.table):'N'+t.table;
@@ -358,16 +375,38 @@ function doneGroups(list){
  }
  const stamp=g=>g.items.reduce((m,t)=>{const v=t.doneAt||t.time;return v>m?v:m;},'');
  groups.sort((a,b)=>stamp(a)<stamp(b)?1:-1);
- return groups.map(g=>{
+ return groups;
+}
+const KT=t=>new Date(t).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'});
+// 1~9번 테이블 카드(카운터와 같은 가게 배치). 완료한 주문이 있는 테이블만 진하게, 누르면 주문지가 열립니다.
+const FLOOR_POS={3:[1,1],2:[1,2],1:[1,3],7:[2,1],6:[2,2],5:[2,3],4:[2,4],9:[3,1],8:[3,2]};
+function tableFloor(list){
+ const out=[];
+ for(let n=1;n<=9;n++){
+  const mine=list.filter(t=>t.table===n);
+  const b=document.createElement('button');b.type='button';b.className='tcard'+(mine.length?' has':'');
+  b.style.gridColumn=FLOOR_POS[n][0];b.style.gridRow=FLOOR_POS[n][1];
+  const num=document.createElement('strong');num.textContent=n+'번';
+  const sub=document.createElement('small');
+  if(mine.length){
+   const last=mine.reduce((m,t)=>{const v=t.doneAt||t.time;return v>m?v:m;},'');
+   sub.textContent='완료 '+mine.length+'건 · '+KT(last);
+   b.onclick=()=>showDoneGroups(partyGroups(mine));
+  }else sub.textContent='—';
+  b.append(num,sub);out.push(b);
+ }
+ return out;
+}
+function doneGroups(list){
+ return partyGroups(list).map(g=>{
   const box=document.createElement('button');box.type='button';box.className='dgroup'+(g.head.table>9?' togo':'');
   const title=document.createElement('strong');title.className='dg-title';
   title.textContent=g.head.table>9?'🥡 #'+(g.head.togo&&g.head.togo.no?g.head.togo.no:'')+(g.head.togo&&g.head.togo.name?' '+g.head.togo.name:''):g.head.table+'번';
   if(g.items.length>1){const n=document.createElement('span');n.className='dg-count';n.textContent='×'+g.items.length;title.append(n);}
   const last=g.items[g.items.length-1];
-  const sub=document.createElement('small');sub.className='dg-start';
-  sub.textContent=new Date(last.doneAt||last.time).toLocaleTimeString('ko-KR',{hour:'numeric',minute:'2-digit'});
+  const sub=document.createElement('small');sub.className='dg-start';sub.textContent=KT(last.doneAt||last.time);
   box.append(title,sub);
-  box.onclick=()=>showDoneGroup(g.items.slice().reverse());   // 눌러서 주문지 보기(최신이 위)
+  box.onclick=()=>showDoneGroups([g]);
   return box;
  });
 }
@@ -396,14 +435,11 @@ function render(){
  const pending=list.filter(t=>!t.done).sort((a,b)=>a.time<b.time?1:a.time>b.time?-1:0);
  const done=list.filter(t=>t.done).sort((a,b)=>(a.doneAt||a.time)<(b.doneAt||b.time)?1:-1).slice(0,80);
  const isTg=t=>t.table>9;
- const pT=pending.filter(t=>!isTg(t)),pG=pending.filter(isTg);
  const dT=done.filter(t=>!isTg(t)),dG=done.filter(isTg);
  const emptyP=text=>Object.assign(document.createElement('p'),{className:'empty',textContent:text});
- el('pendingCountT').textContent=pT.length?'('+pT.length+')':'';
- el('pendingCountG').textContent=pG.length?'('+pG.length+')':'';
- el('pendingT').replaceChildren(...(pT.length?pT.map(t=>card(t,freshIds.has(t.id))):[emptyP('조리할 주문이 없습니다.')]));
- el('pendingG').replaceChildren(...(pG.length?pG.map(t=>card(t,freshIds.has(t.id))):[emptyP('조리할 TOGO가 없습니다.')]));
- el('doneT').replaceChildren(...(dT.length?doneGroups(dT):[emptyP('완료한 주문이 없습니다.')]));
+ el('pendingCount').textContent=pending.length?'('+pending.length+')':'';
+ el('pending').replaceChildren(...(pending.length?pending.map(t=>card(t,freshIds.has(t.id))):[emptyP('조리할 주문이 없습니다.')]));
+ el('doneT').replaceChildren(...tableFloor(dT));
  el('doneG').replaceChildren(...(dG.length?doneGroups(dG):[emptyP('완료한 TOGO가 없습니다.')]));
 }
 const ackSent=new Set();
