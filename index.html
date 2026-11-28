@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128050642"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128053901"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -315,6 +315,7 @@ html:not(.order-mode) .tgo.empty .tg-plus{font-size:26px;color:#b08a00;font-weig
 .row .name small.srv-cooked,.row.served .name small.srv-cooked{color:#b54708;font-weight:700}
 .row .name small.srv-sent,.row.served .name small.srv-sent{color:#067647;font-weight:700}
 .row .name small.srv-state,.row.served .name small.srv-state{color:#175cd3;font-weight:700}
+#kDoneAll{min-height:34px;padding:2px 10px;font-size:13px;font-weight:700;background:#fffaeb;color:#b54708;border:1px solid #fdb022}
 #serveAll{min-height:34px;padding:2px 10px;font-size:13px;font-weight:700}
 .tgo.paid{background:#e8f1ff;border-color:#9cc0f5}.tgo.paid span{color:#1d4f9c}.tgo.paid.ready{background:#e8f1ff;border-color:#9cc0f5}
 .tgo.ready{background:#e3f6e8;border-color:#b5e2c1}.tgo.ready span{color:#05603a}
@@ -476,7 +477,7 @@ html:not(.order-mode) .oh-tools{display:none}
 </section>
 <div id="orderBar" hidden><button type="button" id="backHome">← 테이블</button><strong id="barTable"></strong><button type="button" id="barParty" class="bar-chip"></button><button type="button" id="barReady" class="bar-chip" hidden></button><button type="button" id="barServer" class="bar-chip"></button></div>
 <section class="table-picker" aria-labelledby="tableHeading"><h2 id="tableHeading">테이블 선택</h2><nav id="tables" aria-label="테이블 1번부터 9번까지"></nav><p id="storageWarning" class="hint" role="status" hidden>이 브라우저는 파일의 주문 저장을 허용하지 않습니다. 화면을 닫으면 주문이 사라질 수 있습니다.</p></section><main><section aria-label="메뉴"><input id="search" type="search" placeholder="메뉴 이름(한/영) 또는 번호로 검색" aria-label="메뉴 검색"><nav id="tabs" aria-label="메뉴 분류"></nav><div id="menu"></div></section>
-<aside><div class="bar"><h2 id="orderHeading">1번 테이블 주문</h2><button id="serveAll" type="button">🍽 전체 나감</button><button id="clear" type="button">비우기</button></div>
+<aside><div class="bar"><h2 id="orderHeading">1번 테이블 주문</h2><button id="kDoneAll" type="button" hidden>🍳 조리 완료 처리</button><button id="serveAll" type="button">🍽 전체 나감</button><button id="clear" type="button">비우기</button></div>
 <div class="party"><span>인원</span><div class="qty"><button type="button" id="partyMinus" aria-label="인원 줄이기">−</button><strong id="partyCount" aria-live="polite">0</strong><button type="button" id="partyPlus" aria-label="인원 늘리기">+</button></div></div>
 <div id="orderBody"><div id="lines"></div>
 <div id="riceHint" class="notice" hidden>밥이 포함되지 않은 메뉴가 있습니다. 공깃밥을 추가할까요?<div><button type="button" id="addRice">공깃밥 +$3.00</button><button type="button" id="skipRice">괜찮아요</button></div></div></div>
@@ -1199,6 +1200,7 @@ function renderCart(){
   el('sendKitchen').textContent=pending&&cancelN?'🍳 주방 전송 ('+pending+'개 · 취소 '+cancelN+')':pending?'🍳 주방 전송 ('+pending+'개)':cancelN?'✕ 취소 내용 주방에 전달 ('+cancelN+')':'🍳 주방 전송';
   el('sendKitchen').disabled=!pending&&!cancelN;}
  renderTableHome();updateOrderBar();
+ {const ks=kitchenState(activeTable);el('kDoneAll').hidden=ORDER_MODE||typeof Sync==='undefined'||!Sync.enabled||(ks!=='cooking'&&ks!=='partial');}
  if(ORDER_MODE){
   const cnt=[...cart.values()].reduce((sum,line)=>sum+line.quantity,0);
   el('cartToggle').textContent=document.documentElement.classList.contains('cart-open')?'▼ 닫기':'🧾 '+cnt+'개 · '+money(totals(activeTable).sub);
@@ -1221,6 +1223,21 @@ function askConfirm(message,onYes){
  el('confirmDlg').showModal();
 }
 el('serveAll').onclick=serveAllToggle;
+// 주방에서 손이 바쁠 때 카운터가 대신 '조리 완료'를 눌러 줍니다(주방 화면에도 그대로 반영).
+el('kDoneAll').onclick=()=>{
+ const i=activeTable,since=opened[i]||(togos[i]&&togos[i].since)||'';
+ const list=[...kTickets.values()].filter(t=>t.table===i+1&&t.raw&&!t.done&&(t.time||'')>=since);
+ if(!list.length)return;
+ askConfirm(slotLabel(i)+' 주방 주문을 조리 완료로 처리할까요?',()=>{
+  const now=new Date().toISOString();
+  for(const t of list){
+   const next={...t.raw,done:true,doneAt:now};
+   kTickets.set(next.id,{...t,done:true,raw:next});
+   Sync.sendTicket(next).catch(()=>{});
+  }
+  renderCart();
+ });
+};
 el('clear').onclick=()=>askConfirm(isTogo(activeTable)?slotLabel(activeTable)+' 주문을 모두 비울까요?':(activeTable+1)+'번 테이블 주문을 모두 비울까요?',()=>{
  for(const line of orders[activeTable].values())addCancel(activeTable,line,line.sent||0);
  orders[activeTable].clear();parties[activeTable]=0;servers[activeTable]='';opened[activeTable]='';togos[activeTable]=null;riceDismissed.delete(activeTable);
