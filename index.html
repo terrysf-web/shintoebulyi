@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128050138"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="build" content="20261128050236"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="신토불이 POS"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><title>Shin Toe Bul Yi POS</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#202922;font:16px system-ui,sans-serif}header{background:#193b30;color:white;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}header strong{font-size:20px}header span{color:#d8e7dd;font-size:14px}main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,33%);gap:20px;padding:20px;max-width:1440px;margin:auto}input,button,textarea{font:inherit}input{width:100%;padding:13px;border:1px solid #aebbb0;border-radius:10px;background:white}nav{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}button{cursor:pointer;border:1px solid #c5cfc5;border-radius:9px;background:white;color:inherit;min-height:42px;padding:8px 12px}button:hover{background:#eaf1e9}button[aria-pressed=true]{background:#245543;color:white;border-color:#245543}#menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tile{min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:12px}.tile strong{font-size:17px}.tile small{color:#4e6559}.tile .en{font-size:12px;color:#6a7d72}.tile .badges{font-size:12px;color:#943e21}.tile:disabled{cursor:default;opacity:.65}aside{align-self:start;position:sticky;top:12px;background:white;border:1px solid #d9ded5;border-radius:14px;padding:16px}h1,h2,p{margin:0}h2{font-size:19px}.row,.total,.bar,.sum{display:flex;justify-content:space-between;align-items:center;gap:8px}.row{padding:10px 0;border-bottom:1px solid #e2e7de;align-items:flex-start}.row .name small{display:block;color:#6a7d72;font-size:12px}.row .memo{display:block;color:#943e21;font-size:13px}.qty{display:flex;align-items:center;gap:5px}.qty button{padding:4px;width:34px}.qty .memo-btn{width:auto;padding:4px 8px;font-size:13px}.total{margin:8px 0 16px;font-size:21px}.sum{font-size:15px;padding:3px 0}.hint{font-size:13px;color:#4e6559}.empty{padding:22px 0}.option{border:0;border-radius:14px;padding:20px;max-width:90vw}.option::backdrop{background:#14271e88}.option div{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.closing{border-top:1px solid #ddd;padding-top:10px}
 .hbtns{display:flex;gap:8px}header button{background:#ffffff1f;color:#fff;border-color:#ffffff66}header button:hover{background:#ffffff40}.settings-row{display:flex;align-items:center;gap:8px}.settings-row input[type=number]{width:120px}.party{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;padding:8px 10px;background:#f1f5ef;border-radius:10px}.party .qty strong{min-width:28px;text-align:center}
@@ -117,19 +117,19 @@ h2{letter-spacing:-.01em}
 .tile .en{color:var(--muted);font-size:12px}
 .tile small{color:var(--text);font-weight:650;font-size:14px}
 .tile .badges{font-size:11px;font-weight:650;color:var(--red)}
-/* 분류별 파스텔 색(탭과 메뉴 카드가 같은 색). 상태 표시에 쓰는 빨강·초록·파랑·노랑·주황은 피했습니다 */
-.tile[data-cat="0"]{background:#ece6fb;border-color:#cdbff0}
-.tile[data-cat="1"]{background:#fde7f1;border-color:#f3b9d4}
-.tile[data-cat="2"]{background:#def4f3;border-color:#a8dcd8}
-.tile[data-cat="3"]{background:#f4eadb;border-color:#dcc7a3}
-.tile[data-cat="4"]{background:#e6ebf2;border-color:#bdc8d8}
-.tile[data-cat="5"]{background:#f0f6d6;border-color:#cfe08f}
-#tabs button[data-cat="0"]{background:#ece6fb;color:#4a3a85}#tabs button[data-cat="0"][aria-pressed=true]{background:#cdbff0;box-shadow:inset 0 0 0 3px #8a73d6;color:#2f2260}
-#tabs button[data-cat="1"]{background:#fde7f1;color:#8a2a58}#tabs button[data-cat="1"][aria-pressed=true]{background:#f3b9d4;box-shadow:inset 0 0 0 3px #d9528f;color:#5e1238}
-#tabs button[data-cat="2"]{background:#def4f3;color:#1d6460}#tabs button[data-cat="2"][aria-pressed=true]{background:#a8dcd8;box-shadow:inset 0 0 0 3px #2f9c96;color:#0d3d3a}
-#tabs button[data-cat="3"]{background:#f4eadb;color:#7a5a2a}#tabs button[data-cat="3"][aria-pressed=true]{background:#dcc7a3;box-shadow:inset 0 0 0 3px #a98443;color:#4a3410}
-#tabs button[data-cat="4"]{background:#e6ebf2;color:#3e4f68}#tabs button[data-cat="4"][aria-pressed=true]{background:#bdc8d8;box-shadow:inset 0 0 0 3px #647a99;color:#233146}
-#tabs button[data-cat="5"]{background:#f0f6d6;color:#566b12}#tabs button[data-cat="5"][aria-pressed=true]{background:#cfe08f;box-shadow:inset 0 0 0 3px #94ad2e;color:#38470a}
+/* 분류별 파스텔 색(탭과 메뉴 카드가 같은 색). 앱 다른 곳에서 안 쓰는 보라·분홍(마젠타)·하늘청록·갈색·남보라·자주를 썼습니다 */
+.tile[data-cat="0"]{background:#e6dcfa;border-color:#b9a4ee}
+.tile[data-cat="1"]{background:#f9d6ec;border-color:#e58cc4}
+.tile[data-cat="2"]{background:#cdeff6;border-color:#7fd0e3}
+.tile[data-cat="3"]{background:#ead7c3;border-color:#c19a6b}
+.tile[data-cat="4"]{background:#d4d8f8;border-color:#8c95e0}
+.tile[data-cat="5"]{background:#ecd3e8;border-color:#b57aa8}
+#tabs button[data-cat="0"]{background:#e6dcfa;color:#4a2f97}#tabs button[data-cat="0"][aria-pressed=true]{background:#b9a4ee;box-shadow:inset 0 0 0 3px #7a5ad6;color:#2a1766}
+#tabs button[data-cat="1"]{background:#f9d6ec;color:#93245f}#tabs button[data-cat="1"][aria-pressed=true]{background:#e58cc4;box-shadow:inset 0 0 0 3px #c2338a;color:#5c0f3a}
+#tabs button[data-cat="2"]{background:#cdeff6;color:#0f5f73}#tabs button[data-cat="2"][aria-pressed=true]{background:#7fd0e3;box-shadow:inset 0 0 0 3px #1993b0;color:#073a47}
+#tabs button[data-cat="3"]{background:#ead7c3;color:#6b4620}#tabs button[data-cat="3"][aria-pressed=true]{background:#c19a6b;box-shadow:inset 0 0 0 3px #8a6230;color:#3b230b}
+#tabs button[data-cat="4"]{background:#d4d8f8;color:#2f3a9a}#tabs button[data-cat="4"][aria-pressed=true]{background:#8c95e0;box-shadow:inset 0 0 0 3px #4552c4;color:#161d6b}
+#tabs button[data-cat="5"]{background:#ecd3e8;color:#6d2d62}#tabs button[data-cat="5"][aria-pressed=true]{background:#b57aa8;box-shadow:inset 0 0 0 3px #8a4a7d;color:#3d1236}
 .tile[data-cat]:hover{filter:brightness(.97)}
 .tile:active{transform:scale(.98)}
 .tile{position:relative}
